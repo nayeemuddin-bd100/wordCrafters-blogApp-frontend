@@ -1,12 +1,14 @@
-import './App.css'
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import AllRoutes from "./shared/sharedComponents/AllRoutes";
 
 function App() {
-
-  return (
-		<>
-			<h1 className="text-3xl font-bold underline bg-yellow-300">Hello world!</h1>
-		</>
+	return (
+		<BrowserRouter>
+			
+			<AllRoutes />
+		</BrowserRouter>
 	);
 }
 
-export default App
+export default App;

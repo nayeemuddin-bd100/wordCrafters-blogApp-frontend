@@ -35,10 +35,10 @@ const Login = () => {
   return (
 		<>
 			<section className="min-h-screen relative py-20 2xl:py-40 bg-gray-900 overflow-hidden">
-				<div className="relative container px-4 mx-auto">
+				<div className="relative container px-2 xl:px-4 mx-auto">
 					<div className="max-w-5xl mx-auto">
 						<div className="flex flex-wrap items-center -mx-4">
-							<div className="w-full px-2 md:px-0 lg:w-3/6 xl:w-2/5 ">
+							<div className="w-full px-2 md:px-0 lg:w-1/2 xl:w-2/5 ">
 								<div className="px-6 lg:px-12 py-12 lg:py-24   bg-white shadow-lg rounded-lg ">
 									{/* Form */}
 									<form onSubmit={formik.handleSubmit} className="text-center">
@@ -137,7 +137,7 @@ const Login = () => {
 									</form>
 								</div>
 							</div>
-							<div className="w-full lg:w-2/5 xl:w-3/6 px-4 mb-16 lg:mb-0 order-first lg:order-last">
+							<div className="w-full lg:w-1/2 xl:w-3/5 px-2 xl:px-4  mb-16 lg:mb-0 order-first lg:order-last">
 								<span className="flex mb-10 mx-auto items-center justify-center h-20 w-20 bg-blue-500 rounded-lg">
 									<svg
 										width="37"

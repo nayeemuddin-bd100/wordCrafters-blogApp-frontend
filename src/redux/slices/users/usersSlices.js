@@ -57,6 +57,25 @@ export const loginUserAction = createAsyncThunk(
 
 const getUserInfo = localStorage.getItem("userInfo")
 
+/*=============================================
+=            Logout user            =
+=============================================*/
+
+export const logoutUserAction = createAsyncThunk(
+	"user/logout",
+	async (payload, { rejectWithValue }) => {
+		try {
+			localStorage.removeItem("userInfo");
+		} catch (error) {
+			if (!error?.response) {
+				throw error
+			}
+
+			return rejectWithValue(error?.response?.data)
+		}
+	}
+)
+
 
 const userSlices = createSlice({
 	name: "user",
@@ -100,6 +119,25 @@ const userSlices = createSlice({
 			state.serverErr = undefined;
 		});
 		builder.addCase(loginUserAction.rejected, (state, action) => {
+			state.loading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+			undefined;
+		});
+		/* Logout */
+		builder.addCase(logoutUserAction.pending, (state, action) => {
+			state.loading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+			
+		});
+		builder.addCase(logoutUserAction.fulfilled, (state, action) => {
+			state.userAuth = undefined;
+			state.loading = false;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(logoutUserAction.rejected, (state, action) => {
 			state.loading = false;
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;

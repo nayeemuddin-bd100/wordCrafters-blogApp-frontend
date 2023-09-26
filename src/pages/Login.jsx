@@ -15,7 +15,7 @@ const Login = () => {
   const storeData = useSelector((state) => state?.users)
   const { registered, appErr, serverErr, loading } = storeData;
 
-  console.log(storeData)
+  // console.log(storeData)
 
   const formik = useFormik({
     initialValues: {

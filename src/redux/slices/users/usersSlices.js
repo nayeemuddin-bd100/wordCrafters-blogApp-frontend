@@ -55,7 +55,7 @@ export const loginUserAction = createAsyncThunk(
 	}
 );
 
-const getUserInfo = localStorage.getItem("userInfo")
+const getUserInfo = JSON.parse(localStorage.getItem("userInfo"));
 
 /*=============================================
 =            Logout user            =

@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Navbar from "./components/Home/Navigation/Navbar";
 import AddNewCategory from './components/Category/AddNewCategory';
+import CategoryList from './components/Category/CategoryList';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/add-category" element={<AddNewCategory />} />
+				<Route path="/category-list" element={<CategoryList />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>

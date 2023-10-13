@@ -4,11 +4,8 @@ import { useEffect } from "react";
 
 import { PencilAltIcon } from "@heroicons/react/outline";
 import { fetchCategoriesAction } from "../../redux/slices/category/categorySlices";
-import  dateFormatter  from './../../utils/dateFormatter';
-import Spinner from './../../utils/Spinner';
-
-
-
+import dateFormatter from "./../../utils/dateFormatter";
+import Spinner from "./../../utils/Spinner";
 
 const CategoryList = () => {
 	const dispatch = useDispatch();
@@ -23,9 +20,7 @@ const CategoryList = () => {
 	return (
 		<>
 			{loading ? (
-			
-				<Spinner/>
-			
+				<Spinner  />
 			) : appErr || serverErr ? (
 				<h2 className="text-center text-3xl text-red-600">
 					{serverErr} {appErr}
@@ -101,9 +96,9 @@ const CategoryList = () => {
 												</td>
 
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-													<Link>
+													<Link to={`/update-category/${category?._id}`}>
 														<PencilAltIcon className="h-5 text-indigo-500" />
-													</Link>
+													</Link>{" "}
 												</td>
 											</tr>
 										))}

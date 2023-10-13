@@ -10,6 +10,7 @@ import UpdateCategory from "./components/Category/UpdateCategory";
 import ProtectedRoute from "./components/Home/Navigation/ProtectedRoute/ProtectedRoute";
 import AdminRoute from './components/Home/Navigation/ProtectedRoute/AdminRoute';
 import Authors from './pages/Authors';
+import CreatePost from './components/Posts/CreatePost';
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 
 				<Route element={<ProtectedRoute />}>
 					<Route path="/users" element={<Authors />} />
+					<Route path="/create-post" element={<CreatePost />} />
 				</Route>
 
 				<Route element={<AdminRoute />}>

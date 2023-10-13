@@ -9,6 +9,7 @@ import CategoryList from "./components/Category/CategoryList";
 import UpdateCategory from "./components/Category/UpdateCategory";
 import ProtectedRoute from "./components/Home/Navigation/ProtectedRoute/ProtectedRoute";
 import AdminRoute from './components/Home/Navigation/ProtectedRoute/AdminRoute';
+import Authors from './pages/Authors';
 
 function App() {
 	return (
@@ -19,6 +20,10 @@ function App() {
 				<Route path="/home" element={<Home />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/login" element={<Login />} />
+
+				<Route element={<ProtectedRoute />}>
+					<Route path="/users" element={<Authors />} />
+				</Route>
 
 				<Route element={<AdminRoute />}>
 					<Route path="/add-category" element={<AddNewCategory />} />

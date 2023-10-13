@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserAction } from '../redux/slices/users/usersSlices';
+import { Navigate } from 'react-router-dom';
 
 const formSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -10,12 +11,9 @@ const formSchema = Yup.object({
 })
 
 const Login = () => {
-
   const dispatch = useDispatch();
   const storeData = useSelector((state) => state?.users)
   const { registered, appErr, serverErr, loading } = storeData;
-
-  // console.log(storeData)
 
   const formik = useFormik({
     initialValues: {
@@ -29,8 +27,9 @@ const Login = () => {
     validationSchema:formSchema
   })
 
-
-
+	if(storeData?.userAuth){
+		return <Navigate to="/home"/>
+	}
 
   return (
 		<>

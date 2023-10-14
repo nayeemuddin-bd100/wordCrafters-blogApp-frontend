@@ -1,8 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostAction } from "./../../redux/slices/posts/postSlices";
 import CategoryDropdown from "./../Category/CategoryDropdown";
+import Dropzone, { useDropzone } from "react-dropzone";
 
 const formSchema = Yup.object({
 	title: Yup.string().required("Title is required"),
@@ -10,29 +12,35 @@ const formSchema = Yup.object({
 	category: Yup.object().shape({
 		label: Yup.string().required("Category is required"),
 	}),
+	image:Yup.string().required("Image is required"),
 });
 
 const CreatePost = () => {
 	const dispatch = useDispatch();
+
 	const formik = useFormik({
 		initialValues: {
 			title: "",
 			description: "",
 			category: "",
+			image:""
 		},
 		onSubmit: (value) => {
-			dispatch(createPostAction({
-				title: value?.title,
-				description: value?.description,
-				category: value?.category?.label
-
-			}));
+			console.log(value);
+			dispatch(
+				createPostAction({
+					title: value?.title,
+					description: value?.description,
+					category: value?.category?.label,
+					image:value?.image
+				})
+			);
 		},
 		validationSchema: formSchema,
 	});
 
 	const storeData = useSelector((state) => state?.posts);
-	const { appErr} = storeData;
+	const { appErr } = storeData;
 
 	return (
 		<>
@@ -85,7 +93,7 @@ const CreatePost = () => {
 								onBlur={formik.setFieldTouched}
 								value={formik?.values?.category?.label}
 								error={formik.errors.category}
-								touched = {formik.touched.category}
+								touched={formik.touched.category}
 							/>
 
 							<div>
@@ -105,10 +113,41 @@ const CreatePost = () => {
 									cols="10"
 									className="rounded-lg appearance-none block w-full py-3 px-3 text-base text-center leading-tight text-gray-600 bg-transparent focus:bg-transparent  border border-gray-200 focus:border-gray-500  focus:outline-none"
 								></textarea>
+
 								{/* Err msg */}
 								<div className="text-red-500">
 									{formik.touched.description && formik.errors.description}
 								</div>
+							</div>
+
+							<div className="p-4 border-dashed border-2 border-gray-300 rounded-lg mt-2">
+								<Dropzone
+									onDrop={(acceptedFiles) => {
+										formik.setFieldValue("image", acceptedFiles[0]);
+									}}
+									accept="image/jpeg, image/png"
+									onBlur={formik.handleBlur("image")}
+								>
+									{({ getRootProps, getInputProps }) => (
+										<section>
+											<div
+												{...getRootProps({
+													onDrop: (event) => event.stopPropagation(),
+												})}
+											>
+												<input {...getInputProps()} type="file" name="image" />
+												<p className="text-center">
+													Drag 'n' drop your image here, or click to select
+													files
+												</p>
+											</div>
+										</section>
+									)}
+								</Dropzone>
+							</div>
+							{/* Err msg */}
+							<div className="text-red-500">
+								{formik.touched.image && formik.errors.image}
 							</div>
 							<div>
 								{/* Submit btn */}

@@ -5,16 +5,17 @@ import baseUrl from "./../../../utils/baseUrl";
 export const createPostAction = createAsyncThunk("posts/create-post", async (post,{rejectWithValue,getState}) => {
 
   try {
+
     const state = getState();
     const jwtToken = state?.users?.userAuth?.token;
+
     
     const res = await axios.post(`${baseUrl}/api/posts`, post, {
 			headers: {
-				"Content-Type": "application/json",
+        'Content-Type': 'multipart/form-data',
 				Authorization: `Bearer ${jwtToken}`,
 			},
 		});
-
     return res.data
     
   } catch (error) {

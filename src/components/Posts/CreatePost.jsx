@@ -2,9 +2,15 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { createPostAction } from "./../../redux/slices/posts/postSlices";
+import {
+	createPostAction,
+	resetCreatedPostAction,
+	resetPostsListAction,
+} from "./../../redux/slices/posts/postSlices";
 import CategoryDropdown from "./../Category/CategoryDropdown";
-import Dropzone, { useDropzone } from "react-dropzone";
+import Dropzone from "react-dropzone";
+import { Navigate } from "react-router-dom";
+
 
 const formSchema = Yup.object({
 	title: Yup.string().required("Title is required"),
@@ -17,6 +23,7 @@ const formSchema = Yup.object({
 
 const CreatePost = () => {
 	const dispatch = useDispatch();
+	
 
 	const formik = useFormik({
 		initialValues: {
@@ -26,7 +33,7 @@ const CreatePost = () => {
 			image:""
 		},
 		onSubmit: (value) => {
-			console.log(value);
+			dispatch(resetPostsListAction)
 			dispatch(
 				createPostAction({
 					title: value?.title,
@@ -39,8 +46,12 @@ const CreatePost = () => {
 		validationSchema: formSchema,
 	});
 
-	const storeData = useSelector((state) => state?.posts);
-	const { appErr } = storeData;
+	const post = useSelector((state) => state?.posts);
+	const { appErr,loading,createdPost } = post;
+	if (createdPost) {
+		dispatch(resetCreatedPostAction());
+		return <Navigate to="/posts" />
+	}
 
 	return (
 		<>
@@ -111,7 +122,7 @@ const CreatePost = () => {
 									value={formik.values.description}
 									rows="5"
 									cols="10"
-									className="rounded-lg appearance-none block w-full py-3 px-3 text-base text-center leading-tight text-gray-600 bg-transparent focus:bg-transparent  border border-gray-200 focus:border-gray-500  focus:outline-none"
+									className="rounded-lg appearance-none block w-full py-3 px-3 text-base leading-tight text-gray-600 bg-transparent focus:bg-transparent  border border-gray-200 focus:border-gray-500  focus:outline-none"
 								></textarea>
 
 								{/* Err msg */}
@@ -151,12 +162,21 @@ const CreatePost = () => {
 							</div>
 							<div>
 								{/* Submit btn */}
-								<button
-									type="submit"
-									className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-								>
-									Create
-								</button>
+								{loading ? (
+									<button
+										disabled
+										className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+									>
+										Loading ...
+									</button>
+								) : (
+									<button
+										type="submit"
+										className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+									>
+										Create
+									</button>
+								)}
 							</div>
 						</form>
 					</div>

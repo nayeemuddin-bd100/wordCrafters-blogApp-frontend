@@ -44,7 +44,9 @@ const CategoryDropdown = ({ onChange,onBlur,value,error }) => {
 						id="category"
 					/>
 
-					{error?.label && <div className="text-red-500 mt-2 mb-2">{error.label}</div>}
+					{error?.label && (
+						<div className="text-red-500 mt-2 mb-2">{error.label}</div>
+					)}
 				</div>
 			)}
 		</div>

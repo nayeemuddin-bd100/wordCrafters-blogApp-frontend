@@ -4,12 +4,13 @@ import postSlices from "../slices/posts/postSlices";
 import usersSlices from "../slices/users/usersSlices";
 
 
+
 const store = configureStore({
-   reducer: {
-      users: usersSlices,
-      category: categorySlices,
-      posts: postSlices
-   }
-})
+	reducer: {
+		users: usersSlices,
+		category: categorySlices,
+		posts: postSlices,
+	}
+});
 
 export default store;

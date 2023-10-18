@@ -10,6 +10,7 @@ import {
 import CategoryDropdown from "./../Category/CategoryDropdown";
 import Dropzone from "react-dropzone";
 import { Navigate } from "react-router-dom";
+import MiniSpinner from "../../utils/MiniSpinner";
 
 
 const formSchema = Yup.object({
@@ -167,7 +168,7 @@ const CreatePost = () => {
 										disabled
 										className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 									>
-										Loading ...
+										<MiniSpinner/>
 									</button>
 								) : (
 									<button

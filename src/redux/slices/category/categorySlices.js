@@ -37,19 +37,15 @@ export const fetchCategoriesAction = createAsyncThunk(
 	"category/category-list",
 	async (category, { rejectWithValue, getState }) => {
 		try {
-			const state = getState();
-			const jwtToken = state?.users?.userAuth?.token;
 
 			const res = await axios.get(
 				`${baseUrl}/api/category/`,
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${jwtToken}`,
 					},
 				}
 			);
-
 			return res.data;
 		} catch (error) {
 			if (!error?.response) {

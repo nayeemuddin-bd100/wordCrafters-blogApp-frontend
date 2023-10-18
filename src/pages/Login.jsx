@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserAction } from '../redux/slices/users/usersSlices';
 import { Navigate } from 'react-router-dom';
+import MiniSpinner from '../utils/MiniSpinner';
 
 const formSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -123,7 +124,7 @@ const Login = () => {
 												type="submit"
 												className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition duration-200"
 											>
-												Please wait ...
+												<MiniSpinner/>
 											</button>
 										) : (
 											<button

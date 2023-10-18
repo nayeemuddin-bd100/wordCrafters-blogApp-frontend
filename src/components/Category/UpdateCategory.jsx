@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchSingleCategoriesAction } from "./../../redux/slices/category/categorySlices";
-import Spinner from './../../utils/Spinner';
+import {Spinner} from './../../utils/Spinner';
 
 const formSchema = Yup.object({
 	title: Yup.string().required("Title is required"),

@@ -5,7 +5,8 @@ import { useEffect } from "react";
 import { PencilAltIcon } from "@heroicons/react/outline";
 import { fetchCategoriesAction } from "../../redux/slices/category/categorySlices";
 import dateFormatter from "./../../utils/dateFormatter";
-import Spinner from "./../../utils/Spinner";
+import { Spinner } from './../../utils/Spinner';
+
 
 const CategoryList = () => {
 	const dispatch = useDispatch();

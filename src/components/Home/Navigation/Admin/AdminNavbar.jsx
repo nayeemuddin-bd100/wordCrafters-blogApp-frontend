@@ -58,7 +58,7 @@ const AdminNavbar = () => {
 									{/* Logo */}
 									<BookOpenIcon className="h-10 w-10 text-yellow-200" />
 								</div>
-								<div className="hidden lg:ml-6 lg:flex md:items-center md:space-x-4">
+								<div className="hidden  lg:flex md:items-center md:space-x-1 ">
 									{navigation.map((item) => (
 										<NavLink
 											key={item.name}
@@ -66,9 +66,9 @@ const AdminNavbar = () => {
 											className={({ isActive }) =>
 												classNames(
 													isActive
-														? "bg-gray-900 text-white"
+														? "bg-gray-900 text-white px-3 py-2"
 														: "text-gray-300 hover:bg-gray-700 hover:text-white ",
-													"xl:px-3 py-2 rounded-md text-sm font-medium hover:px-2"
+													"px-3 py-2 rounded-md text-sm font-medium transition ease-in-out delay-100"
 												)
 											}
 											aria-current={item.current ? "page" : undefined}

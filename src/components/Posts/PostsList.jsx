@@ -2,12 +2,17 @@ import { ThumbUpIcon, ThumbDownIcon, EyeIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchAllPostsAction } from "../../redux/slices/posts/postSlices";
+import {
+	toggleLikePostAction,
+	toggleDislikePostAction,
+	fetchAllPostsAction,
+} from "../../redux/slices/posts/postSlices";
 
 import dateFormatter from "./../../utils/dateFormatter";
 import { fetchCategoriesAction } from "../../redux/slices/category/categorySlices";
 import MiniSpinner from "./../../utils/MiniSpinner";
 import { Spinner } from "./../../utils/Spinner";
+
 
 const PostsList = () => {
 	const dispatch = useDispatch();
@@ -15,7 +20,7 @@ const PostsList = () => {
 	const { loading, postsList } = posts;
 
 	useEffect(() => {
-		dispatch(fetchAllPostsAction());
+		dispatch(fetchAllPostsAction(""));
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -27,6 +32,7 @@ const PostsList = () => {
 		categoryList,
 		loading: categoryLoading,
 		appErr: categoryErr,
+		serverErr: categoryServerErr,
 	} = category;
 
 	return (
@@ -43,9 +49,12 @@ const PostsList = () => {
 									Latest Post
 								</h2>
 							</div>
-							<div className=" block text-right w-1/2">
+							<div className=" block lg:text-right w-1/2 mt-2 lg:mt-0">
 								{/* View All */}
-								<button className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200">
+								<button
+									onClick={() => dispatch(fetchAllPostsAction(""))}
+									className="inline-block py-2 px-6 rounded-xl bg-green-600 hover:bg-green-700 text-gray-50 font-semibold leading-loose transition duration-200"
+								>
 									View All Posts
 								</button>
 							</div>
@@ -60,9 +69,9 @@ const PostsList = () => {
 									<ul className="flex flex-wrap place-content-evenly lg:block  ">
 										{categoryLoading ? (
 											<MiniSpinner />
-										) : categoryErr ? (
+										) : categoryErr || categoryServerErr ? (
 											<div className="text-red-400 text-base">
-												{categoryErr}
+												{categoryServerErr} - {categoryErr}
 											</div>
 										) : categoryList?.length <= 0 ? (
 											<div className="text-xl text-gray-100 text-center">
@@ -72,7 +81,12 @@ const PostsList = () => {
 											categoryList?.map((category) => {
 												return (
 													<li key={category._id}>
-														<p className="block cursor-pointer py-2 px-3 mb-4 rounded text-yellow-500 font-bold bg-gray-500">
+														<p
+															onClick={() =>
+																dispatch(fetchAllPostsAction(category?.title))
+															}
+															className="block cursor-pointer py-2 px-3 mb-4 rounded text-yellow-500 font-bold bg-gray-500"
+														>
 															{category?.title}
 														</p>
 													</li>
@@ -133,15 +147,35 @@ const PostsList = () => {
 													</div>
 													<div className="mt-4 flex space-x-4">
 														<div className="flex items-center">
-															<ThumbUpIcon className="h-7 w-7 text-indigo-600 cursor-pointer" />
-															<span className="pl-2 text-gray-600">
+															<ThumbUpIcon
+																onClick={() =>
+																	dispatch(toggleLikePostAction(post._id))
+																}
+																className={`${
+																	post?.isLiked
+																		? `text-indigo-600`
+																		: `text-gray-200`
+																} h-7 w-7  cursor-pointer`}
+															/>
+															<span className="pl-2 text-gray-200">
 																{" "}
 																{post?.likes?.length}{" "}
 															</span>
 														</div>
 														<div className="flex items-center">
-															<ThumbDownIcon className="h-7 w-7 cursor-pointer text-gray-600" />
-															<span className="pl-2 text-gray-600">
+															<ThumbDownIcon
+																onClick={() =>
+																	dispatch(
+																		toggleDislikePostAction(post._id)
+																	)
+																}
+																className={`${
+																	post?.isDisLiked
+																		? `text-indigo-600`
+																		: `text-gray-200`
+																} h-7 w-7  cursor-pointer`}
+															/>
+															<span className="pl-2 text-gray-200">
 																{post?.disLikes?.length}
 															</span>
 														</div>
@@ -158,8 +192,7 @@ const PostsList = () => {
 									})
 								) : (
 									<h2 className="text-center text-white text-2xl">
-										{" "}
-										No post found{" "}
+										No post found
 									</h2>
 								)}
 							</div>

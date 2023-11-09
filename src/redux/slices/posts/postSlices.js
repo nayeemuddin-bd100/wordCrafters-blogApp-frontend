@@ -146,7 +146,7 @@ const postSlices = createSlice({
 
 		builder.addCase(toggleLikePostAction.fulfilled, (state, action) => {
 			state.loading = false;
-			state.likedPost = action?.payload;
+			state.like = action?.payload;
 			state.appErr = undefined;
 			state.serverErr = undefined;
 		});
@@ -166,7 +166,7 @@ const postSlices = createSlice({
 
 		builder.addCase(toggleDislikePostAction.fulfilled, (state, action) => {
 			state.loading = false;
-			state.dislikePost = action?.payload;
+			state.dislike = action?.payload;
 			state.appErr = undefined;
 			state.serverErr = undefined;
 		});

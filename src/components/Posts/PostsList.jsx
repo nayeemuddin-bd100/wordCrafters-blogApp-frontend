@@ -17,15 +17,15 @@ import { Spinner } from "./../../utils/Spinner";
 const PostsList = () => {
 	const dispatch = useDispatch();
 	const posts = useSelector((state) => state?.posts);
-	const { loading, postsList } = posts;
-
+	const { loading, postsList, like,dislike } = posts;
 	useEffect(() => {
 		dispatch(fetchAllPostsAction(""));
-	}, [dispatch]);
+	}, [dispatch, like, dislike]);
 
 	useEffect(() => {
 		dispatch(fetchCategoriesAction());
 	}, [dispatch]);
+	
 
 	const category = useSelector((state) => state.category);
 	const {
@@ -35,6 +35,9 @@ const PostsList = () => {
 		serverErr: categoryServerErr,
 	} = category;
 
+
+
+	
 	return (
 		<>
 			<section>
@@ -97,9 +100,7 @@ const PostsList = () => {
 								</div>
 							</div>
 							<div className="w-full lg:w-3/4 px-3">
-								{loading ? (
-									<Spinner />
-								) : postsList.length > 0 ? (
+								{ postsList.length > 0 ? (
 									postsList.map((post) => {
 										return (
 											<div
@@ -165,9 +166,7 @@ const PostsList = () => {
 														<div className="flex items-center">
 															<ThumbDownIcon
 																onClick={() =>
-																	dispatch(
-																		toggleDislikePostAction(post._id)
-																	)
+																	dispatch(toggleDislikePostAction(post._id))
 																}
 																className={`${
 																	post?.isDisLiked

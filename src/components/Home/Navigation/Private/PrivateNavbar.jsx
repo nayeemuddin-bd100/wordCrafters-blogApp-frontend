@@ -81,10 +81,10 @@ const PrivateNavbar = () => {
 											className="pr-3  relative inline-flex items-center mr-2 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
 										>
 											<PlusIcon
-												className="-ml-1 mr-2 h-5 w-5"
+												className="sm:-ml-1 sm:mr-2 h-5 w-5"
 												aria-hidden="true"
 											/>
-											<span>New Post</span>
+											<span className="hidden sm:block md:hidden lg:block">New Post</span>
 										</NavLink>
 
 										<button
@@ -93,10 +93,10 @@ const PrivateNavbar = () => {
 											className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
 										>
 											<LogoutIcon
-												className="-ml-1 mr-2 h-5 w-5"
+												className="sm:-ml-1 sm:mr-2 h-5 w-5"
 												aria-hidden="true"
 											/>
-											<span>Logout</span>
+											<span className="hidden sm:block md:hidden lg:block">Logout</span>
 										</button>
 									</div>
 									<div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
@@ -172,7 +172,7 @@ const PrivateNavbar = () => {
 												item.current
 													? "bg-gray-900 text-white"
 													: "text-gray-300 hover:bg-gray-700 hover:text-white",
-												"block px-3 py-2 rounded-md text-base font-medium"
+												"block lg:px-3 py-2 rounded-md text-base font-medium"
 											)}
 											// aria-current={item.current ? "page" : undefined}
 										>

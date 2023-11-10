@@ -117,12 +117,12 @@ const PostsList = () => {
 													</Link>
 												</div>
 												<div className="w-full md:w-2/3 px-3 flex justify-center items-center flex-col md:block">
-													<Link className="hover:underline">
+													<Link to={`/posts/${post._id}`} className="hover:underline">
 														<h3 className="mb-2 text-2xl text-green-400 font-bold font-heading">
 															{post?.title}
 														</h3>
 													</Link>
-													<p className="text-gray-300">{post?.description}</p>
+											
 													<div className="mt-4 flex items-center">
 														<div className="flex-shrink-0">
 															<Link>

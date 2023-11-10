@@ -12,6 +12,7 @@ import AdminRoute from './components/Home/Navigation/ProtectedRoute/AdminRoute';
 import Authors from './pages/Authors';
 import CreatePost from './components/Posts/CreatePost';
 import PostsList from "./components/Posts/PostsList";
+import PostDetails from './components/Posts/PostDetails';
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/posts" element={<PostsList />} />
+				<Route path="/posts/:id" element={<PostDetails />} />
 
 				<Route element={<ProtectedRoute />}>
 					<Route path="/users" element={<Authors />} />

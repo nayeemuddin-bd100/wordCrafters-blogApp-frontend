@@ -83,6 +83,25 @@ export const toggleDislikePostAction = createAsyncThunk("post/dislike", async (p
   }
 })
 
+
+// fetch post details
+export const fetchPostDetailsAction = createAsyncThunk(
+	"posts/post-details",
+	async (id, { rejectWithValue, getState }) => {
+		try {
+			const res = await axios.get(`${baseUrl}/api/posts/${id}`, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			return res.data;
+		} catch (error) {
+			if (!error?.response) throw error;
+			return rejectWithValue(error?.response?.data);
+		}
+	}
+);
+
 const postSlices = createSlice({
 	name: "posts",
 	initialState: { postsList: [] },
@@ -172,6 +191,26 @@ const postSlices = createSlice({
 		});
 
 		builder.addCase(toggleDislikePostAction.rejected, (state, action) => {
+			state.loading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+
+		//fetch post details
+		builder.addCase(fetchPostDetailsAction.pending, (state, action) => {
+			state.loading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+
+		builder.addCase(fetchPostDetailsAction.fulfilled, (state, action) => {
+			state.loading = false;
+			state.postDetails = action?.payload;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+
+		builder.addCase(fetchPostDetailsAction.rejected, (state, action) => {
 			state.loading = false;
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;

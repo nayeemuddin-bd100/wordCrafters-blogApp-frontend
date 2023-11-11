@@ -4,19 +4,44 @@ import { Link } from "react-router-dom";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "../../utils/Spinner";
-import { fetchPostDetailsAction } from "./../../redux/slices/posts/postSlices";
+import {
+	fetchPostDetailsAction,
+	resetPostDetailsAction,
+} from "./../../redux/slices/posts/postSlices";
 import { useParams } from "react-router-dom";
 import dateFormatter from "./../../utils/dateFormatter";
+import { deletePostAction } from "./../../redux/slices/posts/postSlices";
+import { resetPostDeleteAction } from "./../../redux/slices/posts/postSlices";
+import { Navigate } from "react-router-dom";
 
 const PostDetails = () => {
 	let { id } = useParams();
 	const dispatch = useDispatch();
+
 	useEffect(() => {
 		dispatch(fetchPostDetailsAction(id));
 	}, [dispatch, id]);
 
 	const posts = useSelector((state) => state?.posts);
-	const { postDetails, loading, appErr, serverErr } = posts;
+	const loggedInUser = useSelector((state) => state?.users);
+	const { postDetails, loading, appErr, serverErr, deletedPost } = posts;
+
+	// delete Post
+	const handleDelete = () => {
+		const shouldDelete = window.confirm(
+			"Are you sure you want to delete this post?"
+		);
+		if (shouldDelete) {
+			dispatch(deletePostAction(postDetails?._id));
+		}
+	};
+
+	if (deletedPost) {
+		dispatch(resetPostDeleteAction());
+		dispatch(resetPostDetailsAction());
+
+		return <Navigate to="/posts" />;
+	}
 
 	return (
 		<>
@@ -66,15 +91,26 @@ const PostDetails = () => {
 								<p className="mb-6 text-left  text-xl text-gray-200">
 									{postDetails?.description}
 
-									{/* Show delete and update btn if created user */}
-									<p className="flex">
-										<Link to={`/update-post/${postDetails?._id}`} className="p-3">
-											<PencilAltIcon className="h-8 mt-3 text-yellow-300" />
-										</Link>
-										<button className="ml-3">
-											<TrashIcon className="h-8 mt-3 text-red-600" />
-										</button>
-									</p>
+									{/* Show delete and update btn if created user and admin can delete the post as well */}
+									{postDetails?.author?._id === loggedInUser?.userAuth?._id ? (
+										<p className="flex">
+											<Link
+												to={`/update-post/${postDetails?._id}`}
+												className="p-3"
+											>
+												<PencilAltIcon className="h-8 mt-3 text-yellow-300" />
+											</Link>
+											<button onClick={() => handleDelete()} className="ml-3">
+												<TrashIcon className="h-8 mt-3 text-red-600" />
+											</button>
+										</p>
+									) : loggedInUser?.userAuth?.isAdmin ? (
+										<p className="flex">
+											<button onClick={() => handleDelete()} className="ml-3">
+												<TrashIcon className="h-8 mt-3 text-red-600" />
+											</button>
+										</p>
+									) : null}
 								</p>
 							</div>
 						</div>

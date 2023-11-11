@@ -2,18 +2,20 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import CategoryDropdown from "./../Category/CategoryDropdown";
 import {
 	fetchPostDetailsAction,
+	resetPostDetailsAction,
+	resetUpdatedPostAction,
 	updatePostAction,
 } from "./../../redux/slices/posts/postSlices";
 import { Spinner } from "../../utils/Spinner";
+import MiniSpinner from "../../utils/MiniSpinner";
 
 const formSchema = Yup.object({
 	title: Yup.string().required("Title is required"),
 	description: Yup.string().required("Description is required"),
-	category: Yup.object().required("Category is required"),
 });
 
 export default function UpdatePost() {
@@ -25,10 +27,11 @@ export default function UpdatePost() {
 	}, [dispatch, id]);
 	const posts = useSelector((state) => state?.posts);
 
-	const { postDetails } = posts;
+	const { postDetails, updatePost,loading } = posts;
 
 
 	const formik = useFormik({
+		enableReinitialize:true,
 		initialValues: {
 			title: postDetails?.title,
       description: postDetails?.description,
@@ -47,6 +50,12 @@ export default function UpdatePost() {
 		validationSchema: formSchema,
   });
 
+	if (updatePost) {
+		dispatch(resetUpdatedPostAction());
+		dispatch(resetPostDetailsAction());
+		return <Navigate to="/posts" />;
+	}
+
   if(!postDetails){
     return <Spinner/>
   }
@@ -55,8 +64,7 @@ export default function UpdatePost() {
 			<div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-md">
 					<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-300">
-						Are you sure you want to edit{" "}
-						<span className="text-green-300">Title</span>
+						Are you sure you want to edit ?
 					</h2>
 				</div>
 
@@ -91,7 +99,6 @@ export default function UpdatePost() {
 								value={formik.values.category?.label}
 								onChange={formik.setFieldValue}
 								onBlur={formik.setFieldTouched}
-								error={formik.errors.category}
 								touched={formik.touched.category}
 							/>
 							<div>
@@ -115,13 +122,21 @@ export default function UpdatePost() {
 								</div>
 							</div>
 
-						
+							{loading ? (
+								<button
+									disabled
+									className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+								>
+									<MiniSpinner/>
+								</button>
+							) : (
 								<button
 									type="submit"
 									className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 								>
 									Update
 								</button>
+							)}
 						</form>
 					</div>
 				</div>

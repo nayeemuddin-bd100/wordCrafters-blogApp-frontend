@@ -5,6 +5,9 @@ import baseUrl from "./../../../utils/baseUrl";
 
 export const resetCreatedPostAction = createAction("posts/reset-create-post");
 export const resetPostsListAction = createAction("posts/reset-posts-list");
+export const resetUpdatedPostAction = createAction("posts/reset-updated-post");
+export const resetPostDetailsAction = createAction("posts/reset-post-details");
+export const resetPostDeleteAction = createAction("posts/reset-deletedPost");
 
 // create post
 export const createPostAction = createAsyncThunk("posts/create-post", async (post,{rejectWithValue,getState}) => {
@@ -35,8 +38,11 @@ export const fetchAllPostsAction = createAsyncThunk("posts/posts-list", async (c
 			headers: {
         'Content-Type': 'application/json'
 			},
-		});
-    return res.data
+			});
+
+		const data = res.data;
+		const arrangeData = data.reverse()
+    return arrangeData;
     
   } catch (error) {
     if (!error?.response) throw error;
@@ -121,6 +127,41 @@ export const updatePostAction = createAsyncThunk("posts/update-post", async (pos
     return rejectWithValue(error?.response?.data);
   }
 })
+
+// delete post
+export const deletePostAction = createAsyncThunk("posts/delete-post", async (id,{rejectWithValue,getState}) => {
+
+  try {
+
+    const state = getState();
+    const jwtToken = state?.users?.userAuth?.token;
+    
+    const res = await axios.delete(`${baseUrl}/api/posts/${id}`, {
+			headers: {
+        'Content-Type': 'application/json',
+				Authorization: `Bearer ${jwtToken}`,
+			},
+		});
+    return res.data
+    
+  } catch (error) {
+    if (!error?.response) throw error;
+    return rejectWithValue(error?.response?.data);
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const postSlices = createSlice({
 	name: "posts",
@@ -236,6 +277,11 @@ const postSlices = createSlice({
 			state.serverErr = action?.error?.message;
 		});
 
+		// Reset post details
+		builder.addCase(resetPostDetailsAction, (state) => {
+			state.postDetails = undefined;
+		});
+
 		//update post
 		builder.addCase(updatePostAction.pending, (state, action) => {
 			state.loading = true;
@@ -254,6 +300,36 @@ const postSlices = createSlice({
 			state.loading = false;
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;
+		});
+
+		// Reset updated post
+		builder.addCase(resetUpdatedPostAction, (state) => {
+			state.updatePost = undefined;
+		});
+
+		//delete post
+		builder.addCase(deletePostAction.pending, (state, action) => {
+			state.loading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+
+		builder.addCase(deletePostAction.fulfilled, (state, action) => {
+			state.loading = false;
+			state.deletedPost = action?.payload;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+
+		builder.addCase(deletePostAction.rejected, (state, action) => {
+			state.loading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+
+		// reset deleted post
+		builder.addCase(resetPostDeleteAction, (state) => {
+			state.deletedPost = undefined;
 		});
 	},
 });

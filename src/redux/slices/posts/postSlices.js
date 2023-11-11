@@ -13,8 +13,6 @@ export const createPostAction = createAsyncThunk("posts/create-post", async (pos
 
     const state = getState();
     const jwtToken = state?.users?.userAuth?.token;
-
-		console.log(jwtToken);
     
     const res = await axios.post(`${baseUrl}/api/posts`, post, {
 			headers: {
@@ -101,6 +99,28 @@ export const fetchPostDetailsAction = createAsyncThunk(
 		}
 	}
 );
+
+// update post
+export const updatePostAction = createAsyncThunk("posts/update-post", async (post,{rejectWithValue,getState}) => {
+
+  try {
+
+    const state = getState();
+    const jwtToken = state?.users?.userAuth?.token;
+    
+    const res = await axios.put(`${baseUrl}/api/posts/${post?.id}`, post, {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwtToken}`,
+			},
+		});
+    return res.data
+    
+  } catch (error) {
+    if (!error?.response) throw error;
+    return rejectWithValue(error?.response?.data);
+  }
+})
 
 const postSlices = createSlice({
 	name: "posts",
@@ -211,6 +231,26 @@ const postSlices = createSlice({
 		});
 
 		builder.addCase(fetchPostDetailsAction.rejected, (state, action) => {
+			state.loading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+
+		//update post
+		builder.addCase(updatePostAction.pending, (state, action) => {
+			state.loading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+
+		builder.addCase(updatePostAction.fulfilled, (state, action) => {
+			state.loading = false;
+			state.updatePost = action?.payload;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+
+		builder.addCase(updatePostAction.rejected, (state, action) => {
 			state.loading = false;
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;

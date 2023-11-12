@@ -13,18 +13,23 @@ import dateFormatter from "./../../utils/dateFormatter";
 import { deletePostAction } from "./../../redux/slices/posts/postSlices";
 import { resetPostDeleteAction } from "./../../redux/slices/posts/postSlices";
 import { Navigate } from "react-router-dom";
+import AddComment from "../Comments/AddComment";
+import CommentsList from './../Comments/CommentList';
 
 const PostDetails = () => {
 	let { id } = useParams();
 	const dispatch = useDispatch();
 
+		const posts = useSelector((state) => state?.posts);
+		const loggedInUser = useSelector((state) => state?.users);
+		const comment = useSelector((state) => state?.comments);
+		const { postDetails, loading, appErr, serverErr, deletedPost } = posts;
+		const { createdComment} = comment;
+
 	useEffect(() => {
 		dispatch(fetchPostDetailsAction(id));
-	}, [dispatch, id]);
+	}, [dispatch, id, createdComment]);
 
-	const posts = useSelector((state) => state?.posts);
-	const loggedInUser = useSelector((state) => state?.users);
-	const { postDetails, loading, appErr, serverErr, deletedPost } = posts;
 
 	// delete Post
 	const handleDelete = () => {
@@ -45,11 +50,15 @@ const PostDetails = () => {
 
 	return (
 		<>
-			{loading ? (
-				<div className="h-screen">
-					<Spinner />
-				</div>
-			) : appErr || serverErr ? (
+			{
+				
+			// 	loading ? (
+			// 	<div className="h-screen">
+			// 		<Spinner />
+			// 	</div>
+			// ) :
+				
+				appErr || serverErr ? (
 				<h1 className="h-screen text-red-400 text-xl">
 					{serverErr} {appErr}
 				</h1>
@@ -115,11 +124,11 @@ const PostDetails = () => {
 							</div>
 						</div>
 					</div>
-					{/* Add comment Form component here */}
+					<AddComment postId={postDetails?._id} />
 
 					<div className="flex justify-center  items-center">
 						{/* <CommentsList comments={posts?.comments} postId={posts?._id} /> */}
-						CommentsList
+						<CommentsList comments={postDetails?.comments} />
 					</div>
 				</section>
 			)}

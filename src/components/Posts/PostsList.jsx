@@ -6,6 +6,7 @@ import {
 	toggleLikePostAction,
 	toggleDislikePostAction,
 	fetchAllPostsAction,
+	resetPostDetailsAction,
 } from "../../redux/slices/posts/postSlices";
 
 import dateFormatter from "./../../utils/dateFormatter";
@@ -16,6 +17,7 @@ import { Spinner } from "./../../utils/Spinner";
 const PostsList = () => {
 	const dispatch = useDispatch();
 	const posts = useSelector((state) => state?.posts);
+
 	const { loading, postsList, like, dislike } = posts;
 	useEffect(() => {
 		dispatch(fetchAllPostsAction(""));
@@ -25,6 +27,10 @@ const PostsList = () => {
 		dispatch(fetchCategoriesAction());
 	}, [dispatch]);
 
+	useEffect(() => {
+			dispatch(resetPostDetailsAction());
+	}, []);
+
 	const category = useSelector((state) => state.category);
 	const {
 		categoryList,
@@ -33,6 +39,7 @@ const PostsList = () => {
 		serverErr: categoryServerErr,
 	} = category;
 
+	
 	return (
 		<>
 			<section>

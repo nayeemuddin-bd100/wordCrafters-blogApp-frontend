@@ -14,6 +14,7 @@ import CreatePost from './components/Posts/CreatePost';
 import PostsList from "./components/Posts/PostsList";
 import PostDetails from './components/Posts/PostDetails';
 import UpdatePost from './components/Posts/UpdatePost';
+import UpdateComment from './components/Comments/UpdateComment';
 
 function App() {
 	return (
@@ -31,6 +32,7 @@ function App() {
 					<Route path="/users" element={<Authors />} />
 					<Route path="/create-post" element={<CreatePost />} />
 					<Route path="/update-post/:id" element={<UpdatePost />} />
+					<Route path="/update-comment/:id" element={<UpdateComment />} />
 				</Route>
 
 				<Route element={<AdminRoute />}>

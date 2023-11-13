@@ -13,11 +13,10 @@ import { fetchCategoriesAction } from "../../redux/slices/category/categorySlice
 import MiniSpinner from "./../../utils/MiniSpinner";
 import { Spinner } from "./../../utils/Spinner";
 
-
 const PostsList = () => {
 	const dispatch = useDispatch();
 	const posts = useSelector((state) => state?.posts);
-	const { loading, postsList, like,dislike } = posts;
+	const { loading, postsList, like, dislike } = posts;
 	useEffect(() => {
 		dispatch(fetchAllPostsAction(""));
 	}, [dispatch, like, dislike]);
@@ -25,7 +24,6 @@ const PostsList = () => {
 	useEffect(() => {
 		dispatch(fetchCategoriesAction());
 	}, [dispatch]);
-	
 
 	const category = useSelector((state) => state.category);
 	const {
@@ -35,9 +33,6 @@ const PostsList = () => {
 		serverErr: categoryServerErr,
 	} = category;
 
-
-
-	
 	return (
 		<>
 			<section>
@@ -117,12 +112,15 @@ const PostsList = () => {
 													</Link>
 												</div>
 												<div className="w-full md:w-2/3 px-3 flex justify-center items-center flex-col md:block">
-													<Link to={`/posts/${post._id}`} className="hover:underline">
+													<Link
+														to={`/posts/${post._id}`}
+														className="hover:underline"
+													>
 														<h3 className="mb-2 text-2xl text-green-400 font-bold font-heading">
 															{post?.title}
 														</h3>
 													</Link>
-											
+
 													<div className="mt-4 flex items-center">
 														<div className="flex-shrink-0">
 															<Link>

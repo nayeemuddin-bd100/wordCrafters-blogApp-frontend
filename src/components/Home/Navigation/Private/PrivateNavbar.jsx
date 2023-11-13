@@ -8,8 +8,9 @@ import {
 } from "@heroicons/react/outline";
 import { PlusIcon, LogoutIcon } from "@heroicons/react/solid";
 import { Fragment } from "react";
-import { useDispatch } from 'react-redux';
-import { logoutUserAction } from './../../../../redux/slices/users/usersSlices';
+import { useDispatch } from "react-redux";
+import { logoutUserAction } from "./../../../../redux/slices/users/usersSlices";
+import { useSelector } from "react-redux";
 
 const navigation = [
 	{ name: "Home", href: "/", current: true },
@@ -28,7 +29,10 @@ const PrivateNavbar = () => {
 		{ name: "Change your password", href: "/update-password" },
 	];
 
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
+
+	const user = useSelector((state) => state?.users);
+
 	return (
 		<div>
 			<Disclosure as="nav" className="bg-gray-800">
@@ -55,6 +59,7 @@ const PrivateNavbar = () => {
 										{/* Logo */}
 										<BookOpenIcon className="h-10 w-10 text-yellow-200" />
 									</div>
+
 									<div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
 										{navigation.map((item) => (
 											<NavLink
@@ -84,7 +89,9 @@ const PrivateNavbar = () => {
 												className="sm:-ml-1 sm:mr-2 h-5 w-5"
 												aria-hidden="true"
 											/>
-											<span className="hidden sm:block md:hidden lg:block">New Post</span>
+											<span className="hidden sm:block md:hidden lg:block">
+												New Post
+											</span>
 										</NavLink>
 
 										<button
@@ -96,7 +103,9 @@ const PrivateNavbar = () => {
 												className="sm:-ml-1 sm:mr-2 h-5 w-5"
 												aria-hidden="true"
 											/>
-											<span className="hidden sm:block md:hidden lg:block">Logout</span>
+											<span className="hidden sm:block md:hidden lg:block">
+												Logout
+											</span>
 										</button>
 									</div>
 									<div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
@@ -109,8 +118,8 @@ const PrivateNavbar = () => {
 															<span className="sr-only">Open user menu</span>
 															<img
 																className="h-8 w-8 rounded-full"
-																// src={isLogin?.profilePhoto}
-																alt=""
+																src={user?.userAuth?.profilePhoto}
+																alt="Author Profile"
 															/>
 														</Menu.Button>
 													</div>
@@ -186,17 +195,17 @@ const PrivateNavbar = () => {
 									<div className="flex items-center px-5 sm:px-6">
 										<div className="flex-shrink-0">
 											<img
-												className="h-10 w-10 rounded-full"
-												// src={isLogin.profilePhoto}
-												alt=""
+												className="h-8 w-8 rounded-full"
+												src={user?.userAuth?.profilePhoto}
+												alt="Author Profile"
 											/>
 										</div>
 										<div className="ml-3">
 											<div className="text-base font-medium text-white">
-												{/* {user.name} */}
+												{user.userAuth?.firstName} {user.userAuth?.firstName}
 											</div>
 											<div className="text-sm font-medium text-gray-400">
-												{/* {user.email} */}
+												{user.userAuth?.email}
 											</div>
 										</div>
 										<button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">

@@ -14,6 +14,7 @@ import { PlusIcon } from "@heroicons/react/solid";
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { logoutUserAction } from "../../../../redux/slices/users/usersSlices";
+import { useSelector } from 'react-redux';
 
 const navigation = [
 	{ name: "Home", href: "/", current: true },
@@ -36,6 +37,7 @@ const AdminNavbar = () => {
 	];
 
 	const dispatch = useDispatch()
+		const user = useSelector((state) => state?.users);
 	return (
 		<Disclosure as="nav" className="bg-green-800">
 			{({ open }) => (
@@ -115,7 +117,7 @@ const AdminNavbar = () => {
 														<span className="sr-only">Open user menu</span>
 														<img
 															className="h-8 w-8 rounded-full"
-															// src={userAuth?.profilePhoto}
+															src={user?.userAuth?.profilePhoto}
 															alt="Admin Profile"
 														/>
 													</Menu.Button>
@@ -185,14 +187,18 @@ const AdminNavbar = () => {
 							<div className="flex items-center px-5 sm:px-6">
 								<div className="flex-shrink-0">
 									{/* Image */}
-									<img className="h-10 w-10 rounded-full" src="" alt="" />
+									<img
+										className="h-8 w-8 rounded-full"
+										src={user?.userAuth?.profilePhoto}
+										alt="Admin Profile"
+									/>
 								</div>
 								<div className="ml-3">
 									<div className="text-base font-medium text-white">
-										{/* {user.name} */}
+										{user.userAuth?.firstName} {user.userAuth?.firstName}
 									</div>
 									<div className="text-sm font-medium text-gray-400">
-										{/* {user.email} */}
+										{user.userAuth?.email}
 									</div>
 								</div>
 								<button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">

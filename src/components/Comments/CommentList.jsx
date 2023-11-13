@@ -5,7 +5,6 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { deleteCommentAction } from "../../redux/slices/comments/commentSlices";
-import { Spinner } from "../../utils/Spinner";
 import MiniSpinner from './../../utils/MiniSpinner';
 
 const CommentsList = ({ comments }) => {

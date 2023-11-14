@@ -14,19 +14,36 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import dateFormatter from "./../../utils/dateFormatter";
 import { Spinner } from "../../utils/Spinner";
+import { useState } from "react";
+import { changeUserProfilePhotoAction } from "./../../redux/slices/users/usersSlices";
+import MiniSpinner from "../../utils/MiniSpinner";
 
 export default function Profile() {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 
+	const users = useSelector((state) => state?.users);
+  const { profile, profilePhoto, loading } = users;
+  
+  
+
 	useEffect(() => {
 		dispatch(userProfileAction(id));
-	}, [id, dispatch]);
+	}, [id, dispatch, profilePhoto]);
 
-	const users = useSelector((state) => state?.users);
-	const { profile, loading, appErr, serverErr } = users;
-	console.log(profile);
+	// Manage profile photo upload
+	const [selectedFile, setSelectedFile] = useState(null);
+	const handleFileChange = (event) => {
+		setSelectedFile(event.target.files[0]);
+	};
 
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		if (selectedFile) {
+			dispatch(changeUserProfilePhotoAction(selectedFile));
+    }
+    setSelectedFile(null)
+	};
 	return (
 		<>
 			{!profile ? (
@@ -97,16 +114,37 @@ export default function Profile() {
 
 														{/* is login user */}
 														{/* Upload profile photo */}
-														<Link
-															// to={`/upload-profile-photo/${profile?._id}`}
-															className="inline-flex justify-center w-48 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-														>
-															<UploadIcon
-																className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-																aria-hidden="true"
-															/>
-															<span>Upload Photo</span>
-														</Link>
+
+														<form onSubmit={handleSubmit}>
+															<label className="cursor-pointer inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+																<input
+																	type="file"
+																	onChange={handleFileChange}
+																	className="hidden"
+																/>
+																<UploadIcon
+																	className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+																	aria-hidden="true"
+																/>
+
+																<span>Change Profile Picture</span>
+															</label>
+															{loading ? (
+																<button
+																	disabled
+																	className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
+																>
+																	<MiniSpinner/>
+																</button>
+															) : selectedFile && !loading ? (
+																<button
+																	type="submit"
+																	className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
+																>
+																	Upload Photo
+																</button>
+															) : null}
+														</form>
 													</div>
 
 													<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
@@ -272,9 +310,3 @@ export default function Profile() {
 		</>
 	);
 }
-
-
-
-
-
-		

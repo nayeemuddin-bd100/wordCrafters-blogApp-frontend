@@ -15,6 +15,7 @@ import PostsList from "./components/Posts/PostsList";
 import PostDetails from './components/Posts/PostDetails';
 import UpdatePost from './components/Posts/UpdatePost';
 import UpdateComment from './components/Comments/UpdateComment';
+import Profile from './components/Users/Profile';
 
 function App() {
 	return (
@@ -33,6 +34,8 @@ function App() {
 					<Route path="/create-post" element={<CreatePost />} />
 					<Route path="/update-post/:id" element={<UpdatePost />} />
 					<Route path="/update-comment/:id" element={<UpdateComment />} />
+					{/* user profile */}
+					<Route path="/profile/:id" element={<Profile />} />
 				</Route>
 
 				<Route element={<AdminRoute />}>

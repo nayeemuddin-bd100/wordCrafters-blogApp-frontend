@@ -24,14 +24,17 @@ function classNames(...classes) {
 }
 
 const PrivateNavbar = () => {
+	const user = useSelector((state) => state?.users);
+
+	const { userAuth } = user;
+	//Navigation
 	const userNavigation = [
-		{ name: "Your Profile", href: `/profile` },
+		{ name: "Your Profile", href: `/profile/${userAuth?._id}` },
 		{ name: "Change your password", href: "/update-password" },
+		{ name: "Setting", href: "/setting" },
 	];
 
 	const dispatch = useDispatch();
-
-	const user = useSelector((state) => state?.users);
 
 	return (
 		<div>

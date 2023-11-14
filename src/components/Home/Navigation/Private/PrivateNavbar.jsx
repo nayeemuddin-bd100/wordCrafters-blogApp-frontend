@@ -26,7 +26,15 @@ function classNames(...classes) {
 const PrivateNavbar = () => {
 	const user = useSelector((state) => state?.users);
 
-	const { userAuth } = user;
+		const { userAuth, profilePhoto } = user;
+
+		// change avatar when change profile photo
+		let avatar;
+		if (profilePhoto) {
+			avatar = profilePhoto;
+		} else {
+			avatar = userAuth?.profilePhoto;
+		}
 	//Navigation
 	const userNavigation = [
 		{ name: "Your Profile", href: `/profile/${userAuth?._id}` },
@@ -121,7 +129,7 @@ const PrivateNavbar = () => {
 															<span className="sr-only">Open user menu</span>
 															<img
 																className="h-8 w-8 rounded-full"
-																src={user?.userAuth?.profilePhoto}
+																src={avatar}
 																alt="Author Profile"
 															/>
 														</Menu.Button>
@@ -199,7 +207,7 @@ const PrivateNavbar = () => {
 										<div className="flex-shrink-0">
 											<img
 												className="h-8 w-8 rounded-full"
-												src={user?.userAuth?.profilePhoto}
+												src={avatar}
 												alt="Author Profile"
 											/>
 										</div>

@@ -11,10 +11,10 @@ import {
 	LogoutIcon,
 } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUserAction } from "../../../../redux/slices/users/usersSlices";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 const navigation = [
 	{ name: "Home", href: "/", current: true },
@@ -30,10 +30,17 @@ function classNames(...classes) {
 }
 
 const AdminNavbar = () => {
-
 	const user = useSelector((state) => state?.users);
-	
-	const { userAuth } = user;
+	const { userAuth, profilePhoto } = user;
+
+	// change avatar when change profile photo
+	let avatar;
+	if (profilePhoto) {
+		avatar = profilePhoto;
+	} else {
+		avatar = userAuth?.profilePhoto;
+	}
+
 	//Navigation
 	const userNavigation = [
 		{ name: "Your Profile", href: `/profile/${userAuth?._id}` },
@@ -41,8 +48,8 @@ const AdminNavbar = () => {
 		{ name: "Setting", href: "/setting" },
 	];
 
-	const dispatch = useDispatch()
-	
+	const dispatch = useDispatch();
+
 	return (
 		<Disclosure as="nav" className="bg-green-800">
 			{({ open }) => (
@@ -122,7 +129,7 @@ const AdminNavbar = () => {
 														<span className="sr-only">Open user menu</span>
 														<img
 															className="h-8 w-8 rounded-full"
-															src={user?.userAuth?.profilePhoto}
+															src={avatar}
 															alt="Admin Profile"
 														/>
 													</Menu.Button>
@@ -194,7 +201,7 @@ const AdminNavbar = () => {
 									{/* Image */}
 									<img
 										className="h-8 w-8 rounded-full"
-										src={user?.userAuth?.profilePhoto}
+										src={avatar}
 										alt="Admin Profile"
 									/>
 								</div>

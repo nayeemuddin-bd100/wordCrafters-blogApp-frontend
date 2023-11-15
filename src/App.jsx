@@ -16,6 +16,7 @@ import PostDetails from './components/Posts/PostDetails';
 import UpdatePost from './components/Posts/UpdatePost';
 import UpdateComment from './components/Comments/UpdateComment';
 import Profile from './components/Users/Profile';
+import UpdateProfileForm from './components/Users/UpdateProfileForm';
 
 function App() {
 	return (
@@ -36,6 +37,7 @@ function App() {
 					<Route path="/update-comment/:id" element={<UpdateComment />} />
 					{/* user profile */}
 					<Route path="/profile/:id" element={<Profile />} />
+					<Route path="/update-profile/:id" element={<UpdateProfileForm />} />
 				</Route>
 
 				<Route element={<AdminRoute />}>

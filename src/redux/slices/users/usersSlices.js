@@ -5,6 +5,9 @@ import baseUrl from "./../../../utils/baseUrl";
 
 
 
+//Reset update profile
+export const resetUpdateProfileAction = createAction("users/reset-update-profile")
+
 //  Register user
 export const registerUsersAction = createAsyncThunk(
 	"users/register",
@@ -119,7 +122,33 @@ export const changeUserProfilePhotoAction = createAsyncThunk(
 		}
 	}
 );
-export const updateProfilePhotoAction = createAction("user/update-profile-photo");
+
+// update profile
+export const updateProfileAction = createAsyncThunk(
+	"users/update-profile",
+	async (updatedData, { rejectWithValue, getState, dispatch }) => {
+		try {
+			const state = getState();
+			const jwtToken = state?.users?.userAuth?.token;
+
+			const res = await axios.put(`${baseUrl}/api/users/update-user-info`,updatedData, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwtToken}`,
+				},
+			});
+			return res.data;
+		} catch (error) {
+			if (!error?.response) {
+				throw error;
+			}
+			return rejectWithValue(error?.response?.data);
+		}
+	}
+);
+
+
+
 
 const userSlices = createSlice({
 	name: "user",
@@ -224,6 +253,29 @@ const userSlices = createSlice({
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;
 		});
+
+		/* Update profile */
+		builder.addCase(updateProfileAction.pending, (state, action) => {
+			state.loading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(updateProfileAction.fulfilled, (state, action) => {
+			state.updatedProfile = action?.payload;
+			state.loading = false;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(updateProfileAction.rejected, (state, action) => {
+			state.loading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+
+		/* Reset update profile */
+		builder.addCase(resetUpdateProfileAction, (state) => {
+			state.updatedProfile = undefined;
+		})
 	},
 });
 

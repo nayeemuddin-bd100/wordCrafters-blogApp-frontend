@@ -134,7 +134,7 @@ export default function Profile() {
 																	disabled
 																	className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
 																>
-																	<MiniSpinner/>
+																	<MiniSpinner />
 																</button>
 															) : selectedFile && !loading ? (
 																<button
@@ -182,7 +182,7 @@ export default function Profile() {
 
 														<>
 															<Link
-																to="/update-profile"
+																to={`/update-profile/${id}`}
 																className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
 															>
 																<UserIcon

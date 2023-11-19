@@ -293,19 +293,19 @@ const userSlices = createSlice({
 
 		/* Change Profile photo */
 		builder.addCase(changeUserProfilePhotoAction.pending, (state, action) => {
-			state.loading = true;
+			state.profilePhotoLoading = true;
 			state.appErr = undefined;
 			state.serverErr = undefined;
 		});
 		builder.addCase(changeUserProfilePhotoAction.fulfilled, (state, action) => {
 			state.profile = action?.payload;
 			state.profilePhoto = action?.payload?.profilePhoto;
-			state.loading = false;
+			state.profilePhotoLoading = false;
 			state.appErr = undefined;
 			state.serverErr = undefined;
 		});
 		builder.addCase(changeUserProfilePhotoAction.rejected, (state, action) => {
-			state.loading = false;
+			state.profilePhotoLoading = false;
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;
 		});

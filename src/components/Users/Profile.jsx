@@ -35,6 +35,7 @@ export default function Profile() {
 		unFollowUser,
 		followUser,
 		followerLoading,
+		profilePhotoLoading,
 	} = users;
 
 	useEffect(() => {
@@ -139,14 +140,14 @@ export default function Profile() {
 
 																<span>Change Profile Picture</span>
 															</label>
-															{loading ? (
+															{profilePhotoLoading ? (
 																<button
 																	disabled
 																	className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
 																>
 																	<MiniSpinner />
 																</button>
-															) : selectedFile && !loading ? (
+															) : selectedFile && !profilePhotoLoading ? (
 																<button
 																	type="submit"
 																	className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
@@ -300,10 +301,10 @@ export default function Profile() {
 													No post found
 												</h2>
 											) : (
-												profile?.posts.map((post) => {
+												profile?.posts?.map((post) => {
 													return (
 														<div
-															key={post?._id}
+															key={post?.id}
 															className="flex flex-wrap  -mx-3 mt-3  lg:mb-6"
 														>
 															<div className="mb-2   w-full lg:w-1/4 px-3">

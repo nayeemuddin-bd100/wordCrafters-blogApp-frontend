@@ -140,7 +140,10 @@ const PostsList = () => {
 														</div>
 														<div className="ml-3">
 															<p className="text-sm font-medium text-gray-900">
-																<Link className="text-yellow-400 hover:underline">
+																<Link
+																	to={`/profile/${post?.author?._id}`}
+																	className="text-yellow-400 hover:underline"
+																>
 																	{post?.author?.firstName}{" "}
 																	{post?.author?.lastName}
 																</Link>

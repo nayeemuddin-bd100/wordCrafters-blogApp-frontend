@@ -80,12 +80,15 @@ const PostDetails = () => {
 									alt=""
 								/>
 								<div className="text-left">
-									<h4 className="mb-1 text-2xl font-bold text-gray-50">
+									<Link
+										to={`/profile/${postDetails?.author?._id}`}
+										className="mb-1 text-2xl font-bold text-gray-50"
+									>
 										<span className="text-xl lg:text-2xl font-bold text-yellow-400">
 											{postDetails?.author?.firstName}{" "}
 											{postDetails?.author?.lastName}{" "}
 										</span>
-									</h4>
+									</Link>
 									<p className="text-green-500">
 										{dateFormatter(postDetails?.createdAt)}
 									</p>
@@ -123,7 +126,10 @@ const PostDetails = () => {
 					{loggedInUser?.userAuth ? (
 						<AddComment postId={postDetails?._id} />
 					) : (
-						<Link to="/login" className="text-blue-500 text-center text-lg hover:text-blue-700 ">
+						<Link
+							to="/login"
+							className="text-blue-500 text-center text-lg hover:text-blue-700 "
+						>
 							<p>Login first to comment this post</p>{" "}
 						</Link>
 					)}

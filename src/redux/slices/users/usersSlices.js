@@ -2,11 +2,10 @@ import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import baseUrl from "./../../../utils/baseUrl";
 
-
-
-
 //Reset update profile
-export const resetUpdateProfileAction = createAction("users/reset-update-profile")
+export const resetUpdateProfileAction = createAction(
+	"users/reset-update-profile"
+);
 
 //  Register user
 export const registerUsersAction = createAsyncThunk(
@@ -131,12 +130,16 @@ export const updateProfileAction = createAsyncThunk(
 			const state = getState();
 			const jwtToken = state?.users?.userAuth?.token;
 
-			const res = await axios.put(`${baseUrl}/api/users/update-user-info`,updatedData, {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${jwtToken}`,
-				},
-			});
+			const res = await axios.put(
+				`${baseUrl}/api/users/update-user-info`,
+				updatedData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${jwtToken}`,
+					},
+				}
+			);
 			return res.data;
 		} catch (error) {
 			if (!error?.response) {
@@ -147,8 +150,61 @@ export const updateProfileAction = createAsyncThunk(
 	}
 );
 
+// Follow user
+export const followUserAction = createAsyncThunk(
+	"users/follow-user",
+	async (followId, { rejectWithValue, getState }) => {
+		try {
+			const state = getState();
+			const jwtToken = state?.users?.userAuth?.token;
 
+			const res = await axios.put(
+				`${baseUrl}/api/users/follow`,
+				{ followId },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${jwtToken}`,
+					},
+				}
+			);
+			return res.data;
+		} catch (error) {
+			if (!error?.response) {
+				throw error;
+			}
+			return rejectWithValue(error?.response?.data);
+		}
+	}
+);
 
+// UnFollow user
+export const UnFollowUserAction = createAsyncThunk(
+	"users/unfollow-user",
+	async (unFollowId, { rejectWithValue, getState }) => {
+		try {
+			const state = getState();
+			const jwtToken = state?.users?.userAuth?.token;
+
+			const res = await axios.put(
+				`${baseUrl}/api/users/unfollow`,
+				{ unFollowId },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${jwtToken}`,
+					},
+				}
+			);
+			return res.data;
+		} catch (error) {
+			if (!error?.response) {
+				throw error;
+			}
+			return rejectWithValue(error?.response?.data);
+		}
+	}
+);
 
 const userSlices = createSlice({
 	name: "user",
@@ -275,7 +331,45 @@ const userSlices = createSlice({
 		/* Reset update profile */
 		builder.addCase(resetUpdateProfileAction, (state) => {
 			state.updatedProfile = undefined;
-		})
+		});
+
+		/* Follow user */
+		builder.addCase(followUserAction.pending, (state, action) => {
+			state.followerLoading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(followUserAction.fulfilled, (state, action) => {
+			state.followUser = action?.payload;
+			state.unfollowUser = undefined;
+			state.followerLoading = false;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(followUserAction.rejected, (state, action) => {
+			state.followerLoading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+
+		/* Unfollow user */
+		builder.addCase(UnFollowUserAction.pending, (state, action) => {
+			state.followerLoading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(UnFollowUserAction.fulfilled, (state, action) => {
+			state.unfollowUser = action?.payload;
+			state.followUser = undefined;
+			state.followerLoading = false;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(UnFollowUserAction.rejected, (state, action) => {
+			state.followerLoading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
 	},
 });
 

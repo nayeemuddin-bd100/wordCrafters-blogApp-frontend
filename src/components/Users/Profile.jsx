@@ -9,7 +9,10 @@ import {
 } from "@heroicons/react/outline";
 
 import { MailIcon, EyeIcon } from "@heroicons/react/solid";
-import { userProfileAction } from "../../redux/slices/users/usersSlices";
+import {
+	followUserAction,
+	userProfileAction,
+} from "../../redux/slices/users/usersSlices";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import dateFormatter from "./../../utils/dateFormatter";
@@ -17,21 +20,27 @@ import { Spinner } from "../../utils/Spinner";
 import { useState } from "react";
 import { changeUserProfilePhotoAction } from "./../../redux/slices/users/usersSlices";
 import MiniSpinner from "../../utils/MiniSpinner";
+import { UnFollowUserAction } from "./../../redux/slices/users/usersSlices";
 
 export default function Profile() {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 
+	// Manage profile photo upload
 	const users = useSelector((state) => state?.users);
-  const { profile, profilePhoto, loading } = users;
-  
-  
+	const {
+		profile,
+		profilePhoto,
+		loading,
+		unFollowUser,
+		followUser,
+		followerLoading,
+	} = users;
 
 	useEffect(() => {
 		dispatch(userProfileAction(id));
-	}, [id, dispatch, profilePhoto]);
+	}, [id, dispatch, profilePhoto, followUser, unFollowUser]);
 
-	// Manage profile photo upload
 	const [selectedFile, setSelectedFile] = useState(null);
 	const handleFileChange = (event) => {
 		setSelectedFile(event.target.files[0]);
@@ -41,9 +50,13 @@ export default function Profile() {
 		event.preventDefault();
 		if (selectedFile) {
 			dispatch(changeUserProfilePhotoAction(selectedFile));
-    }
-    setSelectedFile(null)
+		}
+		setSelectedFile(null);
 	};
+
+	//Manage follow and unfollow user
+	console.log(profile);
+
 	return (
 		<>
 			{!profile ? (
@@ -148,24 +161,37 @@ export default function Profile() {
 													</div>
 
 													<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-														{/* // Hide follow button from the same */}
+														{/* Follow/Unfollow user */}
 														<div>
-															<button
-																// onClick={() =>
-																//   dispatch(unFollowUserAction(profile?._id))
-																// }
-																className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-															>
-																<EmojiSadIcon
-																	className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-																	aria-hidden="true"
-																/>
-																<span>Unfollow</span>
-															</button>
-
-															<>
+															{followerLoading ? (
 																<button
-																	// onClick={followHandler}
+																	disabled
+																	className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+																>
+																	<HeartIcon
+																		className=" opacity-0 -ml-1 mr-2 h-5 w-5 text-gray-400 "
+																		aria-hidden="true"
+																	/>
+																	<MiniSpinner />
+																</button>
+															) : profile?.isFollowing ? (
+																<button
+																	onClick={() =>
+																		dispatch(UnFollowUserAction(profile?._id))
+																	}
+																	className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+																>
+																	<EmojiSadIcon
+																		className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+																		aria-hidden="true"
+																	/>
+																	<span>Unfollow</span>
+																</button>
+															) : !profile?.isFollowing ? (
+																<button
+																	onClick={() =>
+																		dispatch(followUserAction(profile?._id))
+																	}
 																	type="button"
 																	className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
 																>
@@ -173,9 +199,27 @@ export default function Profile() {
 																		className="-ml-1 mr-2 h-5 w-5 text-gray-400"
 																		aria-hidden="true"
 																	/>
-																	<span>Follow </span>
+																	<span>
+																		Follow {profile?.followers?.length}{" "}
+																	</span>
 																</button>
-															</>
+															) : (
+																<button
+																	onClick={() =>
+																		dispatch(followUserAction(profile?._id))
+																	}
+																	type="button"
+																	className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+																>
+																	<HeartIcon
+																		className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+																		aria-hidden="true"
+																	/>
+																	<span>
+																		Follow {profile?.followers?.length}{" "}
+																	</span>
+																</button>
+															)}
 														</div>
 
 														{/* Update Profile */}

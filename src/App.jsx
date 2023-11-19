@@ -17,6 +17,7 @@ import UpdatePost from './components/Posts/UpdatePost';
 import UpdateComment from './components/Comments/UpdateComment';
 import Profile from './components/Users/Profile';
 import UpdateProfileForm from './components/Users/UpdateProfileForm';
+import SendEmail from './components/Users/SendEmail';
 
 function App() {
 	return (
@@ -38,6 +39,7 @@ function App() {
 					{/* user profile */}
 					<Route path="/profile/:id" element={<Profile />} />
 					<Route path="/update-profile/:id" element={<UpdateProfileForm />} />
+					<Route path="/send-email" element={<SendEmail />} />
 				</Route>
 
 				<Route element={<AdminRoute />}>

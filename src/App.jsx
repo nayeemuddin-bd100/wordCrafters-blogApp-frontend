@@ -18,6 +18,7 @@ import UpdateComment from './components/Comments/UpdateComment';
 import Profile from './components/Users/Profile';
 import UpdateProfileForm from './components/Users/UpdateProfileForm';
 import SendEmail from './components/Users/SendEmail';
+import AccountVerified from './components/Users/AccountVerified';
 
 function App() {
 	return (
@@ -40,6 +41,7 @@ function App() {
 					<Route path="/profile/:id" element={<Profile />} />
 					<Route path="/update-profile/:id" element={<UpdateProfileForm />} />
 					<Route path="/send-email" element={<SendEmail />} />
+					<Route path="/verify-token/:token" element={<AccountVerified />} />
 				</Route>
 
 				<Route element={<AdminRoute />}>

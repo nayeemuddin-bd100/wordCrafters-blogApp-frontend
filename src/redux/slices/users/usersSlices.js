@@ -6,6 +6,10 @@ import baseUrl from "./../../../utils/baseUrl";
 export const resetUpdateProfileAction = createAction(
 	"users/reset-update-profile"
 );
+// update userAuth
+export const updateAccVerifiedAction = createAction(
+	"users/update-acc-verified"
+);
 
 //  Register user
 export const registerUsersAction = createAsyncThunk(
@@ -262,6 +266,7 @@ const userSlices = createSlice({
 			state.userAuth = undefined;
 			state.profile = undefined;
 			state.updatedProfile = undefined;
+			state.verify = undefined;
 			state.loading = false;
 			state.appErr = undefined;
 			state.serverErr = undefined;
@@ -369,6 +374,16 @@ const userSlices = createSlice({
 			state.followerLoading = false;
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;
+		});
+
+		//update account verified
+		builder.addCase(updateAccVerifiedAction, (state, action) => {
+			const updatedUserInfo = {
+				...state?.userAuth,
+				isVerified: true,
+			};
+			localStorage.setItem("userInfo", JSON.stringify(updatedUserInfo));
+			state.userAuth = updatedUserInfo;
 		});
 	},
 });

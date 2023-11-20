@@ -22,12 +22,13 @@ import { changeUserProfilePhotoAction } from "./../../redux/slices/users/usersSl
 import MiniSpinner from "../../utils/MiniSpinner";
 import { UnFollowUserAction } from "./../../redux/slices/users/usersSlices";
 
-export default function Profile() {
+const Profile = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 
 	// Manage profile photo upload
 	const users = useSelector((state) => state?.users);
+
 	const {
 		profile,
 		profilePhoto,
@@ -90,7 +91,7 @@ export default function Profile() {
 														<h1 className="text-2xl font-bold text-gray-900 ">
 															{profile?.firstName} {profile?.lastName}
 															<span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-																{/* {profile?.accountType} */}
+																{profile?.accountType}
 															</span>
 															{/* Display if verified or not */}
 															{profile?.isAccountVerified ? (
@@ -161,7 +162,8 @@ export default function Profile() {
 													<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
 														{/* Follow/Unfollow user */}
 														<div>
-															{followerLoading ? (
+															{users?.userAuth?._id ===
+															id ? null : followerLoading ? (
 																<button
 																	disabled
 																	className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
@@ -269,25 +271,33 @@ export default function Profile() {
 												Who viewed my profile : 9
 											</h1>
 
-											{/* Who view my post */}
+											{/* Who view my profile */}
 											<ul className="">
-												<Link>
-													<div className="flex mb-2 items-center space-x-4 lg:space-x-6">
-														<img
-															className="w-16 h-16 rounded-full lg:w-20 lg:h-20"
-															src={profile.profilePhoto}
-															alt={profile?._id}
-														/>
-														<div className="font-medium text-lg leading-6 space-y-1">
-															<h3>
-																{profile?.firstName} {profile?.lastName}
-															</h3>
-															<p className="text-indigo-600">
-																{/* {user.accountType} */} Account Type
-															</p>
-														</div>
-													</div>
-												</Link>
+												{profile?.viewedBy?.length <= 0 ? (
+													<h1>No Viewer</h1>
+												) : (
+													profile?.viewedBy?.map((user) => (
+														<li key={user?._id}>
+															<Link>
+																<div className="flex mb-2 items-center space-x-4 lg:space-x-6">
+																	<img
+																		className="w-16 h-16 rounded-full lg:w-20 lg:h-20"
+																		src={user?.profilePhoto}
+																		alt={user?.firstName}
+																	/>
+																	<div className="font-medium text-lg leading-6 space-y-1">
+																		<h3>
+																			{user?.firstName} {user?.lastName}
+																		</h3>
+																		<p className="text-indigo-600">
+																			{user?.accountType}
+																		</p>
+																	</div>
+																</div>
+															</Link>
+														</li>
+													))
+												)}
 											</ul>
 										</div>
 										{/* All my Post */}
@@ -351,4 +361,6 @@ export default function Profile() {
 			)}
 		</>
 	);
-}
+};
+
+export default Profile;

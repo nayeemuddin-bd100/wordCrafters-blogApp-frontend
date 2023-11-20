@@ -49,9 +49,12 @@ const { loading } = comment;
 									/>
 									<div className="flex-1 space-y-1 break-all">
 										<div className="flex items-center justify-between">
-											<h3 className="text-sm font-medium text-green-400">
+											<Link
+												to={`/profile/${comment?.author?._id}`}
+												className="text-sm font-medium text-green-400"
+											>
 												{comment?.author?.firstName} {comment?.author?.lastName}
-											</h3>
+											</Link>
 											<p className="text-bold text-yellow-500 text-base ml-5">
 												{formatTimeAgo(comment?.createdAt)}
 											</p>

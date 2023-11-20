@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import {
@@ -19,12 +19,17 @@ const SendEmail = () => {
 	const user = useSelector((state) => state?.users);
 	const mailSending = useSelector((state) => state?.mail);
 	const { profile } = user;
-	const { emailLoading, mailSent,serverErr,appErr } = mailSending;
+	const { emailLoading, mailSent, serverErr, appErr } = mailSending;
 
-  const formik = useFormik({
+// extract email from query params 	
+	const { search } = useLocation();
+	const queryParams = new URLSearchParams(search);
+	const email = queryParams.get("email");
+
+	const formik = useFormik({
 		enableReinitialize: true,
 		initialValues: {
-			recipientEmail: profile?.email,
+			recipientEmail: email,
 			// recipientEmail: "nayeemuddin.bd100@gmail.com", // it should be user valid email
 			subject: "",
 			message: "",

@@ -9,7 +9,6 @@ import CategoryList from "./components/Category/CategoryList";
 import UpdateCategory from "./components/Category/UpdateCategory";
 import ProtectedRoute from "./components/Home/Navigation/ProtectedRoute/ProtectedRoute";
 import AdminRoute from './components/Home/Navigation/ProtectedRoute/AdminRoute';
-import Authors from './pages/Authors';
 import CreatePost from './components/Posts/CreatePost';
 import PostsList from "./components/Posts/PostsList";
 import PostDetails from './components/Posts/PostDetails';
@@ -19,6 +18,7 @@ import Profile from './components/Users/Profile';
 import UpdateProfileForm from './components/Users/UpdateProfileForm';
 import SendEmail from './components/Users/SendEmail';
 import AccountVerified from './components/Users/AccountVerified';
+import UsersList from './components/UsersList/UsersList';
 
 function App() {
 	return (
@@ -33,7 +33,7 @@ function App() {
 				<Route path="/posts/:id" element={<PostDetails />} />
 
 				<Route element={<ProtectedRoute />}>
-					<Route path="/users" element={<Authors />} />
+					<Route path="/users" element={<UsersList />} />
 					<Route path="/create-post" element={<CreatePost />} />
 					<Route path="/update-post/:id" element={<UpdatePost />} />
 					<Route path="/update-comment/:id" element={<UpdateComment />} />

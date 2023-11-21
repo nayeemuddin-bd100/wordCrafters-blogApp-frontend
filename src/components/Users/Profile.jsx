@@ -30,6 +30,7 @@ const Profile = () => {
 	const users = useSelector((state) => state?.users);
 
 	const {
+		userAuth,
 		profile,
 		profilePhoto,
 		loading,
@@ -127,36 +128,38 @@ const Profile = () => {
 														{/* is login user */}
 														{/* Upload profile photo */}
 
-														<form onSubmit={handleSubmit}>
-															<label className="cursor-pointer inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-																<input
-																	type="file"
-																	onChange={handleFileChange}
-																	className="hidden"
-																/>
-																<UploadIcon
-																	className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-																	aria-hidden="true"
-																/>
+														{userAuth?._id === id && (
+															<form onSubmit={handleSubmit}>
+																<label className="cursor-pointer inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+																	<input
+																		type="file"
+																		onChange={handleFileChange}
+																		className="hidden"
+																	/>
+																	<UploadIcon
+																		className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+																		aria-hidden="true"
+																	/>
 
-																<span>Change Profile Picture</span>
-															</label>
-															{profilePhotoLoading ? (
-																<button
-																	disabled
-																	className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
-																>
-																	<MiniSpinner />
-																</button>
-															) : selectedFile && !profilePhotoLoading ? (
-																<button
-																	type="submit"
-																	className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
-																>
-																	Upload Photo
-																</button>
-															) : null}
-														</form>
+																	<span>Change Profile Picture</span>
+																</label>
+																{profilePhotoLoading ? (
+																	<button
+																		disabled
+																		className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
+																	>
+																		<MiniSpinner />
+																	</button>
+																) : selectedFile && !profilePhotoLoading ? (
+																	<button
+																		type="submit"
+																		className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
+																	>
+																		Upload Photo
+																	</button>
+																) : null}
+															</form>
+														)}
 													</div>
 
 													<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
@@ -225,16 +228,18 @@ const Profile = () => {
 														{/* Update Profile */}
 
 														<>
-															<Link
-																to={`/update-profile/${id}`}
-																className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-															>
-																<UserIcon
-																	className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-																	aria-hidden="true"
-																/>
-																<span>Update Profile</span>
-															</Link>
+															{userAuth?._id === id && (
+																<Link
+																	to={`/update-profile/${id}`}
+																	className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+																>
+																	<UserIcon
+																		className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+																		aria-hidden="true"
+																	/>
+																	<span>Update Profile</span>
+																</Link>
+															)}
 														</>
 														{/* Send Mail */}
 														<Link

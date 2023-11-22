@@ -6,6 +6,8 @@ import baseUrl from "./../../../utils/baseUrl";
 export const resetUpdateProfileAction = createAction(
 	"users/reset-update-profile"
 );
+//Reset change pass action
+export const resetChangePassAction = createAction("users/reset-change-pass");
 // update userAuth
 export const updateAccVerifiedAction = createAction(
 	"users/update-acc-verified"
@@ -65,6 +67,34 @@ export const logoutUserAction = createAsyncThunk(
 				throw error;
 			}
 
+			return rejectWithValue(error?.response?.data);
+		}
+	}
+);
+
+// Change password
+export const changePasswordAction = createAsyncThunk(
+	"users/change-password",
+	async (password, { rejectWithValue, getState }) => {
+		try {
+			const state = getState();
+			const jwtToken = state?.users?.userAuth?.token;
+
+			const res = await axios.put(
+				`${baseUrl}/api/users/update-password`,
+				password,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${jwtToken}`,
+					},
+				}
+			);
+			return res.data;
+		} catch (error) {
+			if (!error?.response) {
+				throw error;
+			}
 			return rejectWithValue(error?.response?.data);
 		}
 	}
@@ -232,8 +262,7 @@ export const fetchAllUserAction = createAsyncThunk(
 			return rejectWithValue(error?.response?.data);
 		}
 	}
-); 
-
+);
 
 // Block users
 export const blockUserAction = createAsyncThunk(
@@ -244,7 +273,8 @@ export const blockUserAction = createAsyncThunk(
 			const jwtToken = state?.users?.userAuth?.token;
 
 			const res = await axios.put(
-				`${baseUrl}/api/users/block-user/${id}`,{},
+				`${baseUrl}/api/users/block-user/${id}`,
+				{},
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -260,7 +290,7 @@ export const blockUserAction = createAsyncThunk(
 			return rejectWithValue(error?.response?.data);
 		}
 	}
-); 
+);
 
 // Block users
 export const UnBlockUserAction = createAsyncThunk(
@@ -271,7 +301,8 @@ export const UnBlockUserAction = createAsyncThunk(
 			const jwtToken = state?.users?.userAuth?.token;
 
 			const res = await axios.put(
-				`${baseUrl}/api/users/unblock-user/${id}`,{},
+				`${baseUrl}/api/users/unblock-user/${id}`,
+				{},
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -287,7 +318,7 @@ export const UnBlockUserAction = createAsyncThunk(
 			return rejectWithValue(error?.response?.data);
 		}
 	}
-); 
+);
 
 const userSlices = createSlice({
 	name: "user",
@@ -355,6 +386,28 @@ const userSlices = createSlice({
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;
 			undefined;
+		});
+
+		/* Change Password */
+		builder.addCase(changePasswordAction.pending, (state, action) => {
+			state.changePassLoading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(changePasswordAction.fulfilled, (state, action) => {
+			state.updatedPassUser = action?.payload;
+			state.changePassLoading = false;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(changePasswordAction.rejected, (state, action) => {
+			state.changePassLoading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+		// reset change pass action
+		builder.addCase(resetChangePassAction, (state) => {
+			state.updatedPassUser = undefined;
 		});
 
 		/* User Profile */

@@ -19,6 +19,7 @@ import UpdateProfileForm from './components/Users/UpdateProfileForm';
 import SendEmail from './components/Users/SendEmail';
 import AccountVerified from './components/Users/AccountVerified';
 import UsersList from './components/UsersList/UsersList';
+import UpdatePassword from './components/Users/UpdatePassword';
 
 function App() {
 	return (
@@ -34,6 +35,7 @@ function App() {
 
 				<Route element={<ProtectedRoute />}>
 					<Route path="/users" element={<UsersList />} />
+					<Route path="/update-password" element={<UpdatePassword />} />
 					<Route path="/create-post" element={<CreatePost />} />
 					<Route path="/update-post/:id" element={<UpdatePost />} />
 					<Route path="/update-comment/:id" element={<UpdateComment />} />

@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserAction } from '../redux/slices/users/usersSlices';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import MiniSpinner from '../utils/MiniSpinner';
 
 const formSchema = Yup.object({
@@ -23,7 +23,6 @@ const Login = () => {
     },
     onSubmit: value => {
       dispatch(loginUserAction(value))
-      // console.log(value);
     },
     validationSchema:formSchema
   })
@@ -124,7 +123,7 @@ const Login = () => {
 												type="submit"
 												className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition duration-200"
 											>
-												<MiniSpinner/>
+												<MiniSpinner />
 											</button>
 										) : (
 											<button
@@ -135,6 +134,14 @@ const Login = () => {
 											</button>
 										)}
 									</form>
+									<div className="p-2">
+										<Link
+											to="/password-reset-token"
+											className="font-medium text-indigo-600 hover:text-indigo-500"
+										>
+											Forget Password ?
+										</Link>
+									</div>
 								</div>
 							</div>
 							<div className="w-full lg:w-1/2 xl:w-3/5 px-2 xl:px-4  mb-16 lg:mb-0 order-first lg:order-last">

@@ -8,6 +8,10 @@ export const resetUpdateProfileAction = createAction(
 );
 //Reset change pass action
 export const resetChangePassAction = createAction("users/reset-change-pass");
+//Reset forget pass action
+export const resetForgetPassAction = createAction("users/reset-forget-pass");
+//Reset forget (new pass) action
+export const resetSetNewPassAction = createAction("users/reset-set-new-pass");
 // update userAuth
 export const updateAccVerifiedAction = createAction(
 	"users/update-acc-verified"
@@ -90,6 +94,50 @@ export const changePasswordAction = createAsyncThunk(
 					},
 				}
 			);
+			return res.data;
+		} catch (error) {
+			if (!error?.response) {
+				throw error;
+			}
+			return rejectWithValue(error?.response?.data);
+		}
+	}
+);
+
+// forget password
+export const forgetPasswordAction = createAsyncThunk(
+	"users/forget-password",
+	async (email, { rejectWithValue }) => {
+		try {
+			const res = await axios.put(
+				`${baseUrl}/api/users/forget-password-token`,
+				email,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+			return res.data;
+		} catch (error) {
+			if (!error?.response) {
+				throw error;
+			}
+			return rejectWithValue(error?.response?.data);
+		}
+	}
+);
+
+// set new password
+export const setNewPasswordAction = createAsyncThunk(
+	"users/set-new-password",
+	async (data, { rejectWithValue }) => {
+		try {
+			const res = await axios.put(`${baseUrl}/api/users/reset-password`, data, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
 			return res.data;
 		} catch (error) {
 			if (!error?.response) {
@@ -408,6 +456,50 @@ const userSlices = createSlice({
 		// reset change pass action
 		builder.addCase(resetChangePassAction, (state) => {
 			state.updatedPassUser = undefined;
+		});
+
+		/* forget Password */
+		builder.addCase(forgetPasswordAction.pending, (state, action) => {
+			state.forgetPassLoading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(forgetPasswordAction.fulfilled, (state, action) => {
+			state.passwordToken = action?.payload;
+			state.forgetPassLoading = false;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(forgetPasswordAction.rejected, (state, action) => {
+			state.forgetPassLoading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+		// reset forget pass action
+		builder.addCase(resetForgetPassAction, (state) => {
+			state.passwordToken = undefined;
+		});
+
+		/* set Password */
+		builder.addCase(setNewPasswordAction.pending, (state, action) => {
+			state.newPassLoading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(setNewPasswordAction.fulfilled, (state, action) => {
+			state.newPassUser = action?.payload;
+			state.newPassLoading = false;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(setNewPasswordAction.rejected, (state, action) => {
+			state.newPassLoading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+		// reset set new pass action
+		builder.addCase(resetSetNewPassAction, (state) => {
+			state.newPassUser = undefined;
 		});
 
 		/* User Profile */

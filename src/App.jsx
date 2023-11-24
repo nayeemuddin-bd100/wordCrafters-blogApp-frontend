@@ -20,6 +20,8 @@ import SendEmail from './components/Users/SendEmail';
 import AccountVerified from './components/Users/AccountVerified';
 import UsersList from './components/UsersList/UsersList';
 import UpdatePassword from './components/Users/UpdatePassword';
+import ResetPasswordForm from './components/Users/ResetPasswordForm';
+import ResetPassword from './components/Users/ResetPassword'
 
 function App() {
 	return (
@@ -30,6 +32,8 @@ function App() {
 				<Route path="/home" element={<Home />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/password-reset-token" element={<ResetPasswordForm />} />
+				<Route path="/set-new-pass/:token" element={<ResetPassword />} />
 				<Route path="/posts" element={<PostsList />} />
 				<Route path="/posts/:id" element={<PostDetails />} />
 

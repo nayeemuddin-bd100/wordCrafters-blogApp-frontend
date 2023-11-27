@@ -1,37 +1,40 @@
-import React from 'react'
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUserAction } from '../redux/slices/users/usersSlices';
-import { Link, Navigate } from 'react-router-dom';
-import MiniSpinner from '../utils/MiniSpinner';
+import { loginUserAction } from "../redux/slices/users/usersSlices";
+import { Link, Navigate } from "react-router-dom";
+import MiniSpinner from "../utils/MiniSpinner";
+import { useLocation } from "react-router-dom";
 
 const formSchema = Yup.object({
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  password:Yup.string().required("Password is required")
-})
+	email: Yup.string().email("Invalid email").required("Email is required"),
+	password: Yup.string().required("Password is required"),
+});
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const storeData = useSelector((state) => state?.users)
-  const { registered, appErr, serverErr, loading } = storeData;
+	const dispatch = useDispatch();
+	const storeData = useSelector((state) => state?.users);
+	const { registered, appErr, serverErr, loading } = storeData;
+	const location = useLocation();
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: ''
-    },
-    onSubmit: value => {
-      dispatch(loginUserAction(value))
-    },
-    validationSchema:formSchema
-  })
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+			password: "",
+		},
+		onSubmit: (value) => {
+			dispatch(loginUserAction(value));
+		},
+		validationSchema: formSchema,
+	});
 
-	if(storeData?.userAuth){
-		return <Navigate to="/home"/>
+	if (storeData?.userAuth) {
+		const from = location.state?.from || "/home";
+		return <Navigate to={`${from}`} />;
 	}
 
-  return (
+	return (
 		<>
 			<section className="min-h-screen relative py-20 2xl:py-40 bg-gray-900 overflow-hidden">
 				<div className="relative container px-2 xl:px-4 mx-auto">
@@ -195,6 +198,6 @@ const Login = () => {
 			</section>
 		</>
 	);
-}
+};
 
-export default Login
+export default Login;

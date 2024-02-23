@@ -1,15 +1,26 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { Link } from "react-router-dom";
-import { MailIcon } from "@heroicons/react/solid";
+import { MailIcon, TrashIcon } from "@heroicons/react/solid";
 import { useDispatch } from "react-redux";
 import {
 	blockUserAction,
+	deleteUserAction,
 	UnBlockUserAction,
 } from "./../../redux/slices/users/usersSlices";
+import toast from "react-hot-toast";
 
 const UsersListItem = ({ user }) => {
 	const dispatch = useDispatch();
+	const handleDelete = (id) => {
+		const shouldDelete = window.confirm(
+			"Are you sure you want to delete this user?"
+		);
+		if (shouldDelete) {
+			dispatch(deleteUserAction(id));
+			toast.success("User deleted successfully");
+		}
+	};
 	return (
 		<>
 			<div className="p-3 mb-3 bg-white shadow rounded">
@@ -80,6 +91,17 @@ const UsersListItem = ({ user }) => {
 								Message
 							</span>
 						</Link>
+						<button
+							type="button"
+							onClick={() => handleDelete(user?._id)}
+							className="inline-flex ml-2 justify-center items-center bg-red-600 px-2   border border-yellow-700 shadow-sm text-sm font-medium rounded-md text-white  hover:bg-red-800  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+						>
+							<TrashIcon
+								className="-ml-1 mr-2 h-5 w-5 text-gray-200"
+								aria-hidden="true"
+							/>
+							<span className="text-base mr-2  text-bold">Delete</span>
+						</button>
 					</div>
 				</div>
 			</div>

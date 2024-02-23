@@ -8,12 +8,20 @@ import { Spinner } from "../../utils/Spinner";
 const UsersList = () => {
 	const dispatch = useDispatch();
 	const users = useSelector((state) => state?.users);
-  const { fetchAllUserLoading, allUsers, appErr, serverErr,blockUser,unblockUser } = users;
+  const {
+		fetchAllUserLoading,
+		allUsers,
+		appErr,
+		serverErr,
+		blockUser,
+		unblockUser,
+		deleteUser,
+	} = users;
   
 
 	useEffect(() => {
 		dispatch(fetchAllUserAction());
-	}, [dispatch, blockUser, unblockUser]);
+	}, [dispatch, blockUser, unblockUser, deleteUser]);
 	return (
 		<>
 			<section className=" bg-gray-900 min-h-screen">

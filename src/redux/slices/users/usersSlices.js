@@ -368,6 +368,33 @@ export const UnBlockUserAction = createAsyncThunk(
 	}
 );
 
+// Delete users
+export const deleteUserAction = createAsyncThunk(
+	"users/delete-user",
+	async (id, { rejectWithValue, getState }) => {
+		try {
+			const state = getState();
+			const jwtToken = state?.users?.userAuth?.token;
+
+			const res = await axios.delete(
+				`${baseUrl}/api/users/${id}`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${jwtToken}`,
+					},
+				}
+			);
+			return res.data;
+		} catch (error) {
+			if (!error?.response) {
+				throw error;
+			}
+			return rejectWithValue(error?.response?.data);
+		}
+	}
+);
+
 const userSlices = createSlice({
 	name: "user",
 	initialState: {
@@ -660,6 +687,24 @@ const userSlices = createSlice({
 		});
 		builder.addCase(UnBlockUserAction.rejected, (state, action) => {
 			state.unBlockUserLoading = false;
+			state.appErr = action?.payload?.message;
+			state.serverErr = action?.error?.message;
+		});
+		
+		/* Delete user */
+		builder.addCase(deleteUserAction.pending, (state, action) => {
+			state.deleteUserUserLoading = true;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(deleteUserAction.fulfilled, (state, action) => {
+			state.deleteUser = action?.payload;
+			state.deleteUserUserLoading = false;
+			state.appErr = undefined;
+			state.serverErr = undefined;
+		});
+		builder.addCase(deleteUserAction.rejected, (state, action) => {
+			state.deleteUserUserLoading = false;
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;
 		});

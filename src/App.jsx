@@ -22,10 +22,12 @@ import UsersList from './components/UsersList/UsersList';
 import UpdatePassword from './components/Users/UpdatePassword';
 import ResetPasswordForm from './components/Users/ResetPasswordForm';
 import ResetPassword from './components/Users/ResetPassword'
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
 	return (
 		<BrowserRouter>
+			<Toaster />
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />

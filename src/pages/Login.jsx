@@ -6,6 +6,7 @@ import { loginUserAction } from "../redux/slices/users/usersSlices";
 import { Link, Navigate } from "react-router-dom";
 import MiniSpinner from "../utils/MiniSpinner";
 import { useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const formSchema = Yup.object({
 	email: Yup.string().email("Invalid email").required("Email is required"),
@@ -25,18 +26,21 @@ const Login = () => {
 		},
 		onSubmit: (value) => {
 			dispatch(loginUserAction(value));
+
+		
 		},
 		validationSchema: formSchema,
 	});
 
 	if (storeData?.userAuth) {
 		const from = location.state?.from || "/home";
+		toast.success("Login Successfully");
 		return <Navigate to={`${from}`} />;
 	}
 
 	return (
 		<>
-			<section className="min-h-screen relative py-20 2xl:py-40 bg-gray-900 overflow-hidden">
+			<section className=" relative py-20 2xl:py-40 bg-gray-900 overflow-hidden">
 				<div className="relative container px-2 xl:px-4 mx-auto">
 					<div className="max-w-5xl mx-auto">
 						<div className="flex flex-wrap items-center -mx-4">
@@ -44,7 +48,7 @@ const Login = () => {
 								<div className="px-6 lg:px-12 py-12 lg:py-24   bg-white shadow-lg rounded-lg ">
 									{/* Form */}
 									<form onSubmit={formik.handleSubmit} className="text-center">
-										<h3 className="mb-10 text-2xl font-bold font-heading">
+										<h3 className="mb-10 text-xl font-bold font-heading">
 											{/* Header */}
 											Login to your Account
 										</h3>
@@ -137,18 +141,24 @@ const Login = () => {
 											</button>
 										)}
 									</form>
-									<div className="p-2">
+									<div className=" flex justify-between text-xs mt-2 underline">
 										<Link
 											to="/password-reset-token"
 											className="font-medium text-indigo-600 hover:text-indigo-500"
 										>
 											Forget Password ?
 										</Link>
+										<Link
+											to="/register"
+											className="font-medium text-indigo-600 hover:text-indigo-500"
+										>
+											Don&rsquo;t have an account?
+										</Link>
 									</div>
 								</div>
 							</div>
-							<div className="w-full lg:w-1/2 xl:w-3/5 px-2 xl:px-4  mb-16 lg:mb-0 order-first lg:order-last">
-								<span className="flex mb-10 mx-auto items-center justify-center h-20 w-20 bg-blue-500 rounded-lg">
+							<div className="w-full lg:w-1/2 xl:w-3/5 px-2 xl:px-4 lg:mb-0 order-first lg:order-last">
+								<span className="flex mb-10 mx-auto items-center justify-center w-16 h-16 md:h-20 md:w-20 bg-blue-500 rounded-lg">
 									<svg
 										width="37"
 										height="37"
@@ -188,7 +198,7 @@ const Login = () => {
 										</g>
 									</svg>
 								</span>
-								<h2 className="mb-10 text-center text-6xl lg:text-7xl text-gray-300 font-bold font-heading">
+								<h2 className="mb-10 px-2 md:px-0 text-center text-3xl md:text-6xl lg:text-7xl text-gray-300 font-bold font-heading">
 									Ready to start? Login Now.
 								</h2>
 							</div>

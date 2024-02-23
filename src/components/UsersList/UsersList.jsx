@@ -8,7 +8,7 @@ import { Spinner } from "../../utils/Spinner";
 const UsersList = () => {
 	const dispatch = useDispatch();
 	const users = useSelector((state) => state?.users);
-  const {
+	const {
 		fetchAllUserLoading,
 		allUsers,
 		appErr,
@@ -17,7 +17,6 @@ const UsersList = () => {
 		unblockUser,
 		deleteUser,
 	} = users;
-  
 
 	useEffect(() => {
 		dispatch(fetchAllUserAction());
@@ -27,18 +26,23 @@ const UsersList = () => {
 			<section className=" bg-gray-900 min-h-screen">
 				<UsersListHeader />
 
-				{fetchAllUserLoading ? (
-					<Spinner />
-				) : appErr || serverErr ? (
-					<h2 className="text-red-500 text-center text-xl py-10">
-						{" "}
-						{appErr} {serverErr}{" "}
-					</h2>
-				) : allUsers && allUsers?.length <= 0 ? (
+				{appErr ||
+					(serverErr && (
+						<h2 className="text-red-500 text-center text-xl py-10">
+							{" "}
+							{appErr} {serverErr}
+						</h2>
+					))}
+
+				{allUsers && allUsers?.length <= 0 && (
 					<h2 className="text-3xl text-white text-center py-10">
 						No user found
 					</h2>
-				) :  (
+				)}
+
+				{fetchAllUserLoading ? (
+					<Spinner />
+				) : (
 					allUsers?.map((user) => {
 						return <UsersListItem key={user?._id} user={user} />;
 					})

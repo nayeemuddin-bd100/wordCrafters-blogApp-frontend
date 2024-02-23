@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { MailIcon, TrashIcon } from "@heroicons/react/solid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	blockUserAction,
 	deleteUserAction,
@@ -11,12 +11,24 @@ import {
 import toast from "react-hot-toast";
 
 const UsersListItem = ({ user }) => {
+	const loggedInUser = useSelector((state) => state?.users?.userAuth);
+
 	const dispatch = useDispatch();
 	const handleDelete = (id) => {
 		const shouldDelete = window.confirm(
 			"Are you sure you want to delete this user?"
 		);
 		if (shouldDelete) {
+			if (!loggedInUser?.isAdmin) {
+				return toast.error("Only Admin can delete user");
+			} else if (user.email === "nayeemuddin.bd100@gmail.com") {
+				return toast.error("Demo Admin cannot delete Super Admin");
+			} else if (user.email === "wordcrafters@admin.com") {
+				return toast.error("Demo Admin cannot delete Own Account");
+			} else if (user.email === "wordcrafters@user.com") {
+				return toast.error("Demo Admin cannot delete Demo User Account");
+			}
+
 			dispatch(deleteUserAction(id));
 			toast.success("User deleted successfully");
 		}
@@ -40,7 +52,13 @@ const UsersListItem = ({ user }) => {
 					</div>
 					<div className="w-1/3 lg:w-2/12 px-4 mb-3 lg:mb-0 justify-center ">
 						<p className="py-1 px-2 text-xs text-purple-500 bg-purple-50 rounded-full">
-							{user?.accountType}
+							{user?.email === "nayeemuddin.bd100@gmail.com"
+								? "Super Admin"
+								: user?.email === "wordcrafters@admin.com"
+								? "Demo Admin"
+								: user?.email === "wordcrafters@user.com"
+								? "Demo User"
+								: user?.accountType}
 						</p>
 					</div>
 					<div className="w-1/3 lg:w-1/12 px-4 mb-3 lg:mb-0 flex justify-end ">

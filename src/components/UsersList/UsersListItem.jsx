@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { MailIcon, TrashIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,9 +11,12 @@ import {
 import toast from "react-hot-toast";
 
 const UsersListItem = ({ user }) => {
-	const loggedInUser = useSelector((state) => state?.users?.userAuth);
-
 	const dispatch = useDispatch();
+	const navigate = useNavigate()
+
+	const loggedInUser = useSelector((state) => state?.users?.profile);
+
+	const isBlocked = loggedInUser?.blockedUsers?.includes(user?.id);
 	const handleDelete = (id) => {
 		const shouldDelete = window.confirm(
 			"Are you sure you want to delete this user?"
@@ -33,6 +36,13 @@ const UsersListItem = ({ user }) => {
 			toast.success("User deleted successfully");
 		}
 	};
+	const handleMessage = () => {
+		if (isBlocked) {
+			return toast.error("Blocked user cannot send Message");
+		}
+		navigate(`/send-email?email=${user?.email}`);
+	}
+
 	return (
 		<>
 			<div className="p-3 mb-3 bg-white shadow rounded">
@@ -81,7 +91,7 @@ const UsersListItem = ({ user }) => {
 						</Link>
 
 						{/* user blocked/unblocked */}
-						{user?.isBlocked ? (
+						{isBlocked ? (
 							<button
 								onClick={() => dispatch(UnBlockUserAction(user?._id))}
 								className="inline-block px-2 text-center bg-gray-500 text-gray-300 mr-2 mb-1 lg:mb-0 text-xs border rounded"
@@ -97,8 +107,9 @@ const UsersListItem = ({ user }) => {
 							</button>
 						)}
 
-						<Link
-							to={`/send-email?email=${user?.email}`}
+						<button
+							type="button"
+							onClick={handleMessage}
 							className="inline-flex  justify-center items-center bg-green-700 px-2   border border-yellow-700 shadow-sm text-sm font-medium rounded-md text-gray-700  hover:bg-green-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
 						>
 							<MailIcon
@@ -108,7 +119,7 @@ const UsersListItem = ({ user }) => {
 							<span className="text-base mr-2  text-bold text-yellow-500 ">
 								Message
 							</span>
-						</Link>
+						</button>
 						<button
 							type="button"
 							onClick={() => handleDelete(user?._id)}

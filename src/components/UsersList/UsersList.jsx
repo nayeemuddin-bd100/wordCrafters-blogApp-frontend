@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import UsersListHeader from "./UsersListHeader";
 import UsersListItem from "./UsersListItem";
-import { fetchAllUserAction } from "./../../redux/slices/users/usersSlices";
+import {
+	fetchAllUserAction,
+	userProfileAction,
+} from "./../../redux/slices/users/usersSlices";
 import { Spinner } from "../../utils/Spinner";
 
 const UsersList = () => {
@@ -16,11 +19,13 @@ const UsersList = () => {
 		blockUser,
 		unblockUser,
 		deleteUser,
+		userAuth,
 	} = users;
 
 	useEffect(() => {
 		dispatch(fetchAllUserAction());
-	}, [dispatch, blockUser, unblockUser, deleteUser]);
+		dispatch(userProfileAction(userAuth?._id));
+	}, [dispatch, blockUser, unblockUser, deleteUser, userAuth?._id]);
 	return (
 		<>
 			<section className=" bg-gray-900 min-h-screen">

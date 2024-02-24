@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
 	HeartIcon,
 	EmojiSadIcon,
@@ -21,16 +21,19 @@ import { useState } from "react";
 import { changeUserProfilePhotoAction } from "./../../redux/slices/users/usersSlices";
 import MiniSpinner from "../../utils/MiniSpinner";
 import { UnFollowUserAction } from "./../../redux/slices/users/usersSlices";
+import toast from "react-hot-toast";
 
 const Profile = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	// Manage profile photo upload
 	const users = useSelector((state) => state?.users);
 
 	const {
 		userAuth,
+		blockedUserState,
 		profile,
 		profilePhoto,
 		loading,
@@ -56,6 +59,14 @@ const Profile = () => {
 		}
 		setSelectedFile(null);
 	};
+
+	const isBlocked = blockedUserState?.includes(profile?._id);
+		const handleMessage = () => {
+			if (isBlocked) {
+				return toast.error("User is Blocked");
+			}
+			navigate(`/send-email?email=${profile?.email}`);
+		};
 
 	return (
 		<>
@@ -120,7 +131,7 @@ const Profile = () => {
 															<div className="pl-2">
 																{profile?.viewedBy?.length}{" "}
 																<span className="text-indigo-500 cursor-pointer hover:underline">
-																	Users viewed your profile
+																	Users viewed this profile
 																</span>
 															</div>
 														</div>
@@ -242,8 +253,9 @@ const Profile = () => {
 															)}
 														</>
 														{/* Send Mail */}
-														<Link
-															to={`/send-email?email=${profile?.email}`}
+														<button
+															type="button"
+															onClick={handleMessage}
 															className="inline-flex justify-center bg-indigo-900 px-4 py-2 border border-yellow-700 shadow-sm text-sm font-medium rounded-md text-gray-700  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
 														>
 															<MailIcon
@@ -253,7 +265,7 @@ const Profile = () => {
 															<span className="text-base mr-2  text-bold text-yellow-500">
 																Send Message
 															</span>
-														</Link>
+														</button>
 													</div>
 												</div>
 											</div>
@@ -273,7 +285,7 @@ const Profile = () => {
 									<div className="flex justify-center place-items-start flex-wrap  md:mb-0">
 										<div className="w-full md:w-1/3 px-4 mb-4 md:mb-0">
 											<h1 className="text-center text-xl border-gray-500 mb-2 border-b-2">
-												Who viewed my profile : 9
+												Who viewed this profile : {profile?.viewedBy?.length}
 											</h1>
 
 											{/* Who view my profile */}
@@ -307,8 +319,8 @@ const Profile = () => {
 										</div>
 										{/* All my Post */}
 										<div className="w-full md:w-2/3 px-4 mb-4 md:mb-0">
-											<h1 className="text-center text-xl border-gray-500 mb-2 border-b-2">
-												My Post
+											<h1 className=" text-center text-xl border-gray-500 mb-2 border-b-2">
+												Author Post
 											</h1>
 
 											{profile?.posts?.length <= 0 ? (

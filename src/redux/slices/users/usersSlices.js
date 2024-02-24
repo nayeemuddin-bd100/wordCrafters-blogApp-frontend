@@ -340,7 +340,7 @@ export const blockUserAction = createAsyncThunk(
 	}
 );
 
-// Block users
+// UnBlock users
 export const UnBlockUserAction = createAsyncThunk(
 	"users/UnBlock-user",
 	async (id, { rejectWithValue, getState }) => {
@@ -376,15 +376,12 @@ export const deleteUserAction = createAsyncThunk(
 			const state = getState();
 			const jwtToken = state?.users?.userAuth?.token;
 
-			const res = await axios.delete(
-				`${baseUrl}/api/users/${id}`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${jwtToken}`,
-					},
-				}
-			);
+			const res = await axios.delete(`${baseUrl}/api/users/${id}`, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwtToken}`,
+				},
+			});
 			return res.data;
 		} catch (error) {
 			if (!error?.response) {
@@ -399,6 +396,7 @@ const userSlices = createSlice({
 	name: "user",
 	initialState: {
 		userAuth: getUserInfo,
+		// blockedUserState: [...getUserInfo.blockedUsers],
 	},
 	extraReducers: (builder) => {
 		/* Register */
@@ -434,6 +432,7 @@ const userSlices = createSlice({
 			state.loading = false;
 			state.appErr = undefined;
 			state.serverErr = undefined;
+			state.blockedUserState = [...getUserInfo.blockedUsers];
 		});
 		builder.addCase(loginUserAction.rejected, (state, action) => {
 			state.loading = false;
@@ -662,6 +661,10 @@ const userSlices = createSlice({
 			state.serverErr = undefined;
 		});
 		builder.addCase(blockUserAction.fulfilled, (state, action) => {
+			const blockedUserId = action?.payload?._id;
+			if (blockedUserId) {
+				state.blockedUserState = [...state.blockedUserState, blockedUserId];
+			}
 			state.blockUser = action?.payload;
 			state.blockUserLoading = false;
 			state.appErr = undefined;
@@ -680,6 +683,12 @@ const userSlices = createSlice({
 			state.serverErr = undefined;
 		});
 		builder.addCase(UnBlockUserAction.fulfilled, (state, action) => {
+			const unblockUserId = action?.payload?._id;
+			if (unblockUserId) {
+				state.blockedUserState = state.blockedUserState.filter(
+					(id) => id !== unblockUserId
+				);
+			}
 			state.unblockUser = action?.payload;
 			state.unBlockUserLoading = false;
 			state.appErr = undefined;
@@ -690,7 +699,6 @@ const userSlices = createSlice({
 			state.appErr = action?.payload?.message;
 			state.serverErr = action?.error?.message;
 		});
-		
 		/* Delete user */
 		builder.addCase(deleteUserAction.pending, (state, action) => {
 			state.deleteUserUserLoading = true;

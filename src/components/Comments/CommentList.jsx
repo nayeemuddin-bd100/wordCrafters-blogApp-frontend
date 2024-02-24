@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { deleteCommentAction } from "../../redux/slices/comments/commentSlices";
 import MiniSpinner from './../../utils/MiniSpinner';
+import { toast } from 'react-hot-toast';
 
 const CommentsList = ({ comments }) => {
 	const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const { loading } = comment;
 		);
 		if (shouldDelete) {
 			dispatch(deleteCommentAction(id));
+			toast.success("Comment deleted successfully");
 		}
 	};
 	return (

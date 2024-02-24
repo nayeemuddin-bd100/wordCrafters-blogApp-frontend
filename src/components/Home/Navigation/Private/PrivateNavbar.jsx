@@ -39,7 +39,7 @@ const PrivateNavbar = () => {
 	const userNavigation = [
 		{ name: "Your Profile", href: `/profile/${userAuth?._id}` },
 		{ name: "Change your password", href: "/update-password" },
-		{ name: "Setting", href: "/setting" },
+
 	];
 
 	const dispatch = useDispatch();

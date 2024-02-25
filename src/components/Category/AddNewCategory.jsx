@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSelector } from 'react-redux';
 import { Navigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const formSchema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -25,6 +26,7 @@ const AddNewCategory = () => {
 		},
 		onSubmit: (value) => {
 			dispatch(addCategoryAction(value));
+			toast.success("Category added successfully");
 		},
 		validationSchema: formSchema,
 	});
@@ -41,7 +43,7 @@ const AddNewCategory = () => {
 							Add New Category
 						</h2>
 						<div className="mt-2 text-center text-sm text-gray-600">
-							<p className="font-medium text-indigo-600 hover:text-indigo-500">
+							<p className="font-medium text-indigo-600">
 								These are the categories user will select when creating a post
 							</p>
 

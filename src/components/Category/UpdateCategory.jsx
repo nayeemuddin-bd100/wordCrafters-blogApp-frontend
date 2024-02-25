@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { PlusCircleIcon, BookOpenIcon } from "@heroicons/react/solid";
 import { useDispatch } from "react-redux";
 import {
-	
 	updateCategoriesAction,
-	deleteCategoriesAction
+	deleteCategoriesAction,
 } from "../../redux/slices/category/categorySlices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -11,7 +12,8 @@ import { useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchSingleCategoriesAction } from "./../../redux/slices/category/categorySlices";
-import {Spinner} from './../../utils/Spinner';
+import { Spinner } from "./../../utils/Spinner";
+import toast from "react-hot-toast";
 
 const formSchema = Yup.object({
 	title: Yup.string().required("Title is required"),
@@ -29,11 +31,10 @@ const UpdateCategory = () => {
 		},
 		onSubmit: (value) => {
 			dispatch(updateCategoriesAction({ id, title: value.title }));
+			toast.success("Category updated successfully");
 		},
 		validationSchema: formSchema,
 	});
-
-
 
 	useEffect(() => {
 		const getData = async () => {
@@ -44,9 +45,17 @@ const UpdateCategory = () => {
 			}
 		};
 		getData();
-	}, []);
+	}, [dispatch]);
 
-
+	const handleDelete = (id) => {
+		const shouldDelete = window.confirm(
+			"Are you sure you want to delete this Category?"
+		);
+		if (shouldDelete) {
+			dispatch(deleteCategoriesAction(id));
+			toast.success("Category deleted successfully");
+		}
+	};
 	if (updatedCategory) {
 		return <Navigate to="/category-list" replace={true} />;
 	}
@@ -59,7 +68,7 @@ const UpdateCategory = () => {
 						Update Category
 					</h2>
 					<div className="mt-2 text-center text-sm text-gray-600">
-						<p className="font-medium text-indigo-600 hover:text-indigo-500">
+						<p className="font-medium text-indigo-600 ">
 							These are the categories user will select when creating a post
 						</p>
 
@@ -97,9 +106,8 @@ const UpdateCategory = () => {
 							{/* Submit */}
 
 							{loading ? (
-								<Spinner className="h-auto"/>
+								<Spinner className="h-auto" />
 							) : (
-								
 								<div>
 									<button
 										type="submit"
@@ -107,7 +115,7 @@ const UpdateCategory = () => {
 									>
 										<span className="absolute left-0 inset-y-0 flex items-center pl-3">
 											<PlusCircleIcon
-												className="h-5 w-5 text-white group-hover:text-indigo-400"
+												className="h-5 w-5 text-white "
 												aria-hidden="true"
 											/>
 										</span>
@@ -115,13 +123,13 @@ const UpdateCategory = () => {
 									</button>
 
 									<button
-										onClick={() => dispatch(deleteCategoriesAction(id))}
+										onClick={() => handleDelete(id)}
 										type="button"
 										className="mt-2 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 									>
 										<span className="absolute left-0 inset-y-0 flex items-center pl-3">
 											<PlusCircleIcon
-												className="h-5 w-5 text-white group-hover:text-indigo-400"
+												className="h-5 w-5 text-white"
 												aria-hidden="true"
 											/>
 										</span>

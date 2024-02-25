@@ -29,7 +29,7 @@ const PostsList = () => {
 
 	useEffect(() => {
 			dispatch(resetPostDetailsAction());
-	}, []);
+	}, [dispatch]);
 
 	const category = useSelector((state) => state.category);
 	const {
@@ -48,7 +48,7 @@ const PostsList = () => {
 						<div className="mb-16 flex flex-wrap items-center">
 							<div className="w-full lg:w-1/2">
 								<span className="text-green-600 font-bold">
-									Latest Posts from our awesome authors
+									Latest posts from our awesome authors
 								</span>
 								<h2 className="text-4xl text-gray-300 lg:text-5xl font-bold font-heading">
 									Latest Post
@@ -58,7 +58,7 @@ const PostsList = () => {
 								{/* View All */}
 								<button
 									onClick={() => dispatch(fetchAllPostsAction(""))}
-									className="inline-block py-2 px-6 rounded-xl bg-green-600 hover:bg-green-700 text-gray-50 font-semibold leading-loose transition duration-200"
+									className="inline-block py-2 px-6 rounded-md bg-green-600 hover:bg-green-700 text-gray-50 font-semibold leading-loose transition duration-200"
 								>
 									View All Posts
 								</button>
@@ -90,7 +90,7 @@ const PostsList = () => {
 															onClick={() =>
 																dispatch(fetchAllPostsAction(category?.title))
 															}
-															className="block cursor-pointer py-2 px-3 mb-4 rounded text-yellow-500 font-bold bg-gray-500"
+															className="block cursor-pointer py-2 px-3 mb-4 rounded text-yellow-500 font-bold bg-gray-500  hover:text-gray-200"
 														>
 															{category?.title}
 														</p>
@@ -110,9 +110,9 @@ const PostsList = () => {
 												className="flex flex-wrap bg-gray-900 -mx-3 my-5  lg:mb-6"
 											>
 												<div className="w-full md:w-1/3 px-3">
-													<Link className="flex justify-center md:block">
+													<Link className="flex justify-center ">
 														<img
-															className="w-52 object-fill rounded"
+															className="w-full h-[250px] md:w-[80%] md:h-[150px] object-cover rounded"
 															src={post?.image}
 															alt=""
 														/>
@@ -121,9 +121,9 @@ const PostsList = () => {
 												<div className="w-full md:w-2/3 px-3 flex justify-center items-center flex-col md:block">
 													<Link
 														to={`/posts/${post._id}`}
-														className="hover:underline"
+														
 													>
-														<h3 className="mb-2 text-2xl text-green-400 font-bold font-heading">
+														<h3 className="mb-2 text-2xl text-green-400 hover:text-white font-bold font-heading underline">
 															{post?.title}
 														</h3>
 													</Link>
@@ -139,7 +139,7 @@ const PostsList = () => {
 															</Link>
 														</div>
 														<div className="ml-3">
-															<p className="text-sm font-medium text-gray-900">
+															<p className="text-lg lg:text-sm font-medium text-gray-900">
 																<Link
 																	to={`/profile/${post?.author?._id}`}
 																	className="text-yellow-400 hover:underline"
@@ -188,7 +188,7 @@ const PostsList = () => {
 														</div>
 														<div className="flex items-center">
 															<EyeIcon className="h-7 w-7 text-gray-400" />
-															<span className="pl-2 text-gray-600">
+															<span className="pl-2 text-white">
 																{post?.numViews}
 															</span>
 														</div>

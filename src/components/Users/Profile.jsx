@@ -89,34 +89,38 @@ const Profile = () => {
 												alt={profile?.firstName}
 											/>
 										</div>
-										<div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-											<div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+										<div className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8">
+											<div className="-mt-12 md:-mt-16 md:flex md:items-end sm:space-x-5">
 												<div className="flex -mt-20">
 													<img
-														className="h-24 w-24 rounded-full  ring-4 ring-white sm:h-32 sm:w-32"
+														className="h-24 w-24 rounded-full  ring-4 ring-white md:h-32 md:w-32"
 														src={profile?.profilePhoto}
 														alt={profile?.firstName}
 													/>
 												</div>
-												<div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+												<div className="mt-6 md:flex-1 md:min-w-0 md:flex md:items-center md:justify-end md:space-x-6 md:pb-1">
 													<div className=" flex flex-col 2xl:block mt-10 min-w-0 flex-1">
-														<h1 className="text-2xl font-bold text-gray-900 ">
-															{profile?.firstName} {profile?.lastName}
-															<span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-																{profile?.accountType}
-															</span>
-															{/* Display if verified or not */}
-															{profile?.isAccountVerified ? (
-																<span className="inline-flex ml-2 items-center px-3 py-0.5  rounded-lg text-sm font-medium bg-green-600 text-gray-300">
-																	Account Verified
+														<div className=" flex flex-col text-2xl font-bold text-gray-900 ">
+															<h1>
+																{profile?.firstName} {profile?.lastName}
+															</h1>
+															<div>
+																<span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-yellow-500 text-black">
+																	{profile?.accountType}
 																</span>
-															) : (
-																<span className="inline-flex ml-2 items-center px-3 py-0.5  rounded-lg text-sm font-medium bg-red-600 text-gray-300">
-																	Unverified Account
-																</span>
-															)}
-														</h1>
-														<p className="m-3 text-lg">
+																{/* Display if verified or not */}
+																{profile?.isAccountVerified ? (
+																	<span className="inline-flex ml-2 items-center px-3 py-0.5  rounded-lg text-sm font-medium bg-green-600 text-gray-300">
+																		Account Verified
+																	</span>
+																) : (
+																	<span className="inline-flex ml-2 items-center px-3 py-0.5  rounded-lg text-sm font-medium bg-red-600 text-gray-300">
+																		Unverified Account
+																	</span>
+																)}
+															</div>
+														</div>
+														<p className="mt-1 text-lg">
 															Date Joined:
 															{dateFormatter(profile?.createdAt)}
 														</p>
@@ -140,8 +144,11 @@ const Profile = () => {
 														{/* Upload profile photo */}
 
 														{userAuth?._id === id && (
-															<form onSubmit={handleSubmit}>
-																<label className="cursor-pointer inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+															<form
+																onSubmit={handleSubmit}
+																className="flex flex-col flex-wrap items-center justify-center gap-4 md:items-start  "
+															>
+																<label className="cursor-pointer inline-flex w-full xl:w-2/3 justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
 																	<input
 																		type="file"
 																		onChange={handleFileChange}
@@ -157,14 +164,14 @@ const Profile = () => {
 																{profilePhotoLoading ? (
 																	<button
 																		disabled
-																		className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
+																		className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 "
 																	>
 																		<MiniSpinner />
 																	</button>
 																) : selectedFile && !profilePhotoLoading ? (
 																	<button
 																		type="submit"
-																		className="cursor-pointer justify-center w-48 px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 mt-3 "
+																		className="cursor-pointer w-full xl:w-2/3  justify-center  px-4 py-2 border text-sm text-yellow-400 font-medium rounded-md  bg-indigo-800 "
 																	>
 																		Upload Photo
 																	</button>
@@ -173,7 +180,7 @@ const Profile = () => {
 														)}
 													</div>
 
-													<div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+													<div className="mt-6 flex flex-col justify-stretch space-y-3 md:flex-row md:space-y-0 md:space-x-4">
 														{/* Follow/Unfollow user */}
 														<div>
 															{users?.userAuth?._id ===
@@ -242,10 +249,10 @@ const Profile = () => {
 															{userAuth?._id === id && (
 																<Link
 																	to={`/update-profile/${id}`}
-																	className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+																	className="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
 																>
 																	<UserIcon
-																		className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+																		className="-ml-1 mr-2 h-5 w-5 text-white"
 																		aria-hidden="true"
 																	/>
 																	<span>Update Profile</span>
@@ -256,13 +263,13 @@ const Profile = () => {
 														<button
 															type="button"
 															onClick={handleMessage}
-															className="inline-flex justify-center bg-indigo-900 px-4 py-2 border border-yellow-700 shadow-sm text-sm font-medium rounded-md text-gray-700  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+															className="flex justify-center items-center bg-indigo-900 px-4 py-2 text-sm font-medium rounded-md text-gray-700  hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
 														>
 															<MailIcon
 																className="-ml-1 mr-2 h-5 w-5 text-gray-200"
 																aria-hidden="true"
 															/>
-															<span className="text-base mr-2  text-bold text-yellow-500">
+															<span className="text-base mr-2  text-bold text-white">
 																Send Message
 															</span>
 														</button>

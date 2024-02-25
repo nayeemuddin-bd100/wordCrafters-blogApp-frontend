@@ -32,7 +32,7 @@ const { loading } = comment;
 	return (
 		<div>
 			<ul className="divide-y bg-gray-700 w-96 divide-gray-200 p-3 mt-5">
-				<div className="text-gray-400"> {comments?.length} total Comments</div>
+				<div className="text-gray-400"> {comments?.length} total comments</div>
 				<>
 					{comments?.length <= 0 ? (
 						<h1 className="text-yellow-400 text-lg text-center">No comments</h1>

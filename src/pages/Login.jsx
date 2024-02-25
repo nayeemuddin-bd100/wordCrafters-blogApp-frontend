@@ -26,8 +26,6 @@ const Login = () => {
 		},
 		onSubmit: (value) => {
 			dispatch(loginUserAction(value));
-
-		
 		},
 		validationSchema: formSchema,
 	});
@@ -55,8 +53,8 @@ const Login = () => {
 										{appErr || serverErr ? (
 											<h3 className="text-xl mb-5 text-red-500 ">{appErr}</h3>
 										) : null}
-										<div className="flex items-center pl-6 mb-3 border border-gray-50 bg-white rounded-full">
-											<span className="inline-block pr-3 border-r border-gray-50">
+										<div className="flex items-center pl-6 mb-3 border border-gray-400 bg-white rounded-lg">
+											<span className="inline-block pr-3 border-r border-gray-400">
 												<svg
 													className="w-5 h-5"
 													width="17"
@@ -79,18 +77,19 @@ const Login = () => {
 											<input
 												onChange={formik.handleChange("email")}
 												onBlur={formik.handleBlur("email")}
+												value={formik.values.email}
 												id="email"
-												className="w-full pr-6 pl-4 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
+												className="w-full pr-6 pl-4 py-4 placeholder-gray-300 rounded-r-full focus:outline-none"
 												type="email"
 												placeholder="enter email"
 											/>
 										</div>
 										{/* Err message */}
-										<div className="text-red-400 mb-2">
+										<div className="text-red-400 text-left mb-2">
 											{formik.touched.email && formik.errors.email}
 										</div>
-										<div className="flex items-center pl-6 mb-6 border border-gray-50 bg-white rounded-full">
-											<span className="inline-block pr-3 border-r border-gray-50">
+										<div className="flex items-center pl-6 mb-6 border border-gray-400 bg-white rounded-lg">
+											<span className="inline-block pr-3 border-r border-gray-400">
 												<svg
 													className="w-5 h-5"
 													width="20"
@@ -115,27 +114,57 @@ const Login = () => {
 												id="password"
 												onChange={formik.handleChange("password")}
 												onBlur={formik.handleBlur("password")}
-												className="w-full pr-6 pl-4 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
+												value={formik.values.password}
+												className="w-full pr-6 pl-4 py-4 placeholder-gray-300 rounded-r-full focus:outline-none "
 												type="password"
 												placeholder=" Password"
 											/>
 										</div>
 										{/* Err msg */}
-										<div className="text-red-400 mb-2">
+										<div className="text-red-400 text-left mb-2">
 											{formik.touched.password && formik.errors.password}
 										</div>
+										{/* Default Credentials */}
+										<p>Login as default Credential</p>
+										<div className="flex flex-row w-full justify-center items-center gap-4 my-3">
+											<button
+												type="button"
+												onClick={() =>
+													formik.setValues({
+														email: "wordcrafters@admin.com",
+														password: "12345",
+													})
+												}
+												className="w-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold rounded-md transition duration-200 py-2"
+											>
+												As Admin
+											</button>{" "}
+											<button
+												type="button"
+												onClick={() =>
+													formik.setValues({
+														email: "wordcrafters@user.com",
+														password: "12345",
+													})
+												}
+												className="w-full bg-pink-500 hover:bg-pink-700 text-white font-bold rounded-md transition duration-200 py-2"
+											>
+												As User
+											</button>
+										</div>
+
 										{/* Login btn */}
 										{loading ? (
 											<button
 												type="submit"
-												className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition duration-200"
+												className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition duration-200"
 											>
 												<MiniSpinner />
 											</button>
 										) : (
 											<button
 												type="submit"
-												className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition duration-200"
+												className="py-2 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-md transition duration-200"
 											>
 												Login
 											</button>

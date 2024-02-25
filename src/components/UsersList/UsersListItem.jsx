@@ -47,7 +47,7 @@ const UsersListItem = ({ user }) => {
 		<>
 			<div className="p-3 mb-3 bg-white shadow rounded">
 				<div className="flex flex-wrap items-center justify-center max-w-7xl mx-auto ">
-					<div className="w-full lg:w-3/12 flex px-4 mb-3 lg:mb-0 justify-center ">
+					<div className="w-full lg:w-3/12 flex px-4 mb-3 lg:mb-0 justify-center lg:justify-start ">
 						<img
 							className="w-10 h-10 mr-3 object-cover rounded-full"
 							src={user?.profilePhoto}

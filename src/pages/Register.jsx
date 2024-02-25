@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUsersAction } from "./../redux/slices/users/usersSlices";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 // Form Schema
 const formSchema = Yup.object({
@@ -62,7 +62,7 @@ const Register = () => {
 											<h3 className="text-xl mb-5 text-red-500 ">{appErr}</h3>
 										) : null}
 										{/* First name */}
-										<div className="flex items-center pl-6 mb-3 bg-white rounded-full">
+										<div className="flex items-center pl-6 mb-3 bg-white rounded-lg">
 											<span className="inline-block pr-3 py-2 border-r border-gray-50">
 												<svg
 													className="w-5 h-5"
@@ -105,7 +105,7 @@ const Register = () => {
 												value={formik.values.firstName}
 												onChange={formik.handleChange("firstName")}
 												onBlur={formik.handleBlur("firstName")}
-												className="w-full pl-4 pr-6 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
+												className="w-full pl-4 pr-6 py-4 placeholder-gray-300 rounded-r-full focus:outline-none"
 												type="firstName"
 												placeholder="First Name"
 											/>
@@ -114,7 +114,7 @@ const Register = () => {
 											{formik.touched.firstName && formik.errors.firstName}
 										</div>
 										{/* Last name */}
-										<div className="flex items-center pl-6 mb-3 bg-white rounded-full">
+										<div className="flex items-center pl-6 mb-3 bg-white rounded-lg">
 											<span className="inline-block pr-3 py-2 border-r border-gray-50">
 												<svg
 													className="w-5 h-5"
@@ -157,7 +157,7 @@ const Register = () => {
 												value={formik.values.lastName}
 												onChange={formik.handleChange("lastName")}
 												onBlur={formik.handleBlur("lastName")}
-												className="w-full pl-4 pr-6 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
+												className="w-full pl-4 pr-6 py-4 placeholder-gray-300 rounded-r-full focus:outline-none"
 												type="lastName"
 												placeholder="Last Name"
 											/>
@@ -167,7 +167,7 @@ const Register = () => {
 											{formik.touched.lastName && formik.errors.lastName}
 										</div>
 										{/* Email */}
-										<div className="flex items-center pl-6 mb-3 bg-white rounded-full">
+										<div className="flex items-center pl-6 mb-3 bg-white rounded-lg">
 											<span className="inline-block pr-3 py-2 border-r border-gray-50">
 												<svg
 													className="w-5 h-5"
@@ -210,7 +210,7 @@ const Register = () => {
 												value={formik.values.email}
 												onChange={formik.handleChange("email")}
 												onBlur={formik.handleBlur("email")}
-												className="w-full pl-4 pr-6 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
+												className="w-full pl-4 pr-6 py-4 placeholder-gray-300 rounded-r-full focus:outline-none"
 												type="email"
 												placeholder="example@gmail.com"
 											/>
@@ -219,7 +219,7 @@ const Register = () => {
 										<div className="text-red-400 mb-2">
 											{formik.touched.email && formik.errors.email}
 										</div>
-										<div className="flex items-center pl-6 mb-3 bg-white rounded-full">
+										<div className="flex items-center pl-6 mb-3 bg-white rounded-lg">
 											<span className="inline-block pr-3 py-2 border-r border-gray-50">
 												<svg
 													className="w-5 h-5"
@@ -243,7 +243,7 @@ const Register = () => {
 												value={formik.values.password}
 												onChange={formik.handleChange("password")}
 												onBlur={formik.handleBlur("password")}
-												className="w-full pl-4 pr-6 py-4 font-bold placeholder-gray-300 rounded-r-full focus:outline-none"
+												className="w-full pl-4 pr-6 py-4 placeholder-gray-300 rounded-r-full focus:outline-none"
 												type="password"
 												placeholder="Password"
 											/>
@@ -259,19 +259,20 @@ const Register = () => {
 											<button
 												type="submit"
 												disabled
-												className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition duration-200"
+												className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition duration-200"
 											>
 												Loading...
 											</button>
 										) : (
 											<button
 												type="submit"
-												className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition duration-200 outline-none"
+												className="py-3 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition duration-200 outline-none"
 											>
 												Register
 											</button>
 										)}
 									</form>
+									<p className="text-white mt-5 tex-lg">Already have an account? <span className="underline hover:text-blue-500"><Link to="/login">Login</Link> </span></p>
 								</div>
 							</div>
 						</div>

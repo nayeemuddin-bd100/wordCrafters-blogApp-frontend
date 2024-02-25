@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 
 const UsersListItem = ({ user }) => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const loggedInUser = useSelector((state) => state?.users?.profile);
 
@@ -41,12 +41,12 @@ const UsersListItem = ({ user }) => {
 			return toast.error("Blocked user cannot send Message");
 		}
 		navigate(`/send-email?email=${user?.email}`);
-	}
+	};
 
 	return (
 		<>
 			<div className="p-3 mb-3 bg-white shadow rounded">
-				<div className="flex flex-wrap items-center justify-center  ">
+				<div className="flex flex-wrap items-center justify-center max-w-7xl mx-auto ">
 					<div className="w-full lg:w-3/12 flex px-4 mb-3 lg:mb-0 justify-center ">
 						<img
 							className="w-10 h-10 mr-3 object-cover rounded-full"
@@ -79,13 +79,13 @@ const UsersListItem = ({ user }) => {
 							followers
 						</p>
 					</div>
-					<div className=" w-full flex lg:justify-end lg:w-6/12  px-4  mb-3 lg:mb-0 justify-center ">
-						<div className="inline-block py-1 px-3 mr-2 mb-1 lg:mb-0 text-xs border-indigo-700 border-2 rounded">
+					<div className=" w-full flex lg:justify-end lg:w-6/12 flex-wrap  px-4  mb-3 lg:mb-0 justify-center ">
+						<div className="inline-block py-1 px-3 mr-2 mb-1 lg:mb-0 text-xs  rounded">
 							{user?.posts?.length} Posts
 						</div>
 						<Link
 							to={`/profile/${user?._id}`}
-							className=" text-black inline-block py-1 px-2 text-center mr-2 mb-1 lg:mb-0 text-xs border-2 border-yellow-600 rounded hover:bg-green-600 hover:text-white"
+							className=" text-black inline-block py-1 px-2 text-center mr-2 mb-1 lg:mb-0 text-xs border-2 border-yellow-600 rounded hover:bg-gray-300 hover:text-black"
 						>
 							Profile
 						</Link>
@@ -93,15 +93,21 @@ const UsersListItem = ({ user }) => {
 						{/* user blocked/unblocked */}
 						{isBlocked ? (
 							<button
-								onClick={() => dispatch(UnBlockUserAction(user?._id))}
-								className="inline-block px-2 text-center bg-gray-500 text-gray-300 mr-2 mb-1 lg:mb-0 text-xs border rounded"
+								onClick={() => {
+									dispatch(UnBlockUserAction(user?._id));
+									toast.success("User Unblocked Successfully");
+								}}
+								className="inline-block px-2 text-center bg-gray-500 hover:bg-gray-700 text-gray-300 mr-2 mb-1 lg:mb-0 text-xs border rounded"
 							>
 								Unblock
 							</button>
 						) : (
 							<button
-								onClick={() => dispatch(blockUserAction(user?._id))}
-								className="inline-block py-1 px-4 text-center bg-red-600 text-gray-300 mr-2 mb-1 lg:mb-0 text-xs border rounded"
+								onClick={() => {
+									dispatch(blockUserAction(user?._id));
+									toast.success("User Blocked Successfully");
+								}}
+								className="inline-block py-1 px-4 text-center bg-red-600 hover:bg-red-700 text-gray-300 mr-2 mb-1 lg:mb-0 text-xs border rounded"
 							>
 								Block
 							</button>
@@ -110,13 +116,13 @@ const UsersListItem = ({ user }) => {
 						<button
 							type="button"
 							onClick={handleMessage}
-							className="inline-flex  justify-center items-center bg-green-700 px-2   border border-yellow-700 shadow-sm text-sm font-medium rounded-md text-gray-700  hover:bg-green-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+							className="inline-flex  justify-center items-center bg-indigo-900 px-2   border border-yellow-700 shadow-sm text-sm font-medium rounded-md text-gray-700  hover:bg-indigo-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
 						>
 							<MailIcon
 								className="-ml-1 mr-2 h-5 w-5 text-gray-200"
 								aria-hidden="true"
 							/>
-							<span className="text-base mr-2  text-bold text-yellow-500 ">
+							<span className="text-base mr-2  text-bold text-white ">
 								Message
 							</span>
 						</button>

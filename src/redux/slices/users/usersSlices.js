@@ -396,7 +396,7 @@ const userSlices = createSlice({
 	name: "user",
 	initialState: {
 		userAuth: getUserInfo,
-		// blockedUserState: [...getUserInfo.blockedUsers],
+		blockedUserState: [],
 	},
 	extraReducers: (builder) => {
 		/* Register */

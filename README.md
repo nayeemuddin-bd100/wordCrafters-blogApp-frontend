@@ -1,4 +1,4 @@
-# ✨ WordCrafters-FullStack-BlogApp Frontend
+# ✨ WordCrafters-BlogApp Frontend
 
 **WordCrafters** is a user-friendly blog application, built with Node.js, Express, and MongoDB React, Redux. It offers essential features such as user authentication, authorization, post management, comment handling, category support, email verification, user management etc. Security is ensured through JWT Token and bcrypt used for password hashing.
 

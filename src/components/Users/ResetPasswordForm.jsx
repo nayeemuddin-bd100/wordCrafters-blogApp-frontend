@@ -1,8 +1,8 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import * as Yup from "yup";
 import { forgetPasswordAction } from "../../redux/slices/users/usersSlices";
 import { resetForgetPassAction } from './../../redux/slices/users/usersSlices';
 import MiniSpinner from './../../utils/MiniSpinner';

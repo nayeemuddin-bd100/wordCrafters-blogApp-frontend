@@ -1,35 +1,44 @@
-import { Link } from 'react-router-dom';
-import poster from '../../img/poster.png'
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import poster from "../../img/poster.png";
 
 const HeroSection = () => {
-	return (
-		<>
-			<section className="pb-10 bg-gray-800">
-				<div className="relative container px-4   mx-auto">
-					<div className="flex flex-wrap items-center -mx-4 mb-10 2xl:mb-14">
-						<div className="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
-							<span className="text-lg font-bold text-blue-400">
-								Create posts to educate
-							</span>
-							<h2 className="max-w-2xl mt-8 mb-12 text-6xl 2xl:text-8xl text-white font-bold font-heading">
-								Pen down your ideas{" "}
-								<span className="text-yellow-500">By creating a post</span>
-							</h2>
-							<Link
-								className="inline-block px-12 py-3 text-lg text-white font-bold bg-blue-500 hover:bg-blue-600 hover:text-gray-300 rounded-2xl transition duration-200"
-								to="/posts"
-							>
-								Explore the feed
-							</Link>
-						</div>
-						<div className="w-full lg:w-1/2 px-4">
-							<img className="w-full" src={poster} alt={poster} />
-						</div>
-					</div>
-				</div>
-			</section>
-		</>
-	);
+  return (
+    <>
+      <section className=" bg-gray-800">
+        <div className="relative container px-4 mx-auto max-w-7xl">
+          <div className="flex flex-wrap items-center -mx-4 mb-10 2xl:mb-14 pt-20 lg:pt-9 xl:pt-5 ">
+            <motion.div
+              initial={{ x: -200, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="w-full lg:w-1/2 px-4 mb-5 lg:mb-0  flex flex-col items-center lg:block"
+            >
+             
+              <h2 className="max-w-2xl mt-8 mb-12 text-6xl  text-white font-bold font-heading  lg:text-left text-center ">
+                Pen down your ideas{" "}
+                <span className="text-yellow-500">By creating a post</span>
+              </h2>
+              <Link
+                className="inline-block px-12 py-3 text-lg text-white font-bold bg-blue-500 hover:bg-blue-600 hover:text-gray-300 rounded-lg transition duration-200"
+                to="/posts"
+              >
+                Explore the feed
+              </Link>
+            </motion.div>
+            <motion.div
+              initial={{ x: 200, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="w-full lg:w-1/2 px-4"
+            >
+              <img className="w-full mb-0 mx-auto lg:mx-0 lg:w-full sm:w-2/3" src={poster} alt={poster} />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 };
 
 export default HeroSection;

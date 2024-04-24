@@ -9,7 +9,7 @@ import {
 import { PlusIcon } from "@heroicons/react/solid";
 import { NavLink } from "react-router-dom";
 
-
+import { AnimatePresence, motion } from "framer-motion";
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -24,13 +24,20 @@ const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");
 };
 const PublicNavbar = () => {
+  const menuVariants = {
+    open: { height: "auto", opacity: 1 },
+    closed: { height: 0, opacity: 0 },
+  };
 
- 
+  const closeButtonVariants = {
+    open: { rotate: 180 },
+    closed: { rotate: 0 },
+  };
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
               <div className="flex justify-between w-full">
                 {/* Mobile menu button */}
@@ -38,17 +45,35 @@ const PublicNavbar = () => {
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
-                      <XIcon className="block h-6 w-6" aria-hidden="true" />
+                      <motion.div
+                        animate="open"
+                        exit="closed"
+                        variants={closeButtonVariants}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <XIcon className="block h-6 w-6" aria-hidden="true" />
+                      </motion.div>
                     ) : (
                       <MenuIcon className="block h-6 w-6" aria-hidden="true" />
                     )}
                   </Disclosure.Button>
+
+                  {/* <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <span className="sr-only">Open main menu</span>
+                    {open ? (
+                      <XIcon className="block h-6 w-6" aria-hidden="true" />
+                    ) : (
+                      <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                    )}
+                  </Disclosure.Button> */}
                 </div>
 
                 {/* Logo */}
                 <div className="flex-shrink-0 flex items-center">
                   <BookOpenIcon className="h-10 w-10 text-yellow-200" />
-                  <span className="text-xl font-extrabold text-amber-300 hidden sm:block">WordCrafters</span>
+                  <span className="text-xl font-extrabold text-amber-300 hidden sm:block">
+                    WordCrafters
+                  </span>
                 </div>
 
                 {/* Nav Item */}
@@ -112,26 +137,36 @@ const PublicNavbar = () => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Disclosure.Panel className="md:hidden">
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {navigation.map((item) => (
-                  <Disclosure.Button
-                    as={NavLink}
-                    key={item.name}
-                    to={item.href}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "block px-3 py-2 rounded-md text-base font-medium"
-                    )}
-                    // aria-current={item.current ? "page" : undefined}
-                  >
-                    {item.name}
-                  </Disclosure.Button>
-                ))}
-              </div>
-            </Disclosure.Panel>
+            <AnimatePresence>
+              <Disclosure.Panel
+                as={motion.div}
+                initial="closed"
+                animate="open"
+                exit="closed"
+                variants={menuVariants}
+                transition={{ duration: 0.4 }}
+                className="md:hidden"
+              >
+                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                  {navigation.map((item) => (
+                    <Disclosure.Button
+                      as={NavLink}
+                      key={item.name}
+                      to={item.href}
+                      className={classNames(
+                        item.current
+                          ? "bg-gray-900 text-white"
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        "block px-3 py-2 rounded-md text-base font-medium"
+                      )}
+                      // aria-current={item.current ? "page" : undefined}
+                    >
+                      {item.name}
+                    </Disclosure.Button>
+                  ))}
+                </div>
+              </Disclosure.Panel>
+            </AnimatePresence>
           </Transition>
         </>
       )}

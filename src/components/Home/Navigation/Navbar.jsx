@@ -19,7 +19,7 @@ const Navbar = () => {
   
 
   return (
-    <div className="sticky top-0 z-50 border border-b-1 border-yellow-500">
+    <div className="sticky top-0 z-50 border border-b-1 border-b-yellow-500">
       {isAdmin ? (
         <AdminNavbar />
       ) : userAuth ? (

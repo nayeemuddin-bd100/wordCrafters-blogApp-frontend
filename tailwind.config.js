@@ -5,6 +5,10 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      prompt: ["Prompt", "sans-serif"],
+      inter: ["Inter", "sans-serif"],
+    },
     extend: {},
   },
   plugins: [],

@@ -1,28 +1,28 @@
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
-import Navbar from "./components/Home/Navigation/Navbar";
 import AddNewCategory from "./components/Category/AddNewCategory";
 import CategoryList from "./components/Category/CategoryList";
 import UpdateCategory from "./components/Category/UpdateCategory";
-import ProtectedRoute from "./components/Home/Navigation/ProtectedRoute/ProtectedRoute";
-import AdminRoute from './components/Home/Navigation/ProtectedRoute/AdminRoute';
-import CreatePost from './components/Posts/CreatePost';
-import PostsList from "./components/Posts/PostsList";
-import PostDetails from './components/Posts/PostDetails';
-import UpdatePost from './components/Posts/UpdatePost';
 import UpdateComment from './components/Comments/UpdateComment';
-import Profile from './components/Users/Profile';
-import UpdateProfileForm from './components/Users/UpdateProfileForm';
-import SendEmail from './components/Users/SendEmail';
+import Navbar from "./components/Home/Navigation/Navbar";
+import AdminRoute from './components/Home/Navigation/ProtectedRoute/AdminRoute';
+import ProtectedRoute from "./components/Home/Navigation/ProtectedRoute/ProtectedRoute";
+import CreatePost from './components/Posts/CreatePost';
+import PostDetails from './components/Posts/PostDetails';
+import PostsList from "./components/Posts/PostsList";
+import UpdatePost from './components/Posts/UpdatePost';
 import AccountVerified from './components/Users/AccountVerified';
-import UsersList from './components/UsersList/UsersList';
-import UpdatePassword from './components/Users/UpdatePassword';
+import Profile from './components/Users/Profile';
+import ResetPassword from './components/Users/ResetPassword';
 import ResetPasswordForm from './components/Users/ResetPasswordForm';
-import ResetPassword from './components/Users/ResetPassword'
-import toast, { Toaster } from "react-hot-toast";
+import SendEmail from './components/Users/SendEmail';
+import UpdatePassword from './components/Users/UpdatePassword';
+import UpdateProfileForm from './components/Users/UpdateProfileForm';
+import UsersList from './components/UsersList/UsersList';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
 
 function App() {
 	return (

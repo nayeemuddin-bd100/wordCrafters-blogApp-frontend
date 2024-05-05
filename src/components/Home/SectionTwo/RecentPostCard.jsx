@@ -28,7 +28,7 @@ const RecentPostCard = () => {
               <ArrowRightIcon className="w-4 h-4 inline-block" />
             </span>{" "}
           </Link>
-          <p className="text-xs text-gray-800 font-inter"> 🔥 2 Days Read</p>
+          <p className="text-xs text-gray-800 font-inter"> 🔥 2 Min Read</p>
         </div>
       </div>
     </div>

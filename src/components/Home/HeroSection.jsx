@@ -15,7 +15,7 @@ const HeroSection = () => {
               className="w-full lg:w-1/2 px-4 mb-5 lg:mb-0  flex flex-col items-center lg:block"
             >
              
-              <h2 className="max-w-2xl mt-8 mb-12 text-6xl  text-black font-bold font-heading  lg:text-left text-center ">
+              <h2 className="max-w-2xl mt-8 mb-12 text-4xl lg:text-6xl  text-black font-bold font-heading  lg:text-left text-center ">
                 Pen down your ideas{" "}
                 <span className="text-purple-800">By creating a post</span>
               </h2>

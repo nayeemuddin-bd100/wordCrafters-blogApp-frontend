@@ -46,13 +46,13 @@ const Topics = () => {
               onClick={() => swiperRef?.slidePrev()}
               className="text-indigo-500"
             >
-              <ArrowCircleLeftIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" />
+              <ArrowCircleLeftIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" style={{strokeWidth: "1"}} />
             </button>
             <button
               onClick={() => swiperRef?.slideNext()}
               className="text-indigo-500"
             >
-              <ArrowCircleRightIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" />
+              <ArrowCircleRightIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" style={{strokeWidth: "1"}} />
             </button>
           </div>
         </div>

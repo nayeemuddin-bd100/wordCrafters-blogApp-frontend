@@ -4,7 +4,7 @@ const SectionHeader = () => {
   return (
     <div className="md:flex md:justify-between py-10">
       <h4 className="text-3xl text-black">Recent Post</h4>
-      <Link to="/posts" className="text-indigo-700 text-lg">
+      <Link to="/posts" className="text-indigo-700 text-lg hover:text-indigo-400 transition-all duration-300">
         <span> View Post </span>
 
         <ExternalLinkIcon className="w-4 h-4 inline-block" />

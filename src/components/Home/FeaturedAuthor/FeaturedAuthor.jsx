@@ -33,7 +33,7 @@ const FeaturedAuthor = () => {
   const [swiperRef, setSwiperRef] = useState(null);
 
   return (
-    <div className="bg-[rgba(220,241,255)] rounded-t-3xl">
+    <div className="bg-[rgba(220,241,255)] rounded-3xl">
       <div className="max-w-7xl container mx-auto p-10 my-10">
         <div className="flex justify-between gap-4 mb-8">
           <div className="flex items-center">
@@ -45,13 +45,13 @@ const FeaturedAuthor = () => {
                 onClick={() => swiperRef?.slidePrev()}
                 className="text-indigo-500"
               >
-                <ArrowCircleLeftIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" />
+                <ArrowCircleLeftIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" style={{strokeWidth: "1"}}  />
               </button>
               <button
                 onClick={() => swiperRef?.slideNext()}
                 className="text-indigo-500"
               >
-                <ArrowCircleRightIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" />
+                <ArrowCircleRightIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700"  style={{strokeWidth: "1"}} />
               </button>
             </div>
           </div>

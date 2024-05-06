@@ -16,8 +16,8 @@ const Home = () => {
         <Topics />
         <TrendingArticle />
         <FeaturedAuthor />
-        <Footer />
       </SmoothScroll>
+      <Footer />
     </div>
   );
 };

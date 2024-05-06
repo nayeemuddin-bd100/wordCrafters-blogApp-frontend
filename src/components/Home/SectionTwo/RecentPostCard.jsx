@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const RecentPostCard = () => {
   return (
-    <div className="font-prompt group">
+    <div className="font-prompt group w-full">
 
       <div className="relative overflow-hidden rounded-t-xl">
       <img

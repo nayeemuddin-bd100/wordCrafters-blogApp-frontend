@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import AnotherPostCard from "./AnotherPostCard";
 import RecentPostCard from "./RecentPostCard";
 
@@ -5,14 +7,60 @@ const SectionColumn = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-6 gap-4   ">
       {/* Left Panel */}
-      <div className=" col-span-4">
+
+      <motion.div
+        className="col-span-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={{
+          visible: {
+            transition: {
+              staggerChildren: 0.2,
+            },
+          },
+          hidden: {},
+        }}
+      >
         <div className="grid  grid-cols-1 sm:grid-cols-2 gap-3">
-          <RecentPostCard />
-          <RecentPostCard />
-          <RecentPostCard />
-          <RecentPostCard />
+          <motion.div
+            variants={{
+              visible: { opacity: 1, scale: 1 },
+              hidden: { opacity: 0, scale: 0.8 },
+            }}
+            transition={{ duration: 0.5 }}
+          >
+            <RecentPostCard />
+          </motion.div>{" "}
+          <motion.div
+            variants={{
+              visible: { opacity: 1, scale: 1 },
+              hidden: { opacity: 0, scale: 0.8 },
+            }}
+            transition={{ duration: 0.5 }}
+          >
+            <RecentPostCard />
+          </motion.div>{" "}
+          <motion.div
+            variants={{
+              visible: { opacity: 1, scale: 1 },
+              hidden: { opacity: 0, scale: 0.8 },
+            }}
+            transition={{ duration: 0.5 }}
+          >
+            <RecentPostCard />
+          </motion.div>{" "}
+          <motion.div
+            variants={{
+              visible: { opacity: 1, scale: 1 },
+              hidden: { opacity: 0, scale: 0.8 },
+            }}
+            transition={{ duration: 0.5 }}
+          >
+            <RecentPostCard />
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Right Panel */}
       <div className="col-span-2 mt-4">
@@ -26,11 +74,11 @@ const SectionColumn = () => {
         </div>
 
         {/* Social icon */}
-        <div className="flex flex-col gap-y-4 px-10 md:px-0" >
+        <div className="flex flex-col gap-y-4 px-10 md:px-0">
           <h2 className="text-2xl">Stay Connected</h2>
 
           {/* Facebook */}
-          <div className="flex  justify-between my-3 ">
+          <Link className="flex justify-between my-3 hover:text-pink-500 transition-all duration-300">
             <div className="flex gap-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -45,11 +93,10 @@ const SectionColumn = () => {
               <span>Facebook</span>
             </div>
             <p className="font-inter">3.5k Likes</p>
-          </div>
+          </Link>
 
           {/* Linkedin */}
-
-          <div className="flex  justify-between my-3 ">
+          <Link className="flex justify-between my-3 hover:text-pink-500 transition-all duration-300">
             <div className="flex gap-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -64,11 +111,10 @@ const SectionColumn = () => {
               <span>Linkedin</span>
             </div>
             <p className="font-inter">19K Follower</p>
-          </div>
+          </Link>
 
           {/* Instagram */}
-
-          <div className="flex  justify-between my-3 ">
+          <Link className="flex justify-between my-3 hover:text-pink-500 transition-all duration-300">
             <div className="flex gap-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -83,11 +129,11 @@ const SectionColumn = () => {
               <span>Instagram</span>
             </div>
             <p className="font-inter">80K Follower</p>
-          </div>
+          </Link>
 
           {/* Twitter */}
 
-          <div className="flex  justify-between my-3 ">
+          <Link className="flex justify-between my-3 hover:text-pink-500 transition-all duration-300">
             <div className="flex gap-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +148,7 @@ const SectionColumn = () => {
               <span>Twitter</span>
             </div>
             <p className="font-inter">80K Follower</p>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -29,11 +29,11 @@ const CommentsList = ({ comments }) => {
   };
   return (
     <div>
-      <ul className="divide-y bg-gray-700 w-96 divide-gray-200 p-3 mt-5">
-        <div className="text-gray-400"> {comments?.length} total comments</div>
+      <ul className="divide-y divide-gray-200 p-3 lg:px-16 mt-5">
+        <div className="text-3xl font-semibold "> {comments?.length} Comment</div>
         <>
           {comments?.length <= 0 ? (
-            <h1 className="text-yellow-400 text-lg text-center">No comments</h1>
+            <h1 className="text-3xl font-semibold">No Comment</h1>
           ) : loading ? (
             <div className="py-10">
               <MiniSpinner />
@@ -41,25 +41,25 @@ const CommentsList = ({ comments }) => {
           ) : (
             comments?.map((comment) => (
               <li key={comment?._id} className="py-4  w-full">
-                <div className="flex space-x-3">
+                <div className="flex flex-col md:flex-row items-start md:items-center space-x-3">
                   <img
-                    className="h-6 w-6 rounded-full"
+                    className="h-36 w-36 rounded-full"
                     src={comment?.author?.profilePhoto}
                     alt=""
                   />
-                  <div className="flex-1 space-y-1 break-all">
-                    <div className="flex items-center justify-between">
+                  <div className="flex-1 w-full space-y-1 break-all">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
                       <Link
                         to={`/profile/${comment?.author?._id}`}
-                        className="text-sm font-medium text-green-400"
+                        className="text-2xl font-semibold"
                       >
                         {comment?.author?.firstName} {comment?.author?.lastName}
                       </Link>
-                      <p className="text-bold text-yellow-500 text-base ml-5">
+                      <p className="text-bold text-gray-800">
                         {formatTimeAgo(comment?.createdAt)}
                       </p>
                     </div>
-                    <p className="text-sm text-gray-400">
+                    <p className="font-inter text-lg text-gray-800">
                       {comment?.description}
                     </p>
 
@@ -71,7 +71,7 @@ const CommentsList = ({ comments }) => {
                           to={`/update-comment/${comment?._id}`}
                           className="p-3"
                         >
-                          <PencilAltIcon className="h-5 mt-3 text-yellow-300" />
+                          <PencilAltIcon className="h-5 mt-3 text-indigo-500" />
                         </Link>
                         <button
                           onClick={() => handleDelete(comment?._id)}

@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 import { useFormik } from "formik";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { addCommentAction } from "./../../redux/slices/comments/commentSlices";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { fetchPostDetailsAction } from "../../redux/slices/posts/postSlices";
 
 //Form schema
 const formSchema = Yup.object({
@@ -51,7 +49,7 @@ const AddComment = ({ postId }) => {
 							type="text"
 							name="text"
 							id="text"
-							className="shadow-sm focus:ring-indigo-500  mr-2 focus:border-indigo-500 block w-full p-2 border-1 sm:text-sm border-gray-300 rounded-md"
+							className="shadow-sm focus:ring-indigo-500  mr-2 focus:border-indigo-500 block w-full p-2 border-2 sm:text-sm border-gray-500 rounded-md"
 							placeholder="Add New comment"
 						/>
 

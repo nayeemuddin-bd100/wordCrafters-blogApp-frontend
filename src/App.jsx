@@ -21,6 +21,7 @@ import UsersList from "./components/UsersList/UsersList";
 import About from "./pages/About";
 import Author from "./pages/Author";
 import Blog from './pages/Blog';
+import BlogDetails from "./pages/BlogDetails";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -42,6 +43,7 @@ function App() {
         <Route path="/set-new-pass/:token" element={<ResetPassword />} />
         {/* <Route path="/posts" element={<PostsList />} /> */}
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="/posts/:id" element={<PostDetails />} />
 
         <Route element={<ProtectedRoute />}>

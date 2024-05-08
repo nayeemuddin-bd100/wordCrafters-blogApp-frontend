@@ -2,7 +2,7 @@
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import SmoothScroll from "../../hooks/smoothScroll";
 import FacebookIcon from "../../img/social-icon/FacebookIcon";
 import InstagramIcon from "../../img/social-icon/InstagramIcon";
@@ -25,13 +25,13 @@ import CommentsList from "./../Comments/CommentList";
 const PostDetails = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const posts = useSelector((state) => state?.posts);
   const loggedInUser = useSelector((state) => state?.users);
   const comment = useSelector((state) => state?.comments);
   const category = useSelector((state) => state.category);
 
-  console.log(category);
   const { postDetails, loading, appErr, serverErr, deletedPost } = posts;
   const { createdComment, deletedComment } = comment;
   const { categoryList, CatLoading } = category;
@@ -60,6 +60,10 @@ const PostDetails = () => {
 
     return <Navigate to="/posts" />;
   }
+  const handleCategory = (category) => {
+    dispatch(fetchCategoriesAction(category?.title));
+    navigate(`/posts?category=${category?.title}`);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -82,10 +86,7 @@ const PostDetails = () => {
                   {postDetails?.category}
                 </p>
 
-                <p className="text-4xl font-semibold">
-                  Title: Lorem ipsum dolor sit amet consectetur adipisicing
-                  elit. Eum, cum.
-                </p>
+                <p className="text-4xl font-semibold">{postDetails?.title}</p>
                 <p className="text-gray-500 py-5 font-inter text-lg  font-medium">
                   {dateFormatter(postDetails?.createdAt)}
                 </p>
@@ -98,24 +99,7 @@ const PostDetails = () => {
                   {/* posts description */}
                   <div className="max-w-xl mx-auto flex justify-center items-center">
                     <p className="mb-6 text-left  text-lg font-inter mt-10 text-gray-700">
-                      {/* {postDetails?.description} */}
-
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Fugiat illo vel voluptate alias accusamus non odio
-                        voluptatibus minima aut, quasi sint neque quaerat,
-                        maxime ullam culpa porro natus quae. Sunt eos iusto
-                        recusandae est placeat adipisci consequuntur harum
-                        exercitationem. Ad optio voluptas earum fugit eveniet
-                        quam beatae, voluptates tenetur, fuga molestias
-                        repellendus at, similique sint magnam libero tempore nam
-                        eos ratione quasi nemo explicabo blanditiis! Mollitia
-                        cupiditate id, beatae pariatur doloremque quod
-                        dignissimos. Praesentium officia ipsam sapiente rerum
-                        aliquid explicabo, aliquam dolore cum quas nihil
-                        expedita, quasi veniam optio quaerat enim nobis quia
-                        voluptas quae dicta labore, consectetur ad culpa?
-                      </p>
+                      {postDetails?.description}
 
                       {/* Show delete and update btn if created user and admin can delete the post as well */}
                       {postDetails?.author?._id ===
@@ -139,9 +123,9 @@ const PostDetails = () => {
                           <button
                             onClick={() => handleDelete()}
                             className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 duration-500 transition-all flex justify-center items-center gap-3 text-xl font-medium"
-
                           >
-                             <TrashIcon className="h-8 inline-block" /> <span>Delete</span>
+                            <TrashIcon className="h-8 inline-block" />{" "}
+                            <span>Delete</span>
                           </button>
                         </p>
                       ) : null}
@@ -181,7 +165,7 @@ const PostDetails = () => {
                     {/* Author Info */}
                     <div className="flex flex-col justify-center items-center gap-1">
                       <Link
-                        to={`/profile/${postDetails?.author?._id}`}
+                        to={`/author/${postDetails?.author?._id}`}
                         className="mb-1 text-2xl font-bold"
                       >
                         <span className="text-xl lg:text-3xl font-semibold py-3 hover:underline ">
@@ -220,12 +204,13 @@ const PostDetails = () => {
                           <MiniSpinner />
                         ) : (
                           categoryList?.map((category) => (
-                            <Link
+                            <button
+                              onClick={() => handleCategory(category)}
                               key={category?._id}
                               className="flex text-lg justify-between items-center text-gray-600 hover:text-red-500 capitalize hover:scale-y-110 transition-all duration-300"
                             >
-                              <p>{category?.title}</p>
-                            </Link>
+                              {category?.title}
+                            </button>
                           ))
                         )}
                       </div>

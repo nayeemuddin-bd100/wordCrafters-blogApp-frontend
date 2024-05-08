@@ -33,7 +33,7 @@ const CommentsList = ({ comments }) => {
         <div className="text-3xl font-semibold "> {comments?.length} Comment</div>
         <>
           {comments?.length <= 0 ? (
-            <h1 className="text-3xl font-semibold">No Comment</h1>
+            null
           ) : loading ? (
             <div className="py-10">
               <MiniSpinner />
@@ -50,8 +50,8 @@ const CommentsList = ({ comments }) => {
                   <div className="flex-1 w-full space-y-1 break-all">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
                       <Link
-                        to={`/profile/${comment?.author?._id}`}
-                        className="text-2xl font-semibold"
+                        to={`/author/${comment?.author?._id}`}
+                        className="text-2xl font-semibold hover:underline"
                       >
                         {comment?.author?.firstName} {comment?.author?.lastName}
                       </Link>

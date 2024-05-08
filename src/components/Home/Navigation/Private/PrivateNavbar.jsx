@@ -1,9 +1,9 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
-	BellIcon,
-	BookOpenIcon,
-	MenuIcon,
-	XIcon,
+  BellIcon,
+  BookOpenIcon,
+  MenuIcon,
+  XIcon,
 } from "@heroicons/react/outline";
 import { LogoutIcon, PlusIcon } from "@heroicons/react/solid";
 import { Fragment } from "react";
@@ -14,8 +14,8 @@ import { logoutUserAction } from "./../../../../redux/slices/users/usersSlices";
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Create", href: "/create-post", current: false },
-  { name: "Posts", href: "/posts", current: false },
-  { name: "Authors", href: "/users", current: false },
+  { name: "Blog", href: "/posts", current: false },
+  { name: "Author", href: "/author", current: false },
 ];
 
 function classNames(...classes) {

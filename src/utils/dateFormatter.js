@@ -1,13 +1,36 @@
+export const DateMonth = (dateStr) => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
- const dateFormatter = (inputDate) => {
-		const date = new Date(inputDate);
+  const parts = dateStr.split(" ");
+  const day = parts[0];
+  const month = months[new Date(`${parts[2]} ${parts[1]} 1`).getMonth()];
+  const year = parts[2];
 
-		const day = date.getDate();
-		const month = date.toLocaleString("default", { month: "short" });
-		const year = date.getFullYear();
+  return `${day} ${month}`;
+};
 
-		const formattedDate = `${day} ${month} ${year}`;
-		return formattedDate;
- };
+const dateFormatter = (inputDate) => {
+  const date = new Date(inputDate);
 
-export default dateFormatter
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "short" });
+  const year = date.getFullYear();
+
+  const formattedDate = `${day} ${month} ${year}`;
+  return formattedDate;
+};
+
+export default dateFormatter;

@@ -1,26 +1,24 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 
-import { Link } from "react-router-dom";
 import {
 	BellIcon,
-	MenuIcon,
-	XIcon,
 	BookOpenIcon,
 	LogoutIcon,
+	MenuIcon,
+	XIcon,
 } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
 import { logoutUserAction } from "../../../../redux/slices/users/usersSlices";
-import { useSelector } from "react-redux";
 
 const navigation = [
 	{ name: "Home", href: "/", current: true },
 	{ name: "Create", href: "/create-post", current: false },
 	{ name: "Posts", href: "/posts", current: false },
-	{ name: "Authors", href: "/users", current: false },
+	{ name: "Author", href: "/author", current: false },
 	{ name: "Add Category", href: "/add-category", current: false },
 	{ name: "Category List", href: "/category-list", current: false },
 ];

@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unknown-property */
 import {
-	EmojiSadIcon,
-	HeartIcon,
-	UploadIcon,
-	UserIcon,
+  EmojiSadIcon,
+  HeartIcon,
+  UploadIcon,
+  UserIcon,
 } from "@heroicons/react/outline";
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -13,17 +13,18 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import SmoothScroll from "../../hooks/smoothScroll";
+import { fetchCategoriesAction } from "../../redux/slices/category/categorySlices";
 import {
-	followUserAction,
-	userProfileAction,
+  followUserAction,
+  userProfileAction,
 } from "../../redux/slices/users/usersSlices";
 import MiniSpinner from "../../utils/MiniSpinner";
 import { Spinner } from "../../utils/Spinner";
 import Footer from "../Footer/Footer";
 import ProfileCard from "../Profile/ProfileCard";
 import {
-	UnFollowUserAction,
-	changeUserProfilePhotoAction,
+  UnFollowUserAction,
+  changeUserProfilePhotoAction,
 } from "./../../redux/slices/users/usersSlices";
 import dateFormatter from "./../../utils/dateFormatter";
 
@@ -34,6 +35,8 @@ const Profile = () => {
 
   // Manage profile photo upload
   const users = useSelector((state) => state?.users);
+  const category = useSelector((state) => state.category);
+
   const {
     userAuth,
     blockedUserState,
@@ -46,13 +49,24 @@ const Profile = () => {
     profilePhotoLoading,
   } = users;
 
+  const { categoryList, CatLoading } = category;
+
   useEffect(() => {
     dispatch(userProfileAction(id));
   }, [id, dispatch, profilePhoto, followUser, unFollowUser]);
 
+  useEffect(() => {
+    dispatch(fetchCategoriesAction());
+  }, [dispatch]);
+
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const handleCategory = (category) => {
+    dispatch(fetchCategoriesAction(category?.title));
+    navigate(`/posts?category=${category?.title}`);
   };
 
   const handleSubmit = (event) => {
@@ -70,9 +84,6 @@ const Profile = () => {
     }
     navigate(`/send-email?email=${profile?.email}`);
   };
-
-
-  console.log(profile?.posts);
 
   return (
     <div className="flex flex-col min-h-screen font-prompt">
@@ -285,14 +296,14 @@ const Profile = () => {
                             return (
                               <ProfileCard
                                 key={post?._id}
-								id={post?._id}
+                                id={post?._id}
                                 image={post?.image}
                                 title={post?.title}
                                 category={post?.category}
                                 date={dateFormatter(post?.createdAt)}
                                 view={post?.numViews}
-								author={`${profile?.firstName} ${profile?.lastName} `}                            
-							/>
+                                author={`${profile?.firstName} ${profile?.lastName} `}
+                              />
                             );
                           })
                         )}
@@ -300,39 +311,66 @@ const Profile = () => {
 
                       <div></div>
 
-                      <div className="w-full md:w-1/3 px-4 mb-4 md:mb-0">
-                        <h1 className="text-center text-xl border-gray-500 mb-2 border-b-2">
-                          Who viewed this profile : {profile?.viewedBy?.length}
-                        </h1>
+                      <div className="flex flex-col gap-y-3 w-full md:w-1/3 px-4 mb-4 md:mb-0">
+                        {/* Who viewed Profile */}
+                        <div>
+                          <h1 className="text-center text-xl border-gray-500 mb-2 border-b-2">
+                            Who viewed this profile :{" "}
+                            {profile?.viewedBy?.length}
+                          </h1>
 
-                        {/* Who view my profile */}
-                        <ul className="">
-                          {profile?.viewedBy?.length <= 0 ? (
-                            <h1>No Viewer</h1>
-                          ) : (
-                            profile?.viewedBy?.map((user) => (
-                              <li key={user?._id}>
-                                <Link>
-                                  <div className="flex mb-2 items-center space-x-4 lg:space-x-6">
-                                    <img
-                                      className="w-16 h-16 rounded-full lg:w-20 lg:h-20"
-                                      src={user?.profilePhoto}
-                                      alt={user?.firstName}
-                                    />
-                                    <div className="font-medium text-lg leading-6 space-y-1">
-                                      <h3>
-                                        {user?.firstName} {user?.lastName}
-                                      </h3>
-                                      <p className="text-indigo-600">
-                                        {user?.accountType}
-                                      </p>
+                          {/* Who view my profile */}
+                          <ul className="">
+                            {profile?.viewedBy?.length <= 0 ? (
+                              <h1>No Viewer</h1>
+                            ) : (
+                              profile?.viewedBy?.map((user) => (
+                                <li key={user?._id}>
+                                  <Link>
+                                    <div className="flex mb-2 items-center space-x-4 lg:space-x-6">
+                                      <img
+                                        className="w-16 h-16 rounded-full lg:w-20 lg:h-20"
+                                        src={user?.profilePhoto}
+                                        alt={user?.firstName}
+                                      />
+                                      <div className="font-medium text-lg leading-6 space-y-1">
+                                        <h3>
+                                          {user?.firstName} {user?.lastName}
+                                        </h3>
+                                        <p className="text-indigo-600">
+                                          {user?.accountType}
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                </Link>
-                              </li>
-                            ))
-                          )}
-                        </ul>
+                                  </Link>
+                                </li>
+                              ))
+                            )}
+                          </ul>
+                        </div>
+
+                        {/* Categories */}
+                        <div className=" w-full mt-0 lg:mt-10 py-10  flex flex-col gap-4">
+                          <p className="text-xl font-inter uppercase font-bold">
+                            Categories
+                          </p>
+                          <div className="flex flex-col gap-2">
+                            {CatLoading ? (
+                              <MiniSpinner />
+                            ) : (
+                              categoryList?.map((category) => (
+                                <button
+                                  onClick={() => handleCategory(category)}
+                                  key={category?._id}
+                                  className="flex text-lg justify-between items-center text-gray-600 hover:text-red-500 capitalize hover:scale-y-110 transition-all duration-300"
+                                >
+                                  {category?.title}
+                                  <p>({category.postCount})</p>
+                                </button>
+                              ))
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </article>

@@ -210,6 +210,7 @@ const PostDetails = () => {
                               className="flex text-lg justify-between items-center text-gray-600 hover:text-red-500 capitalize hover:scale-y-110 transition-all duration-300"
                             >
                               {category?.title}
+                              <p>({category.postCount})</p>
                             </button>
                           ))
                         )}

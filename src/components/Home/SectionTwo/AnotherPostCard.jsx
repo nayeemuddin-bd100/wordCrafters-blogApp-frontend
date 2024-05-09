@@ -7,7 +7,7 @@ const AnotherPostCard = () => {
    
      <div className="relative w-1/3 h-20 overflow-hidden rounded-lg">
         <img
-          className="object-cover w-full h-full group-hover:scale-105 transition-all duration-500"
+          className="object-cover w-48 h-32 group-hover:scale-105 transition-all duration-500"
           src="https://images.unsplash.com/photo-1525130413817-d45c1d127c42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60"
           alt="another post image"
         />

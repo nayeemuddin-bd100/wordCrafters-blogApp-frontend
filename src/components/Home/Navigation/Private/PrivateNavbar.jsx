@@ -36,7 +36,7 @@ const PrivateNavbar = () => {
   }
   //Navigation
   const userNavigation = [
-    { name: "Your Profile", href: `/profile/${userAuth?._id}` },
+    { name: "Your Profile", href: `/author/${userAuth?._id}` },
     { name: "Change your password", href: "/update-password" },
   ];
 

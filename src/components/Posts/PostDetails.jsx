@@ -2,7 +2,13 @@
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import SmoothScroll from "../../hooks/smoothScroll";
 import FacebookIcon from "../../img/social-icon/FacebookIcon";
 import InstagramIcon from "../../img/social-icon/InstagramIcon";
@@ -36,6 +42,8 @@ const PostDetails = () => {
   const { createdComment, deletedComment } = comment;
   const { categoryList, CatLoading } = category;
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   useEffect(() => {
     dispatch(fetchPostDetailsAction(id));
   }, [dispatch, id, createdComment, deletedComment]);
@@ -60,9 +68,11 @@ const PostDetails = () => {
 
     return <Navigate to="/posts" />;
   }
+
+
   const handleCategory = (category) => {
-    dispatch(fetchCategoriesAction(category?.title));
-    navigate(`/posts?category=${category?.title}`);
+    setSearchParams({ category: category?.title });
+    navigate(`/blog?category=${category?.title}`);
   };
 
   return (

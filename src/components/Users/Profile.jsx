@@ -12,6 +12,7 @@ import { EyeIcon, MailIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import SmoothScroll from "../../hooks/smoothScroll";
 import { fetchCategoriesAction } from "../../redux/slices/category/categorySlices";
 import {
@@ -32,6 +33,7 @@ const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Manage profile photo upload
   const users = useSelector((state) => state?.users);
@@ -65,8 +67,8 @@ const Profile = () => {
   };
 
   const handleCategory = (category) => {
-    dispatch(fetchCategoriesAction(category?.title));
-    navigate(`/posts?category=${category?.title}`);
+    setSearchParams({ category: category?.title });
+    navigate(`/blog?category=${category?.title}`);
   };
 
   const handleSubmit = (event) => {

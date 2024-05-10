@@ -16,8 +16,8 @@ import { logoutUserAction } from "../../../../redux/slices/users/usersSlices";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "Create", href: "/create-post", current: false },
   { name: "Blog", href: "/blog", current: false },
+  { name: "About", href: "/about", current: false },
   { name: "Author", href: "/author", current: false },
   { name: "Add Category", href: "/add-category", current: false },
   { name: "Category List", href: "/category-list", current: false },

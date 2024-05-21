@@ -21,7 +21,7 @@ const HeroSection = () => {
               </h2>
               <Link
                 className="inline-block px-12 py-3 text-lg text-white font-bold bg-pink-500 hover:bg-pink-700 hover:text-gray-300 rounded-lg transition duration-200"
-                to="/posts"
+                to="/blog"
               >
                 Explore the feed
               </Link>

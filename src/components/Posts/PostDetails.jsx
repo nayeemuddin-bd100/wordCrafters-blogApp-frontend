@@ -66,7 +66,7 @@ const PostDetails = () => {
     dispatch(resetPostDeleteAction());
     dispatch(resetPostDetailsAction());
 
-    return <Navigate to="/posts" />;
+    return <Navigate to="/blog" />;
   }
 
 

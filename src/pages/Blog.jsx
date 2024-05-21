@@ -9,9 +9,6 @@ import InstagramIcon from "../img/social-icon/InstagramIcon";
 import LinkedinIcon from "../img/social-icon/LinkedinIcon";
 import TwitterIcon from "../img/social-icon/TwitterIcon";
 
-import dateFormatter from "../utils/dateFormatter";
-
-// import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from "@heroicons/react/solid";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
@@ -19,7 +16,10 @@ import {
   fetchAllPostsAction,
   resetPostDetailsAction,
 } from "../redux/slices/posts/postSlices";
+import dateFormatter from "../utils/dateFormatter";
 
+import { useState } from "react";
+import Pagination from "../components/Pagination/Pagination";
 import ProfileCard from "../components/Profile/ProfileCard";
 import { fetchCategoriesAction } from "../redux/slices/category/categorySlices";
 import MiniSpinner from "../utils/MiniSpinner";
@@ -28,14 +28,25 @@ const Blog = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state?.posts);
 
-  const [searchParams] = useSearchParams();
-  const selectedCategory = searchParams.get("category");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 5;
 
+  const selectedCategory = searchParams.get("category");
   const { loading, postsList, like, dislike } = posts;
 
   useEffect(() => {
-    dispatch(fetchAllPostsAction(selectedCategory || ""));
-  }, [dispatch, like, dislike, selectedCategory]);
+    const fetchPosts = async () => {
+      await dispatch(
+        fetchAllPostsAction({
+          category: selectedCategory || null,
+          page: currentPage,
+          limit,
+        })
+      );
+    };
+    fetchPosts();
+  }, [dispatch, like, dislike, selectedCategory, currentPage]);
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
@@ -53,7 +64,16 @@ const Blog = () => {
     serverErr: categoryServerErr,
   } = category;
 
-  console.log(categoryList);
+  const handleCategoryClick = (categoryTitle) => {
+    setSearchParams({ category: categoryTitle });
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    setSearchParams({ category: selectedCategory || "", page });
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <SmoothScroll>
@@ -77,10 +97,12 @@ const Blog = () => {
                   hidden: {},
                 }}
               >
-                {postsList.length <= 0 ? (
+                {loading ? (
+                  <MiniSpinner />
+                ) : postsList?.data?.length <= 0 ? (
                   <h2 className="text-center  text-2xl mt-28">No post found</h2>
                 ) : (
-                  postsList?.map((post) => {
+                  postsList?.data?.map((post) => {
                     return (
                       <ProfileCard
                         key={post?._id}
@@ -96,6 +118,19 @@ const Blog = () => {
                   })
                 )}
               </motion.div>
+
+              {/* Pagination */}
+              {postsList?.data?.length > 0 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={
+                    postsList?.meta?.total
+                      ? Math.ceil(postsList?.meta?.total / limit)
+                      : 1
+                  }
+                  onPageChange={handlePageChange}
+                />
+              )}
             </div>
 
             {/* Right panel */}
@@ -106,7 +141,11 @@ const Blog = () => {
                   Categories
                 </p>
                 <button
-                  onClick={() => dispatch(fetchAllPostsAction(""))}
+                  onClick={() => {
+                    dispatch(fetchAllPostsAction({ category: null }));
+                    setSearchParams({});
+                    setCurrentPage(1);
+                  }}
                   className="text-lg text-gray-500 underline hover:text-red-500 transition-all duration-300 self-start"
                 >
                   View All
@@ -124,9 +163,7 @@ const Blog = () => {
                     categoryList?.map((category) => {
                       return (
                         <button
-                          onClick={() =>
-                            dispatch(fetchAllPostsAction(category?.title))
-                          }
+                          onClick={() => handleCategoryClick(category?.title)}
                           key={category?._id}
                           className="flex text-lg justify-between items-center text-gray-600 hover:text-red-500 capitalize hover:scale-y-110 transition-all duration-500"
                         >

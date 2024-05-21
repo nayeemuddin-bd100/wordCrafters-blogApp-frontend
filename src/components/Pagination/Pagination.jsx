@@ -1,25 +1,19 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import { useState } from 'react';
 
 
 // eslint-disable-next-line react/prop-types
-const Pagination = ({ totalPages }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      onPageChange(currentPage - 1);
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      onPageChange(currentPage + 1);
     }
-  };
-
-  const handlePageClick = (page) => {
-    setCurrentPage(page);
   };
 
   const renderPageNumbers = () => {
@@ -33,7 +27,7 @@ const Pagination = ({ totalPages }) => {
               ? 'bg-red-500 text-white hover:bg-red-600'
               : 'bg-gray-200 hover:bg-gray-300'
           } transition-colors duration-300`}
-          onClick={() => handlePageClick(i)}
+          onClick={() => onPageChange(i)}
         >
           {i}
         </button>

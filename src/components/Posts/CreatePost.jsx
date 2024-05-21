@@ -1,16 +1,16 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useFormik } from "formik";
-import * as Yup from "yup";
+import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import * as Yup from "yup";
+import MiniSpinner from "../../utils/MiniSpinner";
 import {
 	createPostAction,
 	resetCreatedPostAction,
 	resetPostsListAction,
 } from "./../../redux/slices/posts/postSlices";
 import CategoryDropdown from "./../Category/CategoryDropdown";
-import Dropzone from "react-dropzone";
-import { Navigate } from "react-router-dom";
-import MiniSpinner from "../../utils/MiniSpinner";
 
 
 const formSchema = Yup.object({
@@ -51,7 +51,7 @@ const CreatePost = () => {
 	const { appErr,loading,createdPost } = post;
 	if (createdPost) {
 		dispatch(resetCreatedPostAction());
-		return <Navigate to="/posts" />
+		return <Navigate to="/blog" />
 	}
 
 	return (

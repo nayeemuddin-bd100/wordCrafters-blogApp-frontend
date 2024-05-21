@@ -52,7 +52,7 @@ export default function UpdatePost() {
   if (updatePost) {
     dispatch(resetUpdatedPostAction());
     dispatch(resetPostDetailsAction());
-    return <Navigate to="/posts" />;
+    return <Navigate to="/blog" />;
   }
 
   if (!postDetails) {

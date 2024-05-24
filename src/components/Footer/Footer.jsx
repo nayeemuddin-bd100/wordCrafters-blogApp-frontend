@@ -1,9 +1,9 @@
 import { BookOpenIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import FacebookIcon from "../../img/social-icon/FacebookIcon.jsx";
-import InstagramIcon from '../../img/social-icon/InstagramIcon';
-import LinkedinIcon from '../../img/social-icon/LinkedinIcon';
-import TwitterIcon from '../../img/social-icon/TwitterIcon';
+import InstagramIcon from "../../img/social-icon/InstagramIcon";
+import LinkedinIcon from "../../img/social-icon/LinkedinIcon";
+import TwitterIcon from "../../img/social-icon/TwitterIcon";
 
 const Footer = () => {
   return (
@@ -37,11 +37,15 @@ const Footer = () => {
             <div className="flex flex-col gap-y-4 ">
               <h2 className="text-2xl">Quick Link</h2>
 
-              <Link className="hover:text-rose-600">About</Link>
-              <Link className="hover:text-rose-600">Topic</Link>
-              <Link className="hover:text-rose-600">Post</Link>
-              <Link className="hover:text-rose-600"> Blog</Link>
-              <Link className="hover:text-rose-600">Contact</Link>
+              <Link to="/about" className="hover:text-rose-600">
+                About
+              </Link>
+              <Link to="/blog" className="hover:text-rose-600">
+                Blog
+              </Link>
+              <Link to="/author " className="hover:text-rose-600">
+                Author
+              </Link>
             </div>
 
             {/* Social Media */}
@@ -53,8 +57,6 @@ const Footer = () => {
               {/* Facebook */}
               <Link className="flex  justify-between my-3 hover:text-rose-600">
                 <div className="flex gap-3">
-               
-
                   <FacebookIcon className="w-8 h-8" />
                   <span>Facebook</span>
                 </div>
@@ -73,7 +75,7 @@ const Footer = () => {
 
               <Link className="flex  justify-between my-3 hover:text-rose-600">
                 <div className="flex gap-3">
-                 <InstagramIcon className="w-8 h-8" />
+                  <InstagramIcon className="w-8 h-8" />
                   <span>Instagram</span>
                 </div>
               </Link>
@@ -82,7 +84,7 @@ const Footer = () => {
 
               <Link className="flex  justify-between my-3 hover:text-rose-600">
                 <div className="flex gap-3">
-                 <TwitterIcon className="w-8 h-8" />
+                  <TwitterIcon className="w-8 h-8" />
                   <span>Twitter</span>
                 </div>
               </Link>

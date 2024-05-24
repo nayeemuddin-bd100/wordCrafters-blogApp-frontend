@@ -5,7 +5,7 @@ import {
   useSpring,
   useTransform
 } from "framer-motion";
-import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import ResizeObserver from "resize-observer-polyfill";
 import "../App.css";
 
@@ -18,6 +18,10 @@ const SmoothScroll = ({ children }) => {
       setPageHeight(entry.contentRect.height)
     }
   }, [])
+
+  useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
 
   // observe when browser is resizing
   useLayoutEffect(() => {

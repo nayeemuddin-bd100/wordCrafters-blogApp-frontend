@@ -12,19 +12,25 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Author1 from "../../../img/author/author1.jpg";
 import Author2 from "../../../img/author/author2.jpg";
 import Author3 from "../../../img/author/author3.jpg";
+import Author4 from "../../../img/author/author4.jpg";
+import Author5 from "../../../img/author/author5.jpg";
+import Author6 from "../../../img/author/author6.jpg";
+import Author7 from "../../../img/author/author7.jpg";
 
-const AuthorSlide = ({ image, tag }) => (
+const AuthorSlide = ({ image, name, article }) => (
   <div className="flex flex-col justify-center items-center gap-1 rounded-xl ">
-    <div className="">
+    <div className="relative">
       <img
         src={image}
-        alt={tag}
-        className=" w-full h-36 rounded-lg object-contain"
+        alt={name}
+        className=" w-full h-36 rounded-lg object-cover"
       />
     </div>
-    <div className="flex flex-col items-start justify-center ">
-      <p className="text-lg">{tag}</p>
-      <p className="font-inter text-sm text-gray-500">5 Article</p>
+    <div className="flex flex-col items-center justify-center ">
+      <p className="text-lg">{name}</p>
+      <p className="font-inter text-sm text-center text-gray-500">
+        {article} Article
+      </p>
     </div>
   </div>
 );
@@ -45,13 +51,19 @@ const FeaturedAuthor = () => {
                 onClick={() => swiperRef?.slidePrev()}
                 className="text-indigo-500"
               >
-                <ArrowCircleLeftIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" style={{strokeWidth: "1"}}  />
+                <ArrowCircleLeftIcon
+                  className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700"
+                  style={{ strokeWidth: "1" }}
+                />
               </button>
               <button
                 onClick={() => swiperRef?.slideNext()}
                 className="text-indigo-500"
               >
-                <ArrowCircleRightIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700"  style={{strokeWidth: "1"}} />
+                <ArrowCircleRightIcon
+                  className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700"
+                  style={{ strokeWidth: "1" }}
+                />
               </button>
             </div>
           </div>
@@ -61,7 +73,7 @@ const FeaturedAuthor = () => {
         <Swiper
           onSwiper={setSwiperRef}
           slidesPerView={4}
-          spaceBetween={30}
+          // spaceBetween={30}
           centeredSlides={true}
           autoplay={{ delay: 2500 }}
           loop={true}
@@ -69,46 +81,40 @@ const FeaturedAuthor = () => {
           modules={[Navigation, Pagination, Autoplay]}
           className="mySwiper pt-5"
           breakpoints={{
-            // when window width is >= 0px
             0: {
               slidesPerView: 1,
             },
-            // when window width is >= 640px
             640: {
               slidesPerView: 3,
             },
-            // when window width is >= 768px
             768: {
               slidesPerView: 4,
             },
-            //   when window width is >= 1024px
             1024: {
               slidesPerView: 5,
             },
           }}
         >
           <SwiperSlide>
-            <AuthorSlide image={Author1} tag="Javascript" />
+            <AuthorSlide image={Author1} name="Nayeem Uddin" article={5} />
           </SwiperSlide>
           <SwiperSlide>
-            <AuthorSlide image={Author2} tag="Next Js" />
+            <AuthorSlide image={Author2} name="Rakib Hossain" article={3} />
           </SwiperSlide>
           <SwiperSlide>
-            <AuthorSlide image={Author3} tag="Node Js" />
+            <AuthorSlide image={Author3} name="James Bond" article={5} />
           </SwiperSlide>
           <SwiperSlide>
-            <AuthorSlide image={Author2} tag="MongoDB" />
+            <AuthorSlide image={Author4} name="Farhan Uddin" article={3} />
           </SwiperSlide>
           <SwiperSlide>
-            <AuthorSlide image={Author1} tag="Express" />
-          </SwiperSlide>{" "}
-          <SwiperSlide>
-            <AuthorSlide image={Author1} tag="Express" />
-          </SwiperSlide>{" "}
-          <SwiperSlide>
-            <AuthorSlide image={Author1} tag="Express" />
+            <AuthorSlide image={Author5} name="kevin Hart" article={2} />
           </SwiperSlide>
-          {/* Add more SwiperSlide components as needed */}
+          <SwiperSlide>
+            <AuthorSlide image={Author6} name="Nelson Paul" article={4} />
+          </SwiperSlide><SwiperSlide>
+            <AuthorSlide image={Author7} name="Sami khan" article={1} />
+          </SwiperSlide>
         </Swiper>
 
         {/* Become an author */}

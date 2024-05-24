@@ -57,7 +57,6 @@ export const fetchAllPostsAction = createAsyncThunk(
           "Content-Type": "application/json",
         },
       });
-      console.log(res);
       const data = res.data;
 
       return data;

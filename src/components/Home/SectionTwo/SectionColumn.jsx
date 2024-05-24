@@ -1,68 +1,53 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import FacebookIcon from "../../../img/social-icon/FacebookIcon";
 import InstagramIcon from "../../../img/social-icon/InstagramIcon";
 import LinkedinIcon from "../../../img/social-icon/LinkedinIcon";
 import TwitterIcon from "../../../img/social-icon/TwitterIcon";
-import MiniSpinner from '../../../utils/MiniSpinner';
+import { fetchAllPostsAction } from "../../../redux/slices/posts/postSlices";
+import MiniSpinner from "../../../utils/MiniSpinner";
 import AnotherPostCard from "./AnotherPostCard";
-import RecentPostCard from './RecentPostCard';
+import RecentPostCard from "./RecentPostCard";
 
 const SectionColumn = () => {
-   const [recentPosts, setRecentPosts] = useState([]);
+  const [recentPosts, setRecentPosts] = useState([]);
   const [anotherPosts, setAnotherPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
 
   const dispatch = useDispatch();
   const posts = useSelector((state) => state?.posts);
 
   const { postLoading, postsList } = posts;
-  // console.log(postsList?.data);
-  const limit = 4;
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
 
+      const recentPostParams = {
+        limit: 4,
+      };
+      const anotherPostsParams = {
+        limit: 3,
+        sortOrder: "asc",
+      };
 
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     await dispatch(
-  //       fetchAllPostsAction({
-  //         limit,
-  //       })
-  //     );
-  //   };
-  //   fetchPosts();
-  // }, [dispatch]);
+      const recentPostsData = await dispatch(
+        fetchAllPostsAction(recentPostParams)
+      );
 
+      setRecentPosts(recentPostsData?.payload?.data);
 
-  //  useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true);
+      const anotherPostsData = await dispatch(
+        fetchAllPostsAction(anotherPostsParams)
+      );
 
-  //     const recentPostParams = {
-  //       limit: 4,
-  //       sortBy: 'createdAt',
-  //       sortOrder: 'desc',
-  //     };
-  //     const recentPostsData = await fetchAllPostsAction(recentPostParams);
+      setAnotherPosts(anotherPostsData?.payload?.data);
 
-  //     setRecentPosts(recentPostsData);
-
-  //     // const anotherPostsParams = {
-  //     //   limit: 3,
-  //     //   sortBy: 'createdAt',
-  //     //   sortOrder: 'desc',
-  //     // };
-  //     // const anotherPostsData = await fetchAllPostsAction(anotherPostsParams);
-  //     // setAnotherPosts(anotherPostsData.data);
-
-  //     setLoading(false);
-  //   };
-  //   fetchData();
-  // }, [recentPosts]);
-
-  console.log(recentPosts);
+      setLoading(false);
+    };
+    fetchData();
+  }, [dispatch]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-6 gap-4   ">
@@ -83,13 +68,13 @@ const SectionColumn = () => {
         }}
       >
         <div className="grid  grid-cols-1 sm:grid-cols-2 gap-3">
-         { postLoading? <MiniSpinner /> :
-           postsList?.data?.map((post) => (
-             <RecentPostCard key={post?._id} post={post} />
-          
-        
-        ))
-         }
+          {postLoading || loading ? (
+            <MiniSpinner />
+          ) : (
+            recentPosts.map((post) => (
+              <RecentPostCard key={post?._id} post={post} />
+            ))
+          )}
           {/* <motion.div
             variants={{
               visible: { opacity: 1, scale: 1 },
@@ -126,9 +111,18 @@ const SectionColumn = () => {
 
         {/* Another Post */}
         <div className="mt-3">
+
+
+           {postLoading || loading ? (
+            <MiniSpinner />
+          ) : (
+            anotherPosts.map((post) => (
+              <AnotherPostCard key={post?._id} post={post} />
+            ))
+          )}
+          {/* <AnotherPostCard />
           <AnotherPostCard />
-          <AnotherPostCard />
-          <AnotherPostCard />
+          <AnotherPostCard /> */}
         </div>
 
         {/* Social icon */}

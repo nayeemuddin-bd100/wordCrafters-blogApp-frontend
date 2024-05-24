@@ -10,13 +10,14 @@ import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ExpressIcon from "../../../img/topicIcon/express.svg";
+import GithubIcon from "../../../img/topicIcon/github.svg";
 import JavascriptIcon from "../../../img/topicIcon/javascript.svg";
 import MongodbIcon from "../../../img/topicIcon/mongodb.svg";
 import NextIcon from "../../../img/topicIcon/next-js.svg";
 import NodeJsIcon from "../../../img/topicIcon/nodejs.svg";
 
-const TopicSlide = ({ image, tag }) => (
-  <div className="flex justify-center items-center gap-4 bg-white p-5 rounded-xl">
+const TopicSlide = ({ image, tag,article }) => (
+  <div className="flex flex-col justify-center items-center gap-4 bg-white p-5 rounded-xl">
     <div className="">
       <img
         src={image}
@@ -26,7 +27,7 @@ const TopicSlide = ({ image, tag }) => (
     </div>
     <div className="flex flex-col items-start justify-center bg-white">
       <p className="text-lg">{tag}</p>
-      <p className="font-inter text-sm text-gray-500">5 Article</p>
+      <p className="font-inter text-sm text-gray-500">{article} Article</p>
     </div>
   </div>
 );
@@ -46,13 +47,19 @@ const Topics = () => {
               onClick={() => swiperRef?.slidePrev()}
               className="text-indigo-500"
             >
-              <ArrowCircleLeftIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" style={{strokeWidth: "1"}} />
+              <ArrowCircleLeftIcon
+                className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700"
+                style={{ strokeWidth: "1" }}
+              />
             </button>
             <button
               onClick={() => swiperRef?.slideNext()}
               className="text-indigo-500"
             >
-              <ArrowCircleRightIcon className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700" style={{strokeWidth: "1"}} />
+              <ArrowCircleRightIcon
+                className="w-12 h-12w-12 inline-block hover:fill-neutral-100 duration-700"
+                style={{ strokeWidth: "1" }}
+              />
             </button>
           </div>
         </div>
@@ -82,32 +89,28 @@ const Topics = () => {
           },
           //   when window width is >= 1024px
           1024: {
-            slidesPerView: 4,
+            slidesPerView: 5,
           },
         }}
       >
         <SwiperSlide>
-          <TopicSlide image={JavascriptIcon} tag="Javascript" />
+          <TopicSlide image={JavascriptIcon} tag="Javascript" article={5} />
         </SwiperSlide>
         <SwiperSlide>
-          <TopicSlide image={NextIcon} tag="Next Js" />
+          <TopicSlide image={NextIcon} tag="NextJS" article={3} />
         </SwiperSlide>
         <SwiperSlide>
-          <TopicSlide image={NodeJsIcon} tag="Node Js" />
+          <TopicSlide image={NodeJsIcon} tag="NodeJS" article={4} />
         </SwiperSlide>
         <SwiperSlide>
-          <TopicSlide image={MongodbIcon} tag="MongoDB" />
+          <TopicSlide image={MongodbIcon} tag="MongoDB"  article={2}/>
         </SwiperSlide>
         <SwiperSlide>
-          <TopicSlide image={ExpressIcon} tag="Express" />
+          <TopicSlide image={ExpressIcon} tag="Express" article={3}/>
         </SwiperSlide>
         <SwiperSlide>
-          <TopicSlide tag="Tag 6" />
+          <TopicSlide image={GithubIcon} tag="Github" article={1} />
         </SwiperSlide>
-        <SwiperSlide>
-          <TopicSlide tag="Tag 7" />
-        </SwiperSlide>
-        {/* Add more SwiperSlide components as needed */}
       </Swiper>
     </div>
   );

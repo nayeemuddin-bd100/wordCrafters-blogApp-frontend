@@ -1,16 +1,37 @@
 /* eslint-disable react/prop-types */
+import { Link } from "react-router-dom";
+import TextTruncate from "react-text-truncate";
+import dateFormatter from "../../../utils/dateFormatter";
 
-const TrendingArticleCard = () => {
-    return (
-        <div className={`flex items-center justify-start gap-3 bg-sky-50 rounded-lg` }>
-            <img className=" w-40 h-44 object-cover rounded-l-lg " src="https://images.unsplash.com/photo-1525130413817-d45c1d127c42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60" alt="" />
+const TrendingArticleCard = ({ post }) => {
+  const { _id, title, image, createdAt } = post;
+  return (
+    <div
+      className={`flex items-center justify-start gap-3 bg-sky-50 rounded-lg w-full`}
+    >
+      <img
+        className=" w-40 h-44 object-cover rounded-l-lg "
+        src={image}
+        alt=""
+      />
 
-            <div className="flex flex-col justify-start gap-3">
-                <p className="text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, architecto!</p>
-                <p className="font-inter text-sm text-indigo-600 ">30 November 2022</p>
-            </div>
-           </div>
-    );
-}
+      <div className="flex flex-col justify-start gap-3">
+        <Link to={`/posts/${_id}`} className="text-lg">
+          {" "}
+          <TextTruncate
+            line={3}
+            element="span"
+            truncateText="..."
+            text={title}
+          />
+        </Link>
+        <p className="font-inter text-sm text-indigo-600 ">
+          {" "}
+          {dateFormatter(createdAt)}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 export default TrendingArticleCard;

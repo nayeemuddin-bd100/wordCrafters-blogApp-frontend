@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -53,20 +52,7 @@ const SectionColumn = () => {
     <div className="grid grid-cols-1 lg:grid-cols-6 gap-4   ">
       {/* Left Panel */}
 
-      <motion.div
-        className="col-span-4"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={{
-          visible: {
-            transition: {
-              staggerChildren: 0.2,
-            },
-          },
-          hidden: {},
-        }}
-      >
+      <div className="col-span-4">
         <div className="grid  grid-cols-1 sm:grid-cols-2 gap-3">
           {postLoading || loading ? (
             <MiniSpinner />
@@ -75,35 +61,8 @@ const SectionColumn = () => {
               <RecentPostCard key={post?._id} post={post} />
             ))
           )}
-          {/* <motion.div
-            variants={{
-              visible: { opacity: 1, scale: 1 },
-              hidden: { opacity: 0, scale: 0.8 },
-            }}
-            transition={{ duration: 0.5 }}
-          >
-            <RecentPostCard />
-          </motion.div>{" "}
-          <motion.div
-            variants={{
-              visible: { opacity: 1, scale: 1 },
-              hidden: { opacity: 0, scale: 0.8 },
-            }}
-            transition={{ duration: 0.5 }}
-          >
-            <RecentPostCard />
-          </motion.div>{" "}
-          <motion.div
-            variants={{
-              visible: { opacity: 1, scale: 1 },
-              hidden: { opacity: 0, scale: 0.8 },
-            }}
-            transition={{ duration: 0.5 }}
-          >
-            <RecentPostCard />
-          </motion.div> */}
         </div>
-      </motion.div>
+      </div>
 
       {/* Right Panel */}
       <div className="col-span-2 mt-4">
@@ -111,22 +70,17 @@ const SectionColumn = () => {
 
         {/* Another Post */}
         <div className="mt-3">
-
-
-           {postLoading || loading ? (
+          {postLoading || loading ? (
             <MiniSpinner />
           ) : (
             anotherPosts.map((post) => (
               <AnotherPostCard key={post?._id} post={post} />
             ))
           )}
-          {/* <AnotherPostCard />
-          <AnotherPostCard />
-          <AnotherPostCard /> */}
         </div>
 
         {/* Social icon */}
-        <div className="flex flex-col gap-y-4 px-10 md:px-0">
+        <div className="flex flex-col gap-y-4 px-0  sm:px-10 md:px-0">
           <h2 className="text-2xl mt-10">Stay Connected</h2>
 
           {/* Facebook */}

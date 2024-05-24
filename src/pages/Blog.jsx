@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
 import Footer from "../components/Footer/Footer";
-import AnotherPostCard from "../components/Home/SectionTwo/AnotherPostCard";
 import SmoothScroll from "../hooks/smoothScroll";
 import AdImage from "../img/ad-img.webp";
 import FacebookIcon from "../img/social-icon/FacebookIcon";
@@ -175,19 +174,7 @@ const Blog = () => {
                   )}
                 </div>
               </div>
-
-              {/* Popular post */}
-              <div className="border rounded-md border-gray-200 pt-8 pb-5 px-3 mt-10">
-                <p className="text-xl font-inter uppercase font-bold">
-                  Popular Post
-                </p>
-
-                <div className="flex flex-col justify-start items-center mt-5">
-                  <AnotherPostCard />
-                  <AnotherPostCard />
-                  <AnotherPostCard />
-                </div>
-              </div>
+            
 
               {/* Social Links */}
 

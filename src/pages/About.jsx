@@ -110,7 +110,7 @@ const About = () => {
               <p className="text-4xl text-center capitalize font-medium">
                 Become an author and share your great stories
               </p>
-              <Link className="bg-red-500 px-5 py-2 text-xl text-white rounded-md hover:bg-red-700 duration-300 transition-all">
+              <Link to="/create-post" className="bg-red-500 px-5 py-2 text-xl text-white rounded-md hover:bg-red-700 duration-300 transition-all">
                 Become An Author
               </Link>
             </div>

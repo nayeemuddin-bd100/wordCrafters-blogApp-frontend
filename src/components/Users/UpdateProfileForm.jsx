@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
 import { useFormik } from "formik";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 import {
-	userProfileAction,
-	updateProfileAction,
 	resetUpdateProfileAction,
+	updateProfileAction,
+	userProfileAction,
 } from "../../redux/slices/users/usersSlices";
 import MiniSpinner from "../../utils/MiniSpinner";
 
@@ -49,7 +48,7 @@ const UpdateProfileForm = () => {
 
 	if (updatedProfile) {
 		dispatch(resetUpdateProfileAction());
-		return <Navigate to={`/profile/${id}`} />;
+		return <Navigate to={`/author/${id}`} />;
 	}
 
 	return (

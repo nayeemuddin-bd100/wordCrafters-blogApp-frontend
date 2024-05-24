@@ -17,7 +17,7 @@ const AnotherPostCard = ({ post }) => {
       </div>
 
       <div className="flex flex-col w-2/3 gap-1.5">
-        <Link className="hover:text-red-500 transition-all duration-300">
+        <Link to={`/posts/${_id}`} className="hover:text-red-500 transition-all duration-300">
           {" "}
           <TextTruncate
             line={3}
